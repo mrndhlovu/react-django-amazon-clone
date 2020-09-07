@@ -1,0 +1,13 @@
+body {
+  font-family: $montserrat, $roboto, "sans-serif";
+  position: relative;
+  left: 0;
+  top: 0;
+  margin: 0;
+  height: 100vh;
+  background-color: red;
+}
+
+* {
+  box-sizing: border-box;
+}
