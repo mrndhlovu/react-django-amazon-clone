@@ -22,5 +22,7 @@ module.exports = {
     "no-underscore-dangle": "off",
     "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
     "implicit-arrow-linebreak": "off",
+    "arrow-body-style": "off",
+    "import/prefer-default-export": "off",
   },
 };

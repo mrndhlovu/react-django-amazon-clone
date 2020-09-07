@@ -1,8 +1,12 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable import/prefer-default-export */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { requestPlaceholderData } from "../apis/apiRequests";
+
+import { MainContext } from "./contextUtils";
+
+export const useMainContext = () => useContext(MainContext);
 
 export const useFetch = (url, options = {}) => {
   const [data, setData] = useState(undefined);
