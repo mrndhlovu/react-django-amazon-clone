@@ -1,11 +1,13 @@
 import React from "react";
-import { useMainContext } from "../utils/hookUtils";
+import "./_header.scss";
+
+import { useMainContext } from "../../utils/hookUtils";
 
 const Navigation = () => {
   const { openSideBarHandler } = useMainContext();
 
   return (
-    <div data-testid="app-header">
+    <div data-testid="app-header" className="nav__bar__container">
       <button
         data-testid="nav-burger-menu"
         onClick={() => openSideBarHandler()}
@@ -15,7 +17,7 @@ const Navigation = () => {
       </button>
       <div data-testid="logo">Amazon</div>
       <div data-testid="nav-search-bar">Amazon</div>
-      <div data-testid="nav-links-container">
+      <div data-testid="nav-links-container" className="nav__links__container">
         <ul>
           <li>Account & Lists</li>
           <li>Returns & Orders</li>

@@ -24,5 +24,6 @@ module.exports = {
     "implicit-arrow-linebreak": "off",
     "arrow-body-style": "off",
     "import/prefer-default-export": "off",
+    "react/jsx-props-no-spreading": "off",
   },
 };
