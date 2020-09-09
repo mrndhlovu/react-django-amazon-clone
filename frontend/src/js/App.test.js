@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
 
-import App from "../js/App";
+import App from "./App";
 
 describe("App Container", () => {
   it("should render the app content without error.", async () => {

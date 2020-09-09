@@ -22,9 +22,9 @@ describe("Header", () => {
     getByTestId(/logo/);
     getByTestId(/nav-search-bar/);
     getByTestId(/nav-links-container/);
-    getByText(/Account & Lists/);
-    getByText(/Returns & Orders/);
-    getByText(/Try Prime/);
+    getByText(/Account/);
+    getByText(/& Orders/);
+    getByText(/Prime/);
     getByTestId(/nav-cart-container/);
   });
 

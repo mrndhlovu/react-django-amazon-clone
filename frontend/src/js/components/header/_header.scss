@@ -1,11 +1,139 @@
 @import "../../../assets/sass/styles.scss";
 
 .nav__bar__container {
-  display: flex;
-  width: 100vw;
-  background-color: $black;
+  background-color: $amazonBlue;
+  display: grid;
+  grid-template-columns: 11% 69% 16%;
+  height: 60px;
+  justify-content: space-around;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  .nav__bar__left {
+    @include useFlex(row, flex-start, center);
+
+    .nav__burger__menu {
+      cursor: pointer;
+      background: transparent;
+      height: 70%;
+      border: 1px solid $white;
+      border-radius: 3px;
+      color: $white;
+      width: 40px;
+      @include useFlex(row);
+    }
+
+    .logo__container {
+      @include useFlex(row);
+      cursor: pointer;
+      margin: 0 15px;
+    }
+  }
+
+  .nav__search {
+    @include useFlex(row, space-between);
+
+    height: 70%;
+    border-radius: 5px;
+    width: 100%;
+    overflow: hidden;
+
+    .nav__search__left {
+      height: 100%;
+      & > button {
+        background-color: $grey;
+        height: 100%;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        min-width: 50px;
+      }
+
+      .nav__search__button__text {
+        font-weight: $bold;
+        font-size: 10px;
+      }
+    }
+
+    .nav__search__center {
+      width: 100%;
+      height: 100%;
+      .search__input {
+        padding: 2px 10px;
+        width: 100%;
+        height: 100%;
+        font-size: 15px;
+
+        &:focus {
+          border: 3px solid $amazonBright;
+        }
+      }
+    }
+
+    .nav__search__right {
+      & > button {
+        background-color: $amazon;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        min-width: 50px;
+      }
+    }
+  }
+
+  .nav__bar__right,
+  .nav__bar__center,
+  .nav__links__wrapper {
+    @include useFlex(row);
+  }
+
+  .nav__bar__right {
+    @include useFlex(row, flex-end, center);
+  }
 
   .nav__links__container {
+    @include useFlex(row);
     color: $white;
+    list-style: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+
+    & > li {
+      border-radius: 3px;
+      height: 100%;
+      min-width: 25%;
+      cursor: pointer;
+      margin-right: 10px;
+      padding: 5px;
+
+      &:hover {
+        border: 1px solid $white;
+      }
+    }
+
+    & > li > div:first-child {
+      font-weight: $light;
+      font-size: 12px;
+    }
+
+    & > li > span:last-child {
+      font-weight: $light;
+      font-weight: $bold;
+      font-size: 14px;
+    }
+
+    .cart__container {
+      @include useFlex(row, flex-start, baseline);
+      padding: 5px;
+      position: relative;
+
+      .cart__count {
+        font-weight: $bold;
+        color: $amazonBright;
+        position: absolute;
+        left: 50%;
+      }
+    }
   }
 }

@@ -18,7 +18,7 @@ export const customRenderWithContext = (UI, Provider, contextValue) => {
   return render(
     <Provider value={{ ...contextValue }}>
       <Component />
-    </Provider>
+    </Provider>,
   );
 };
 
