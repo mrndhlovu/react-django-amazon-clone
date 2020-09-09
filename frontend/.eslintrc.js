@@ -25,5 +25,7 @@ module.exports = {
     "arrow-body-style": "off",
     "import/prefer-default-export": "off",
     "react/jsx-props-no-spreading": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
   },
 };

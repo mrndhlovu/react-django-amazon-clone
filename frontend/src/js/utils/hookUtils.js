@@ -33,3 +33,13 @@ export const useFetch = (url, options = {}) => {
 
   return [data, isLoading, hasError, errorMessage];
 };
+
+export const useFormInput = (initialState = {}) => {
+  const [formData, setFormData] = useState(initialState);
+
+  const handleChange = (e, field) => {
+    setFormData({ ...formData, [field]: e.target.value });
+  };
+
+  return [formData, handleChange];
+};

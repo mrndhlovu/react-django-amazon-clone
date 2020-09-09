@@ -1,7 +1,7 @@
 @import "../../../assets/sass/styles.scss";
 
 .nav__bar__container {
-  background-color: $amazonBlue;
+  background-color: $amazonDarkBlue;
   display: grid;
   grid-template-columns: 11% 69% 16%;
   height: 60px;
@@ -135,6 +135,79 @@
         color: $amazonBright;
         position: absolute;
         left: 50%;
+      }
+    }
+  }
+}
+
+.nav__search__categories {
+  min-width: 150px;
+
+  & > li {
+    font-size: 15px;
+    padding: 5px 0;
+    cursor: pointer;
+    margin: 0;
+
+    &:hover {
+      background-color: $amazonBlue;
+      @include hoverText($black);
+    }
+  }
+}
+
+.try__prime {
+  background-image: url($primeLogo);
+  height: 400px;
+  margin: 5px 15px 5px 0;
+  background-color: $amazonBlue;
+  background-position: 50% 20px;
+  background-repeat: no-repeat;
+  background-size: 200px;
+  width: 100%;
+
+  @include useFlex(column);
+
+  p {
+    text-align: center;
+    padding-bottom: 50px;
+    max-width: 80%;
+    font-size: 13px;
+  }
+
+  button {
+    background-color: $amazonBright;
+    cursor: pointer;
+    padding: 5px 15px;
+    font-weight: $bold;
+
+    @include hoverTransition($amazon);
+  }
+}
+
+.nav__account__lists {
+  width: fit-content;
+  @include useFlex(row, space-evenly, flex-start);
+  height: 300px;
+
+  & > ul {
+    min-width: 150px;
+
+    h2 {
+      color: $amazonBlue;
+      padding: 10px 0;
+    }
+
+    & > li {
+      font-size: 15px;
+      padding: 5px 0;
+      cursor: pointer;
+      margin: 0;
+
+      &:hover {
+        color: $amazonBright;
+        text-decoration: underline;
+        @include hoverText($amazonBright);
       }
     }
   }

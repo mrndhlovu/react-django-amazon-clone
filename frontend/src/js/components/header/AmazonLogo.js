@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const AmazonLogo = ({ width, height }) => (
+const AmazonLogo = ({ width, height, dataTestId }) => (
   <svg
+    data-testid={dataTestId}
     version="1.0"
     width={width}
     height={height}
@@ -65,11 +66,13 @@ const AmazonLogo = ({ width, height }) => (
 AmazonLogo.defaultProps = {
   width: "90",
   height: "40",
+  dataTestId: "",
 };
 
 AmazonLogo.propTypes = {
   width: PropTypes.string,
   height: PropTypes.string,
+  dataTestId: PropTypes.string,
 };
 
 export default AmazonLogo;
