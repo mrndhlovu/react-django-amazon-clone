@@ -8,7 +8,6 @@ import Button from "@material-ui/core/Button";
 import { useMainContext } from "../../utils/hookUtils";
 import AmazonLogo from "./AmazonLogo";
 import ShoppingCartCount from "../shared/ShoppingCartCount";
-import DropdownLink from "../shared/DropdownLink";
 import DropdownButton from "../shared/DropdownButton";
 
 const Navigation = () => {
@@ -33,12 +32,15 @@ const Navigation = () => {
         <div className="nav__search">
           <div className="nav__search__left">
             <DropdownButton
-              content={() => (
+              disablePortal
+              arrow
+              contentText={() => (
                 <span className="nav__search__button__text">All</span>
               )}
-            >
-              <div>Search categories</div>
-            </DropdownButton>
+              content={() => (
+                <div className="nav__search__categories">Search categories</div>
+              )}
+            />
           </div>
           <div className="nav__search__center">
             <input className="search__input" />
@@ -52,39 +54,32 @@ const Navigation = () => {
       </div>
       <div data-testid="nav-links-container" className="nav__bar__right">
         <ul className="nav__links__container">
-          <DropdownLink
-            content={() => (
+          <DropdownButton
+            contentText={() => (
               <>
                 <div>Account</div>
                 <span> & Lists </span>
               </>
             )}
-          >
-            <div>Returns and orders</div>
-          </DropdownLink>
+            content={() => <div>Returns and orders</div>}
+            link
+          />
 
-          <DropdownLink
-            content={() => (
-              <>
-                <div>Returns</div>
-                <span>& Orders</span>
-              </>
-            )}
-          >
-            <div>Returns and orders</div>
-          </DropdownLink>
+          <li>
+            <div>Returns</div>
+            <span>& Orders</span>
+          </li>
 
-          <DropdownLink
-            as="li"
-            content={() => (
+          <DropdownButton
+            contentText={() => (
               <>
                 <div>Try</div>
                 <span> Prime</span>
               </>
             )}
-          >
-            <div>Returns and orders</div>
-          </DropdownLink>
+            content={() => <div>Returns and orders</div>}
+            link
+          />
 
           <li>
             <ShoppingCartCount dataTestId="nav-cart-container" count={0} />

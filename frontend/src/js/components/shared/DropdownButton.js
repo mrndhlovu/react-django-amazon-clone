@@ -1,45 +1,66 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
+import _ from "lodash";
 
-import Button from "@material-ui/core/Button";
+import { Button, Tooltip } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
-import UIDropdown from "./UIDropdown";
+const LightTooltip = withStyles((theme) => ({
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: "rgba(0, 0, 0, 0.87)",
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+  arrow: { color: "#fff" },
+}))(Tooltip);
 
-const DropdownButton = ({ content: LinkText, children }) => {
+const DropdownButton = ({
+  arrow,
+  content: Content,
+  contentText,
+  link,
+  placement,
+  interactive,
+}) => {
   const buttonRef = useRef(null);
 
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = (e) => {
-    setAnchorEl(anchorEl ? null : e.currentTarget);
-  };
-
   return (
-    <Button
-      ref={buttonRef}
-      size="small"
-      aria-label="select merge strategy"
-      onClick={handleClick}
+    <LightTooltip
+      arrow={arrow}
+      placement={placement}
+      title={Content && <Content />}
+      interactive={interactive}
     >
-      <LinkText />
-      <ArrowDropDownIcon />
-      {buttonRef.current && (
-        <UIDropdown
-          open={buttonRef.current === anchorEl}
-          anchorEl={buttonRef.current}
-        >
-          {children}
-        </UIDropdown>
+      {link ? (
+        <li>{_.isString(contentText) ? contentText : contentText()}</li>
+      ) : (
+        <Button ref={buttonRef} size="small" aria-label="select merge strategy">
+          {_.isString(contentText) ? contentText : contentText()}
+          {arrow && <ArrowDropDownIcon />}
+        </Button>
       )}
-    </Button>
+    </LightTooltip>
   );
 };
 
+DropdownButton.defaultProps = {
+  arrow: true,
+  link: false,
+  interactive: true,
+  placement: "bottom-end",
+};
+
 DropdownButton.propTypes = {
+  arrow: PropTypes.bool,
   content: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
+  contentText: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+    .isRequired,
+  link: PropTypes.bool,
+  placement: PropTypes.string,
+  interactive: PropTypes.bool,
 };
 
 export default DropdownButton;
