@@ -50,7 +50,7 @@ DropdownButton.defaultProps = {
   arrow: true,
   link: false,
   interactive: true,
-  placement: "bottom-end",
+  placement: "bottom",
 };
 
 DropdownButton.propTypes = {
