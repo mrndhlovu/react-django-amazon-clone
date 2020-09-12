@@ -1,0 +1,8 @@
+.amazon__button__primary {
+  background-color: $amazonBright;
+  cursor: pointer;
+  padding: 5px 15px;
+  font-weight: $bold;
+
+  @include hoverTransition($amazon);
+}
