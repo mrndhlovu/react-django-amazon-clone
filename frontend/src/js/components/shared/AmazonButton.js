@@ -13,9 +13,7 @@ const AmazonButton = ({
   return (
     <button
       data-testid={dataTestId}
-      className={
-        secondary ? "amazon__button__secondary" : "amazon__button__primary"
-      }
+      className={`amazon__button ${secondary ? "secondary" : "primary"}`}
       type={type}
       onClick={handleClick}
       disabled={disabled}

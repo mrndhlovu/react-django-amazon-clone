@@ -24,3 +24,16 @@
     transition-timing-function: ease-in-out;
   }
 }
+
+@mixin containerSize($width: 100vw, $height: 100vh) {
+  width: $width;
+  height: $height;
+}
+
+@mixin absoluteCenter($top: auto, $bottom: auto) {
+  position: absolute;
+  left: 50%;
+  top: $top;
+  bottom: $bottom;
+  transform: translate(-50%);
+}

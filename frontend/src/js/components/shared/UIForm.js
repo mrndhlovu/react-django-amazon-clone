@@ -26,7 +26,7 @@ const UIForm = ({
         }}
       >
         {({ handleSubmit, ...rest }) => (
-          <Form className="form__container" data-testid={dataTestId}>
+          <Form className="form__wrapper" data-testid={dataTestId}>
             {childrenWithProps(rest)}
           </Form>
         )}
@@ -67,7 +67,7 @@ UIForm.Input = ({
         value={values[name]}
       />
       {errors[name] && (
-        <div>
+        <div className="form__error">
           <span>*</span>
           <span>{errors[name]}</span>
         </div>
@@ -83,7 +83,7 @@ UIForm.defaultProps = {
 };
 
 UIForm.Input.defaultProps = {
-  className: "",
+  className: "input__container",
   dataTestId: "",
   errors: {},
   handleBlur: () => {},

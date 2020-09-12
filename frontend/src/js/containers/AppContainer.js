@@ -13,7 +13,9 @@ const AppContainer = ({ children }) => {
 
   return (
     <MainContext.Provider value={context}>
-      <div data-testid="app-container">{children}</div>
+      <div className="app__container" data-testid="app-container">
+        {children}
+      </div>
     </MainContext.Provider>
   );
 };
