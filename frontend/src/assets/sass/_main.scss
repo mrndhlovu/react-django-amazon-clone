@@ -14,8 +14,22 @@ body {
   outline: 0;
 }
 
+.app__container {
+  @include containerSize();
+}
+
 ul {
   list-style: none;
   padding: 0px;
   margin: 0;
+}
+
+button {
+  font-family: $montserrat, $roboto, "sans-serif";
+}
+
+.link__menu__button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }

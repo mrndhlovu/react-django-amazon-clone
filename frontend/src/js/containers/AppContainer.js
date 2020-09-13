@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Header from "../components/header/Header";
+
 import { MainContext } from "../utils/contextUtils";
 
 const AppContainer = ({ children }) => {
@@ -8,12 +8,12 @@ const AppContainer = ({ children }) => {
 
   const context = {
     openSideBarHandler,
+    user: { authenticated: false },
   };
 
   return (
     <MainContext.Provider value={context}>
-      <div data-testid="app-container">
-        <Header />
+      <div className="app__container" data-testid="app-container">
         {children}
       </div>
     </MainContext.Provider>

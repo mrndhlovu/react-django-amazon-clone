@@ -1,15 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link, useHistory } from "react-router-dom";
 
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { getQueryParam } from "../../utils/urls";
 
 const ShoppingCartCount = ({ count, dataTestId }) => {
+  const history = useHistory();
+
   return (
-    <div data-testid={dataTestId} className="cart__container">
-      <span className="cart__count">{count}</span>
+    <Link
+      className="cart__container"
+      data-testid={dataTestId}
+      to={getQueryParam(history)}
+    >
       <ShoppingCartIcon />
-      <span>Basket</span>
-    </div>
+      <div className="cart__count">
+        <span>{count}</span>
+        <span>Basket</span>
+      </div>
+    </Link>
   );
 };
 

@@ -17,5 +17,3 @@ export const _ACCOUNT_OPTIONS = {
     { header: "Create a list", redirect: "create-list" },
   ],
 };
-
-export const PRIME_IMG_URL = "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/prime_logo.png";

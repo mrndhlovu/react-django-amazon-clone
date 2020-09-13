@@ -21,7 +21,7 @@ const DropdownButton = ({
   arrow,
   content: Content,
   contentText,
-  link,
+  button,
   placement,
   interactive,
 }) => {
@@ -34,13 +34,13 @@ const DropdownButton = ({
       title={Content && <Content />}
       interactive={interactive}
     >
-      {link ? (
-        <li>{_.isString(contentText) ? contentText : contentText()}</li>
-      ) : (
+      {button ? (
         <Button ref={buttonRef} size="small" aria-label="select merge strategy">
           {_.isString(contentText) ? contentText : contentText()}
           {arrow && <ArrowDropDownIcon />}
         </Button>
+      ) : (
+        <span>{_.isString(contentText) ? contentText : contentText()}</span>
       )}
     </LightTooltip>
   );
@@ -48,7 +48,7 @@ const DropdownButton = ({
 
 DropdownButton.defaultProps = {
   arrow: true,
-  link: false,
+  button: false,
   interactive: true,
   placement: "bottom",
 };
@@ -58,7 +58,7 @@ DropdownButton.propTypes = {
   content: PropTypes.func.isRequired,
   contentText: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
     .isRequired,
-  link: PropTypes.bool,
+  button: PropTypes.bool,
   placement: PropTypes.string,
   interactive: PropTypes.bool,
 };
