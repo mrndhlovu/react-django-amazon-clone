@@ -1,83 +1,61 @@
-import React from "react";
-import { Link, useHistory } from "react-router-dom";
-import * as yup from "yup";
+import React, { useRef } from "react";
+import { useHistory } from "react-router-dom";
 
-import "./_auth.scss";
-
-import AmazonLogo from "../header/AmazonLogo";
-import { AmazonButton, UIForm, TermAndConditions } from "../shared";
-import TextDivider from "../shared/TextDivider";
+import { AmazonButton, UIForm, TermsAndConditions } from "../shared";
+import FormContainer from "./FormContainer";
+import { FORM_VALIDATION } from "../../constants/constants";
 
 const LOGIN_INITIAL_STATE = {
   email: undefined,
   password: undefined,
 };
 
-const VALIDATION_SCHEMA = yup.object({
-  email: yup.string().required(),
-  password: yup.string().required().min(6),
-});
-
 const LoginPage = () => {
   const history = useHistory();
+  const emailInputRef = useRef();
 
   const handleLogin = () => {};
 
   return (
-    <div data-testid="login-page-container" className="auth__page__container">
-      <div className="form__container">
-        <Link to="/">
-          <AmazonLogo
-            dataTestId="login-page-logo"
-            height="60"
-            width="100"
-            fill="#000"
-          />
-        </Link>
+    <FormContainer
+      dataTestId="login-page-container"
+      header="Sign-In"
+      dividerContent="New to Amazon"
+      footerButtonProps={{
+        content: "Creat your Amazon account",
+        testId: "login-auth-button",
+        onClick: () => history.push("/register"),
+      }}
+    >
+      <UIForm
+        dataTestId="login-form"
+        initialState={LOGIN_INITIAL_STATE}
+        submitHandler={handleLogin}
+        validationSchema={FORM_VALIDATION.LOGIN}
+      >
+        <UIForm.Input
+          type="email"
+          name="email"
+          label="E-mail (phone for mobile accounts)"
+          ref={emailInputRef}
+        />
 
-        <UIForm
-          dataTestId="login-form"
-          initialState={LOGIN_INITIAL_STATE}
-          submitHandler={handleLogin}
-          validationSchema={VALIDATION_SCHEMA}
-        >
-          <UIForm.Input
-            type="email"
-            name="email"
-            label="E-mail (phone for mobile accounts)"
-          />
+        <UIForm.Input type="password" name="password" label="Password" />
 
-          <UIForm.Input type="password" name="password" label="Password" />
-
-          <UIForm.Button
-            button={({ isSubmitting }) => (
-              <AmazonButton
-                buttonText="Continue"
-                dataTestId="login-button"
-                handleClick={() => {}}
-                type="submit"
-                disabled={isSubmitting}
-              />
-            )}
-          />
-          <TermAndConditions />
-
-          <div className="auth__divider__account">
-            <TextDivider text="New to Amazon" />
-            <UIForm.Button
-              button={() => (
-                <AmazonButton
-                  buttonText="Create your Amazon account"
-                  dataTestId="signup-button"
-                  handleClick={() => history.push("/register")}
-                  secondary
-                />
-              )}
+        <UIForm.Button
+          button={({ isSubmitting }) => (
+            <AmazonButton
+              buttonText="Continue"
+              dataTestId="login-button"
+              handleClick={() => {}}
+              type="submit"
+              disabled={isSubmitting}
             />
-          </div>
-        </UIForm>
-      </div>
-    </div>
+          )}
+        />
+      </UIForm>
+      <TermsAndConditions />
+    </FormContainer>
   );
 };
 

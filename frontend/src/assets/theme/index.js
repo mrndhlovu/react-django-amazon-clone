@@ -1,9 +1,5 @@
 import colors from "./colors";
 import fonts from "./fonts";
+import helpers from "./helpers";
 
-const theme = {
-  colors,
-  fonts,
-};
-
-export default theme;
+export const THEME = { colors, fonts, helpers };

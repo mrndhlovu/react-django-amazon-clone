@@ -7,6 +7,10 @@
   box-shadow: $shadowPrimary;
   border: none;
 
+  width: 100%;
+  margin-top: 12px;
+  margin-bottom: 5px;
+
   @include hoverTransition($amazon);
 }
 
@@ -49,24 +53,5 @@
     position: absolute;
     bottom: -4px;
     left: 0;
-  }
-}
-
-.terms {
-  font-size: 12px;
-  padding: 10px 0;
-  letter-spacing: 0.4px;
-  line-height: 18px;
-}
-
-.text__divider {
-  position: relative;
-  width: 100%;
-  bottom: 0;
-  span {
-    background-color: $white;
-    padding: 0 5px;
-    font-size: 12px;
-    @include absoluteCenter(-6px);
   }
 }

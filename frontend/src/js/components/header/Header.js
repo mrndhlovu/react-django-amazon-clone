@@ -7,9 +7,14 @@ import { Menu as MenuIcon, Search as SearchIcon } from "@material-ui/icons";
 import { Button, Divider } from "@material-ui/core";
 
 import { _ACCOUNT_OPTIONS } from "../../constants/constants";
-import { AmazonButton, ShoppingCartCount, DropdownButton } from "../shared";
+import {
+  AmazonButton,
+  ShoppingCartCount,
+  DropdownButton,
+  AmazonLogo,
+} from "../shared";
 import { useMainContext, useFormInput } from "../../utils/hookUtils";
-import AmazonLogo from "./AmazonLogo";
+
 import MenuList from "./MenuList";
 import NavLinkButton from "./NavLinkButton";
 
