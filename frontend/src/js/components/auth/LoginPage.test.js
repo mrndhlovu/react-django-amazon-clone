@@ -3,16 +3,26 @@
 /* eslint-disable nonblock-statement-body-position */
 import React from "react";
 import { cleanup } from "@testing-library/react";
+import { Formik } from "formik";
+import { ThemeProvider } from "styled-components";
 
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 
 import { customRenderWithContext as render } from "../../../test/utils/test.utils";
+import { FORM_VALIDATION } from "../../constants/constants";
 import { MainContext } from "../../utils/contextUtils";
+import { THEME } from "../../../assets/theme/index";
 import LoginPage from "./LoginPage";
 
 const DEFAULT_CONTEXT = {
   isSubmitting: jest.fn(),
+  submitHandler: jest.fn(),
+};
+
+const LOGIN_INITIAL_STATE = {
+  email: undefined,
+  password: undefined,
 };
 
 afterEach(() => cleanup());
@@ -22,20 +32,29 @@ describe("Header", () => {
   const renderComponent = (Component, props, context = DEFAULT_CONTEXT) =>
     render(
       () => (
-        <Router history={history}>
-          <Component {...props} />
-        </Router>
+        <ThemeProvider theme={THEME}>
+          <Router history={history}>
+            <Formik
+              initialValues={LOGIN_INITIAL_STATE}
+              validationSchema={FORM_VALIDATION}
+              onSubmit={DEFAULT_CONTEXT.submitHandler}
+            >
+              <Component {...props} />
+            </Formik>
+          </Router>
+        </ThemeProvider>
       ),
       MainContext.Provider,
       context
     );
 
-  it("should render loginpage correctly", () => {
-    const { getByTestId } = renderComponent(LoginPage);
+  it("should render login page correctly", () => {
+    const { getByTestId, getByText } = renderComponent(LoginPage);
 
     getByTestId(/login-page-container/);
-    getByTestId(/login-page-logo/);
+    getByTestId(/sign-in-form-logo/);
     getByTestId(/login-form/);
     getByTestId(/login-button/);
+    getByText(/Continue/);
   });
 });

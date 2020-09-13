@@ -28,11 +28,12 @@ AmazonButton.defaultProps = {
   type: "button",
   disabled: false,
   secondary: false,
+  handleClick: () => {},
 };
 
 AmazonButton.propTypes = {
   buttonText: PropTypes.string.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func,
   dataTestId: PropTypes.string,
   type: PropTypes.string,
   disabled: PropTypes.bool,

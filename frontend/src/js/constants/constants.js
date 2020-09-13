@@ -53,3 +53,37 @@ export const FORM_VALIDATION = {
     password: yup.string().required().min(6),
   }),
 };
+
+export const LOGIN_STAGES = {
+  EMAIL: {
+    VALIDATION: yup.object({
+      email: yup.string().required(),
+    }),
+    INITIAL_STATE: { email: undefined },
+    INPUT: {
+      type: "email",
+      label: "E-mail (phone for mobile accounts)",
+    },
+    BUTTON: {
+      content: "Continue",
+    },
+    STEP: 1,
+  },
+
+  PASSWORD: {
+    VALIDATION: yup.object({
+      password: yup.string().required().min(6),
+    }),
+    INITIAL_STATE: { password: undefined },
+    INPUT: {
+      type: "password",
+      label: "Password",
+    },
+    BUTTON: {
+      content: "Sign-In",
+    },
+    STEP: 2,
+  },
+
+  DONE: true,
+};

@@ -1,20 +1,40 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { AmazonButton, UIForm, TermsAndConditions } from "../shared";
+import { LOGIN_STAGES } from "../../constants/constants";
 import FormContainer from "./FormContainer";
-import { FORM_VALIDATION } from "../../constants/constants";
-
-const LOGIN_INITIAL_STATE = {
-  email: undefined,
-  password: undefined,
-};
 
 const LoginPage = () => {
+  const [loginData, setLoginData] = useState({});
   const history = useHistory();
-  const emailInputRef = useRef();
+  let inputRef = useRef(null);
 
-  const handleLogin = () => {};
+  const [STAGE, setSTAGE] = useState(LOGIN_STAGES.EMAIL);
+
+  const handleLogin = (data) => {
+    switch (STAGE.STEP) {
+      case 1:
+        setLoginData({ ...loginData, email: data.email });
+        return setSTAGE(LOGIN_STAGES.PASSWORD);
+
+      case 2:
+        setLoginData({ ...loginData, password: data.password });
+
+        return null;
+
+      default:
+        return null;
+    }
+  };
+
+  useEffect(() => {
+    inputRef.current.focus();
+
+    return () => {
+      inputRef = null;
+    };
+  }, []);
 
   return (
     <FormContainer
@@ -29,25 +49,22 @@ const LoginPage = () => {
     >
       <UIForm
         dataTestId="login-form"
-        initialState={LOGIN_INITIAL_STATE}
+        initialState={STAGE.INITIAL_STATE}
         submitHandler={handleLogin}
-        validationSchema={FORM_VALIDATION.LOGIN}
+        validationSchema={STAGE.VALIDATION}
       >
         <UIForm.Input
-          type="email"
-          name="email"
-          label="E-mail (phone for mobile accounts)"
-          ref={emailInputRef}
+          type={STAGE.INPUT.type}
+          name={STAGE.INPUT.type}
+          label={STAGE.INPUT.label}
+          ref={inputRef}
         />
-
-        <UIForm.Input type="password" name="password" label="Password" />
 
         <UIForm.Button
           button={({ isSubmitting }) => (
             <AmazonButton
-              buttonText="Continue"
+              buttonText={STAGE.BUTTON.content}
               dataTestId="login-button"
-              handleClick={() => {}}
               type="submit"
               disabled={isSubmitting}
             />

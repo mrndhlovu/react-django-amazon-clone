@@ -26,9 +26,9 @@ const UIForm = ({
           });
         }}
       >
-        {({ handleSubmit, ...rest }) => (
+        {(props) => (
           <Form className="form__wrapper" data-testid={dataTestId}>
-            {childrenWithProps({ ...rest })}
+            {childrenWithProps({ ...props })}
           </Form>
         )}
       </Formik>
@@ -58,9 +58,9 @@ UIForm.Input = forwardRef(
       label,
       handleChange,
       handleBlur,
-      values,
       type,
       errors,
+      value,
     },
     ref,
   ) => {
@@ -80,7 +80,7 @@ UIForm.Input = forwardRef(
           placeholder={placeholder}
           onBlur={handleBlur}
           className="form__input"
-          value={values[name]}
+          defaultValue={value}
         />
         {errors[name] && (
           <div className="form__error">
@@ -108,7 +108,7 @@ UIForm.Input.defaultProps = {
   label: "",
   placeholder: "",
   type: "text",
-  values: {},
+  value: "",
 };
 
 UIForm.Button.defaultProps = {
@@ -140,9 +140,9 @@ UIForm.Input.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  values: PropTypes.shape({}),
   type: PropTypes.string,
   className: PropTypes.string,
+  value: PropTypes.string,
 };
 
 export default UIForm;

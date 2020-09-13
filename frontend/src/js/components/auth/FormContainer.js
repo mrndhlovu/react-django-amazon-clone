@@ -101,7 +101,7 @@ const FormContainer = ({
           dataTestId={`${(header || "auth")
             .toLowerCase()
             .split(" ")
-            .join("-")}-form`}
+            .join("-")}-form-logo`}
           height="60"
           width="100"
           fill="#000"
