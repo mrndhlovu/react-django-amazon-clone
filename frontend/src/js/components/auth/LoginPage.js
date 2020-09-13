@@ -1,8 +1,8 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import * as yup from "yup";
 
-import "./_loginPage.scss";
+import "./_auth.scss";
 
 import AmazonLogo from "../header/AmazonLogo";
 import { AmazonButton, UIForm, TermAndConditions } from "../shared";
@@ -15,7 +15,7 @@ const LOGIN_INITIAL_STATE = {
 
 const VALIDATION_SCHEMA = yup.object({
   email: yup.string().required(),
-  password: yup.string().required().min(8),
+  password: yup.string().required().min(6),
 });
 
 const LoginPage = () => {
@@ -24,14 +24,16 @@ const LoginPage = () => {
   const handleLogin = () => {};
 
   return (
-    <div data-testid="login-page-container" className="login__page__container">
+    <div data-testid="login-page-container" className="auth__page__container">
       <div className="form__container">
-        <AmazonLogo
-          dataTestId="login-page-logo"
-          height="60"
-          width="100"
-          fill="#000"
-        />
+        <Link to="/">
+          <AmazonLogo
+            dataTestId="login-page-logo"
+            height="60"
+            width="100"
+            fill="#000"
+          />
+        </Link>
 
         <UIForm
           dataTestId="login-form"

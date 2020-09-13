@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const AmazonLogo = ({ width, height, dataTestId, fill }) => (
+const AmazonLogo = ({
+  width, height, dataTestId, fill,
+}) => (
   <svg
     data-testid={dataTestId}
     version="1.0"

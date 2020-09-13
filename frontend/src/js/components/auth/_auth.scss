@@ -1,6 +1,6 @@
 @import "../../../assets/sass/styles.scss";
 
-.login__page__container {
+.auth__page__container {
   @include containerSize();
   box-shadow: $shadowPrimary;
   background-color: #eee;
@@ -25,6 +25,28 @@
 
       .text__divider {
         margin: 13px 0;
+      }
+    }
+  }
+
+  .form__container.register {
+    height: 60% !important;
+
+    .auth__divider__account {
+      @include absoluteCenter(null, -15%);
+
+      hr {
+        margin: 13px 0;
+      }
+
+      a,
+      span {
+        font-size: 13px;
+        padding-right: 5px;
+      }
+
+      a {
+        color: $amazonBlue;
       }
     }
   }

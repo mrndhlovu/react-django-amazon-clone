@@ -12,8 +12,7 @@ import { MainContext } from "../../utils/contextUtils";
 import LoginPage from "./LoginPage";
 
 const DEFAULT_CONTEXT = {
-  openSideBarHandler: jest.fn(),
-  handleSelectedOption: jest.fn(),
+  isSubmitting: jest.fn(),
 };
 
 afterEach(() => cleanup());
