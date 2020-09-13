@@ -24,12 +24,15 @@ const Wrapper = styled.div`
 const Container = styled.div`
   ${({ theme }) => theme.helpers.absoluteCenter("8%")};
   ${({ theme }) => theme.helpers.useFlex("column", "space-evenly")};
+  z-index: 10;
 
   height: 50%;
   max-width: 350px;
 
   button {
-    font-weight: ${({ theme }) => theme.fonts.weight.medium};
+    font-weight: ${({ theme }) => theme.fonts.weight.light};
+    color: ${({ theme }) => theme.colors.black};
+    font-size: 13px;
   }
 
   .amazon__button.secondary {
@@ -66,12 +69,21 @@ const FormWrapper = styled.div`
   padding: 20px;
   border: 1px #ddd solid;
   border-radius: 4px;
-  height: fit-content;
 
-  h3 {
+  h2 {
     padding-bottom: 10px;
     font-weight: ${({ theme }) => theme.fonts.weight.medium};
   }
+`;
+
+const PageDivider = styled.div`
+  background-color: #dddddd42;
+  height: 42vh;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  box-shadow: -4px -4px 29px 1px rgba(0, 0, 0, 0.12);
 `;
 
 const FormContainer = ({
@@ -98,7 +110,7 @@ const FormContainer = ({
 
       <Container>
         <FormWrapper>
-          <UIHeader content={header} as="h3" />
+          <UIHeader content={header} as="h2" />
           {children}
 
           {footerLinkProps?.content && (
@@ -128,6 +140,7 @@ const FormContainer = ({
           />
         )}
       </Container>
+      <PageDivider />
     </Wrapper>
   );
 };

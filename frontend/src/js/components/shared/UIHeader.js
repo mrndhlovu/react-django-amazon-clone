@@ -7,13 +7,17 @@ const StyledH1 = styled.h1`
   text-align: ${({ align }) => align};
 `;
 
-const UIHeader = ({ content, as, className, color, align }) => (
+const UIHeader = ({
+  content, as, className, color, align,
+}) => (
   <StyledH1 align={align} color={color} className={className} as={as}>
     {content}
   </StyledH1>
 );
 
-UIHeader.defaultProps = { as: "", className: "", color: "", align: "left" };
+UIHeader.defaultProps = {
+  as: "", className: "", color: "", align: "left",
+};
 
 UIHeader.propTypes = {
   as: PropTypes.string,
