@@ -1,18 +1,23 @@
 /* eslint-disable comma-dangle */
 import React from "react";
+import styled from "styled-components";
 
+import { requestCurrentUser } from "../apis/apiRequests";
 import { useFetch } from "../utils/hookUtils";
 import Header from "../components/header/Header";
 
+const Container = styled.div`
+  height: 100%;
+`;
+
 const HomeContainer = () => {
-  const [data, isLoading] = useFetch(
-    "https://jsonplaceholder.typicode.com/todos/1"
-  );
+  const [data, isLoading] = useFetch(requestCurrentUser);
+  console.log("HomeContainer -> data", data);
 
   return (
     <>
       <Header />
-      <div data-testid="home-page">
+      <Container data-testid="home-page">
         {isLoading ? (
           <p>Loading...</p>
         ) : (
@@ -21,7 +26,7 @@ const HomeContainer = () => {
             <h3>{`Placeholder api data:  ${data?.title}`}</h3>
           </>
         )}
-      </div>
+      </Container>
     </>
   );
 };

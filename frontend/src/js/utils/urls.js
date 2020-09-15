@@ -1,16 +1,20 @@
 /* eslint-disable no-unused-expressions */
 import { isArray } from "lodash";
 
-export const baseURL = process.env.NODE_ENV === "development" ? "http://127.0.0.1:5000" : "PROD_URL";
+export const baseURL =
+  process.env.NODE_ENV === "development" ? "http://localhost:8000" : "PROD_URL";
 
-export const TASKS_EP = "/v1/api/tasks";
 export const AUTH_EP = "/v1/api/auth";
 
 export const PARAMS = {
   baseURL,
-  //   headers: { Accept: "application/json", "Content-Type": "application/json" },
-  //   credentials: "same-origin",
-  //   withCredentials: true,
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  },
+  credentials: "same-origin",
+  withCredentials: true,
+  "Access-Control-Allow-Origin": "*",
 };
 
 export const getParamString = (strings) => {

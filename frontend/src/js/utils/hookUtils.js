@@ -2,13 +2,12 @@
 /* eslint-disable import/prefer-default-export */
 
 import { useState, useEffect, useContext } from "react";
-import { requestPlaceholderData } from "../apis/apiRequests";
 
 import { MainContext } from "./contextUtils";
 
 export const useMainContext = () => useContext(MainContext);
 
-export const useFetch = (url, options = {}) => {
+export const useFetch = (endPoint, options = {}) => {
   const [data, setData] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -16,15 +15,15 @@ export const useFetch = (url, options = {}) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await requestPlaceholderData(url, options)
+      await endPoint(options)
         .then((res) => {
           setIsLoading(false);
-          setData(res.data);
+          setData(res?.data);
         })
         .catch((error) => {
           setHasError(true);
           setIsLoading(false);
-          setErrorMessage(error?.response.data.message);
+          setErrorMessage(error?.response?.data.message);
         });
     };
 
