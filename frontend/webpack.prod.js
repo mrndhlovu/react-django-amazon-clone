@@ -2,7 +2,7 @@ const { merge } = require("webpack-merge");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
+const path = require("path");
 const shared = require("./webpack.common");
 
 module.exports = merge(shared, {
@@ -32,6 +32,7 @@ module.exports = merge(shared, {
     minimizer: [new OptimizeCssAssetsPlugin(), new TerserPlugin()],
   },
   output: {
+    path: path.join(__dirname, "../backend"),
     filename: "main.[hash].js",
     hotUpdateChunkFilename: ".hot/[id].[hash].hot-update.js",
     hotUpdateMainFilename: ".hot/[hash].hot-update.json",

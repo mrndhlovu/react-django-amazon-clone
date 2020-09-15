@@ -8,9 +8,7 @@ module.exports = {
   entry: {
     main: ["./src/index.js"],
   },
-  output: {
-    path: path.join(__dirname, "build/static"),
-  },
+
   target: "web",
   module: {
     rules: [
