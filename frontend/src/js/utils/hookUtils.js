@@ -1,11 +1,9 @@
-/* eslint-disable object-curly-newline */
-/* eslint-disable import/prefer-default-export */
-
 import { useState, useEffect, useContext } from "react";
 
-import { MainContext } from "./contextUtils";
+import { MainContext, AuthContext } from "./contextUtils";
 
 export const useMainContext = () => useContext(MainContext);
+export const useAuth = () => useContext(AuthContext);
 
 export const useFetch = (endPoint, options = {}) => {
   const [data, setData] = useState(undefined);

@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import { MainContext } from "../utils/contextUtils";
+import { getUserInfo } from "../actions/AuthActions";
+import { getUser } from "../components/selectors/authSelectors";
 
-const AppContainer = ({ children }) => {
+const AppContainer = ({ children, user, userInfo }) => {
   const openSideBarHandler = () => {};
+
+  useEffect(() => {
+    userInfo();
+  }, []);
 
   const context = {
     openSideBarHandler,
-    user: { authenticated: false },
+    user,
   };
 
   return (
@@ -25,6 +32,16 @@ AppContainer.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+  user: PropTypes.shape({
+    isAuthenticated: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    data: PropTypes.shape({}).isRequired,
+  }).isRequired,
+  userInfo: PropTypes.func.isRequired,
 };
 
-export default AppContainer;
+const mapStateToProps = (state) => ({ user: getUser(state) });
+
+export default connect(mapStateToProps, { userInfo: getUserInfo })(
+  AppContainer
+);

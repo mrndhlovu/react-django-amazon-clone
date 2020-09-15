@@ -9,7 +9,7 @@ module.exports = {
     main: ["./src/index.js"],
   },
   output: {
-    path: path.join(__dirname, "build"),
+    path: path.join(__dirname, "build/static"),
   },
   target: "web",
   module: {

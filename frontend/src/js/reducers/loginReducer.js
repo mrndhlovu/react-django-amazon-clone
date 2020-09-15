@@ -10,7 +10,7 @@ const INITIAL_STATE = {
   isLoading: false,
 };
 
-const authReducer = (state = INITIAL_STATE, action = {}) => {
+const loginReducer = (state = INITIAL_STATE, action = {}) => {
   switch (action.type) {
     case GET_CURRENT_FAIL:
       return { ...state, isLoading: false };
@@ -23,4 +23,4 @@ const authReducer = (state = INITIAL_STATE, action = {}) => {
   }
 };
 
-export default authReducer;
+export default loginReducer;

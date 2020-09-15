@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import App from "./js/App";
-import "./assets/sass/styles.scss";
+import "./assets/theme/sass/styles.scss";
 
 const ROOT_ELEMENT = document.getElementById("root");
 

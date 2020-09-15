@@ -1,9 +1,11 @@
-"use es6";
-
 import { combineReducers } from "redux";
 
 import authReducer from "./authReducer";
+import alertReducer from "./alertReducer";
+import loginReducer from "./loginReducer";
 
 export default combineReducers({
-  authReducer,
+  user: authReducer,
+  alertReducer,
+  loginReducer,
 });
