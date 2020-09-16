@@ -11,11 +11,11 @@ const AppContainer = ({ children, user, userInfo }) => {
 
   useEffect(() => {
     userInfo();
-  }, []);
+  }, [userInfo]);
 
   const context = {
     openSideBarHandler,
-    user,
+    listener: user,
   };
 
   return (
@@ -43,5 +43,5 @@ AppContainer.propTypes = {
 const mapStateToProps = (state) => ({ user: getUser(state) });
 
 export default connect(mapStateToProps, { userInfo: getUserInfo })(
-  AppContainer
+  AppContainer,
 );

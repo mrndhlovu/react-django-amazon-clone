@@ -20,6 +20,6 @@ urlpatterns = [
     path('update-details/', update_api_view, name='update'),
     path('update-password/', UpdatePasswordAPIView.as_view(),
          name='update_password'),
-    path('verify/', verify_account_api_view, name='verify'),
+    path('verify', verify_account_api_view, name='verify'),
 
 ]

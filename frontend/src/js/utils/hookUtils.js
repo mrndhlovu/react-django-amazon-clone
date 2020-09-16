@@ -26,7 +26,7 @@ export const useFetch = (endPoint, options = {}) => {
     };
 
     fetchData();
-  }, []);
+  }, [endPoint, options]);
 
   return [data, isLoading, hasError, errorMessage];
 };

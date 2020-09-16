@@ -37,7 +37,7 @@ DEBUG = DEVELOPMENT
 
 
 if DEVELOPMENT:
-    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 else:
     ALLOWED_HOSTS = ['PROD_URL']
 
@@ -54,12 +54,16 @@ INSTALLED_APPS = [
 
     'rest_framework',
 
-    'apps.accounts'
+
+    'apps.accounts',
+
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -200,15 +204,18 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, '../frontend/build/static')
 ]
 
-CORS_ORIGIN_WHITELIST = (
-    'localhost:3000',
-)
-
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 FILE_UPLOAD_PERMISSIONS = 0o640
 
 JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY']
+
+
+CORS_ORIGIN_WHITELIST = (
+    'http://127.0.0.1:3000',
+    'http://localhost:3000',
+)
+
 
 CORS_ORIGIN_ALLOW_ALL = True

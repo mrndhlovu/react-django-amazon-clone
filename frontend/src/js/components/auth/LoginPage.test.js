@@ -5,6 +5,7 @@ import React from "react";
 import { cleanup } from "@testing-library/react";
 import { Formik } from "formik";
 import { ThemeProvider } from "styled-components";
+import { Provider } from "react-redux";
 
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
@@ -14,6 +15,7 @@ import { FORM_VALIDATION } from "../../constants/constants";
 import { MainContext } from "../../utils/contextUtils";
 import { THEME } from "../../../assets/theme/index";
 import LoginPage from "./LoginPage";
+import store from "../../store";
 
 const DEFAULT_CONTEXT = {
   isSubmitting: jest.fn(),
@@ -32,17 +34,19 @@ describe("Header", () => {
   const renderComponent = (Component, props, context = DEFAULT_CONTEXT) =>
     render(
       () => (
-        <ThemeProvider theme={THEME}>
-          <Router history={history}>
-            <Formik
-              initialValues={LOGIN_INITIAL_STATE}
-              validationSchema={FORM_VALIDATION}
-              onSubmit={DEFAULT_CONTEXT.submitHandler}
-            >
-              <Component {...props} />
-            </Formik>
-          </Router>
-        </ThemeProvider>
+        <Provider store={store}>
+          <ThemeProvider theme={THEME}>
+            <Router history={history}>
+              <Formik
+                initialValues={LOGIN_INITIAL_STATE}
+                validationSchema={FORM_VALIDATION}
+                onSubmit={DEFAULT_CONTEXT.submitHandler}
+              >
+                <Component {...props} />
+              </Formik>
+            </Router>
+          </ThemeProvider>
+        </Provider>
       ),
       MainContext.Provider,
       context

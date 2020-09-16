@@ -128,8 +128,10 @@ def update_api_view(request):
 
 
 @ api_view(['GET', ])
+@permission_classes(())
 def verify_account_api_view(request):
-    email = request.data['email']
+    email = request.query_params.get('email')
+
     try:
         existing_user = get_object_or_404(User, email=email)
     except:
