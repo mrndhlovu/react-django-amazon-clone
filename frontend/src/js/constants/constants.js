@@ -12,8 +12,8 @@ export const _ACCOUNT_OPTIONS = {
     { header: "Your Account", redirect: "user-profile" },
     { header: "Your Orders", redirect: "orders" },
     { header: "Your Lists", redirect: "lists" },
-    { header: "Sign out", redirect: "logout" },
   ],
+  AUTH: [{ header: "Sign out", redirect: "lists" }],
   LISTS: [
     { header: "Your Shopping List", redirect: "shopping-lists" },
     { header: "Create a list", redirect: "create-list" },

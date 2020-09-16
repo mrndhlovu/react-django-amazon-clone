@@ -69,9 +69,9 @@ export const logout = (data) => {
   return (dispatch) => {
     dispatch(makeRequest(LOGOUT));
     requestLogout(data)
-      .then((response) => {
+      .then(() => {
         updateLocalStorage();
-        dispatch(requestSuccess(LOGOUT_SUCCESS, response?.data));
+        dispatch(requestSuccess(LOGOUT_SUCCESS, {}));
       })
       .catch((error) => {
         dispatch(requestFail(LOGOUT_ERROR, error?.response));

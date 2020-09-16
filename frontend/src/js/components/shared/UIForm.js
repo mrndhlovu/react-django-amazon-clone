@@ -62,8 +62,6 @@ UIForm.Input = forwardRef(
     },
     ref
   ) => {
-    console.log("errors", errors);
-
     return (
       <div className={className}>
         {label && (

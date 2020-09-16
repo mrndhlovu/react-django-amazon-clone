@@ -19,7 +19,7 @@ import MenuList from "./MenuList";
 import NavLinkButton from "./NavLinkButton";
 
 const Navigation = () => {
-  const { openSideBarHandler } = useMainContext();
+  const { openSideBarHandler, listener, logoutHandler } = useMainContext();
   const [, handleChange] = useFormInput();
   const history = useHistory();
   const [activeCategory, setActiveCategory] = useState("All");
@@ -108,16 +108,18 @@ const Navigation = () => {
               )}
               content={() => (
                 <div data-testid="account-options">
-                  <div className="nav__signin__container">
-                    <AmazonButton
-                      buttonText="Sign in"
-                      handleClick={() => history.push("/login")}
-                    />
-                    <div>
-                      <span>New Customer?</span>
-                      <Link to="/register">Start here.</Link>
+                  {!listener.isAuthenticated && (
+                    <div className="nav__signin__container">
+                      <AmazonButton
+                        buttonText="Sign in"
+                        handleClick={() => history.push("/login")}
+                      />
+                      <div>
+                        <span>New Customer?</span>
+                        <Link to="/register">Start here.</Link>
+                      </div>
                     </div>
-                  </div>
+                  )}
                   <div className="nav__account__lists">
                     <ul className="lists__left first">
                       <h2>Your Lists</h2>
@@ -129,6 +131,10 @@ const Navigation = () => {
                       <h2>Your Account</h2>
                       <Divider variant="fullWidth" />
                       <MenuList list={_ACCOUNT_OPTIONS.ACCOUNT} />
+                      <MenuList
+                        list={_ACCOUNT_OPTIONS.AUTH}
+                        handleClick={logoutHandler}
+                      />
                     </ul>
                   </div>
                 </div>

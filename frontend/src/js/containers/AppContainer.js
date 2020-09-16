@@ -3,18 +3,21 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { MainContext } from "../utils/contextUtils";
-import { getUserInfo } from "../actions/AuthActions";
+import { getUserInfo, logout } from "../actions/AuthActions";
 import { getUser } from "../components/selectors/authSelectors";
 
-const AppContainer = ({ children, user, userInfo }) => {
+const AppContainer = ({ children, user, _userInfo, _logout }) => {
   const openSideBarHandler = () => {};
 
   useEffect(() => {
-    userInfo();
-  }, [userInfo]);
+    _userInfo();
+  }, [_userInfo]);
+
+  const logoutHandler = () => _logout();
 
   const context = {
     openSideBarHandler,
+    logoutHandler,
     listener: user,
   };
 
@@ -37,11 +40,13 @@ AppContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     data: PropTypes.shape({}).isRequired,
   }).isRequired,
-  userInfo: PropTypes.func.isRequired,
+  _userInfo: PropTypes.func.isRequired,
+  _logout: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({ user: getUser(state) });
 
-export default connect(mapStateToProps, { userInfo: getUserInfo })(
-  AppContainer,
-);
+export default connect(mapStateToProps, {
+  _userInfo: getUserInfo,
+  _logout: logout,
+})(AppContainer);

@@ -106,6 +106,22 @@ def log_api_view(request):
         return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['POST', ])
+@permission_classes(())
+def logout_api_view(request):
+
+    user = authenticate(
+        email=request.data['email'].lower(),
+        password=request.data['password']
+    )
+    if user:
+        data = get_user_with_tokens(user)
+        return Response(data=data,)
+    else:
+        data = {'message': 'Invalid credentials'}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+
+
 @ api_view(['PUT', ])
 @ permission_classes((IsAuthenticated,))
 def update_api_view(request):
@@ -137,7 +153,6 @@ def verify_account_api_view(request):
     except:
         data = {
             'message': f'User with email: {email} not found',
-            "exists": False
         }
         return Response(status=status.HTTP_404_NOT_FOUND, data=data)
     return Response(status=status.HTTP_200_OK)

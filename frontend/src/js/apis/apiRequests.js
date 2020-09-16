@@ -8,8 +8,7 @@ export const requestCurrentUser = () => authAxiosInstance.get(`${AUTH_EP}/me/`);
 export const requestLogin = (data) =>
   axiosInstance.post(`${AUTH_EP}/login/`, data);
 
-export const requestLogout = (data) =>
-  authAxiosInstance.post(`${AUTH_EP}/logout/`, data);
+export const requestLogout = () => authAxiosInstance.post(`${AUTH_EP}/logout/`);
 
 export const requestRegister = (data) =>
   axiosInstance.post(`${AUTH_EP}/register/`, data);
