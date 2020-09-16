@@ -1,0 +1,39 @@
+@mixin useFlex($direction, $justify: center, $align: center) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+}
+
+@mixin gridLayout($columns) {
+  display: grid;
+  grid-template-columns: $columns;
+}
+
+@mixin hoverTransition($property) {
+  transition: 500ms !important;
+  transition-property: $property;
+  transition-timing-function: ease-in-out;
+}
+
+@mixin hoverText($color) {
+  &:hover {
+    color: $color;
+    transition-duration: 500ms;
+    transition-property: color;
+    transition-timing-function: ease-in-out;
+  }
+}
+
+@mixin containerSize($width: 100vw, $height: 100vh) {
+  width: $width;
+  height: $height;
+}
+
+@mixin absoluteCenter($top: auto, $bottom: auto) {
+  position: absolute;
+  left: 50%;
+  top: $top;
+  bottom: $bottom;
+  transform: translate(-50%);
+}
