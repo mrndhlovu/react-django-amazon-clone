@@ -6,8 +6,8 @@ export const INITIALIZE_AUTH = "INITIALIZE_AUTH";
 export const SHOW_ALERT = "SHOW_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";
 
-export const GET_CURRENT_FAIL = "GET_CURRENT_FAIL";
-export const GET_CURRENT_USER = "GET_CURRENT_USER";
+export const GET_USER_ERROR = "GET_USER_ERROR";
+export const GET_USER = "GET_USER";
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";

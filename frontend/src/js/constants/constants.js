@@ -64,9 +64,7 @@ export const LOGIN_STAGES = {
       type: "email",
       label: "E-mail (phone for mobile accounts)",
     },
-    BUTTON: {
-      content: "Continue",
-    },
+    BUTTON_TEXT: "Continue",
     STEP: 1,
   },
 
@@ -79,11 +77,7 @@ export const LOGIN_STAGES = {
       type: "password",
       label: "Password",
     },
-    BUTTON: {
-      content: "Sign-In",
-    },
+    BUTTON_TEXT: "Sign-In",
     STEP: 2,
   },
-
-  DONE: true,
 };

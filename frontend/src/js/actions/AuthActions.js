@@ -1,6 +1,6 @@
 import {
-  GET_CURRENT_FAIL,
-  GET_CURRENT_USER,
+  GET_USER_ERROR,
+  GET_USER,
   GET_USER_SUCCESS,
   LOGIN_ERROR,
   LOGIN_SUCCESS,
@@ -27,19 +27,20 @@ import {
   makeRequest,
   requestSuccess,
   requestFail,
+  updateLocalStorage,
 } from "./action.helpers";
 
 export const getUserInfo = () => {
   return (dispatch) => {
-    dispatch(makeRequest(GET_CURRENT_USER));
+    dispatch(makeRequest(GET_USER));
     requestCurrentUser()
       .then((response) => {
         dispatch(requestSuccess(GET_USER_SUCCESS, response?.data));
       })
       .catch((error) => {
-        localStorage.removeItem("accessToken");
-        dispatch(requestFail(GET_CURRENT_FAIL, error?.response.data));
-        dispatch(alertUser("User not found"));
+        updateLocalStorage();
+        dispatch(requestFail(GET_USER_ERROR));
+        dispatch(alertUser(error?.response?.data?.messages[0].message));
       });
   };
 };
@@ -49,15 +50,15 @@ export const login = (data) => {
     dispatch(makeRequest(LOGIN));
     requestLogin(data)
       .then((response) => {
-        localStorage.setItem("accessToken", response.data.access);
-        localStorage.setItem("refreshToken", response.data.refresh);
+        updateLocalStorage({
+          access: response.data.access,
+          refresh: response.data.refresh,
+        });
         dispatch(requestSuccess(LOGIN_SUCCESS, response?.data));
-        dispatch(requestSuccess(GET_USER_SUCCESS, response?.data));
       })
       .catch((error) => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        dispatch(requestFail(LOGIN_ERROR, error?.response.data));
+        updateLocalStorage();
+        dispatch(requestFail(LOGIN_ERROR, error?.response?.data));
         dispatch(alertUser("Login fail"));
       });
   };
@@ -68,8 +69,7 @@ export const logout = (data) => {
     dispatch(makeRequest(LOGOUT));
     requestLogout(data)
       .then((response) => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        updateLocalStorage();
         dispatch(requestSuccess(LOGOUT_SUCCESS, response?.data));
       })
       .catch((error) => {
@@ -87,8 +87,8 @@ export const verify = (data) => {
         dispatch(requestSuccess(VERIFY_EMAIL_SUCCESS, response?.data));
       })
       .catch((error) => {
-        dispatch(requestFail(VERIFY_EMAIL_ERROR, error?.response));
-        dispatch(alertUser("Logout fail"));
+        dispatch(requestFail(VERIFY_EMAIL_ERROR, error?.response?.data));
+        dispatch(alertUser(error?.response?.data.message));
       });
   };
 };
@@ -98,13 +98,14 @@ export const register = (data) => {
     dispatch(makeRequest(REGISTER));
     requestRegister(data)
       .then((response) => {
-        localStorage.setItem("accessToken", response.data.access);
-        localStorage.setItem("refreshToken", response.data.refresh);
-        dispatch(requestSuccess(REGISTER_SUCCESS, response?.data));
+        updateLocalStorage({
+          access: response.data.access,
+          refresh: response.data.refresh,
+        });
+        dispatch(requestSuccess(REGISTER_SUCCESS, response?.data.user));
       })
       .catch((error) => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        updateLocalStorage();
         dispatch(requestFail(REGISTER_ERROR, error?.response));
         dispatch(alertUser("Register fail"));
       });

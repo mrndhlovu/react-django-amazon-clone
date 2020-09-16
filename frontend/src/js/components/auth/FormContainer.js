@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
+import WarningIcon from "@material-ui/icons/Warning";
+
 import {
   AmazonButton,
   AmazonLogo,
@@ -86,6 +88,32 @@ const PageDivider = styled.div`
   box-shadow: -4px -4px 29px 1px rgba(0, 0, 0, 0.12);
 `;
 
+const FormAlert = styled.div`
+  ${({ theme }) => theme.helpers.useOverFlowWrap};
+  position: relative;
+  width: 100%;
+  border: 1px solid #ff00008a;
+  border-radius: 2px;
+  padding: 15px 10px;
+
+  & > div:first-child {
+    color: #ff00008a;
+    font-weight: ${({ theme }) => theme.fonts.weight.light};
+
+    svg {
+      margin-right: 10px;
+    }
+    ${({ theme }) => theme.helpers.useFlex(null, null, "center")};
+  }
+
+  & > div:last-child {
+    margin-left: 10%;
+    margin-right: 5%;
+    font-weight: ${({ theme }) => theme.fonts.weight.medium};
+    font-size: 15px;
+  }
+`;
+
 const FormContainer = ({
   children,
   header,
@@ -93,6 +121,7 @@ const FormContainer = ({
   footerLinkProps,
   dividerContent,
   dataTestId,
+  alert,
 }) => {
   return (
     <Wrapper data-testid={dataTestId}>
@@ -109,6 +138,15 @@ const FormContainer = ({
       </Link>
 
       <Container>
+        {alert && (
+          <FormAlert>
+            <div>
+              <WarningIcon />
+              <UIHeader as="h4" content="There was a problem" />
+            </div>
+            <div>{alert}</div>
+          </FormAlert>
+        )}
         <FormWrapper>
           <UIHeader content={header} as="h2" />
           {children}
@@ -151,10 +189,12 @@ FormContainer.defaultProps = {
   footerButtonProps: {},
   footerLinkProps: {},
   header: "",
+  alert: "",
 };
 
 FormContainer.propTypes = {
   children: PropTypes.node.isRequired,
+  alert: PropTypes.string,
   header: PropTypes.string,
   footerLinkProps: PropTypes.shape({
     content: PropTypes.string,

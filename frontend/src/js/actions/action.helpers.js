@@ -14,3 +14,13 @@ export const alertUser = (successMessage, errorMessage) => {
       : { error: errorMessage },
   };
 };
+
+export const updateLocalStorage = (data) => {
+  if (data) {
+    localStorage.setItem("accessToken", data.access);
+    localStorage.setItem("refreshToken", data.refresh);
+  } else {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+  }
+};
