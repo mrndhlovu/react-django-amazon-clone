@@ -43,7 +43,7 @@ export const DEVICES = {
 
 export const FORM_VALIDATION = {
   REGISTER: yup.object({
-    name: yup.string().required().min(8),
+    full_name: yup.string().required().min(8),
     email: yup.string().required(),
     password: yup.string().required().min(6),
     confirm_password: yup.string().required().min(6),

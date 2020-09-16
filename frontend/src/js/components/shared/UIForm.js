@@ -36,9 +36,7 @@ const UIForm = ({
   );
 };
 
-UIForm.Button = ({
-  button: RenderButton, className, type, content,
-}) => {
+UIForm.Button = ({ button: RenderButton, className, type, content }) => {
   return RenderButton ? (
     <RenderButton />
   ) : (
@@ -62,8 +60,10 @@ UIForm.Input = forwardRef(
       errors,
       value,
     },
-    ref,
+    ref
   ) => {
+    console.log("errors", errors);
+
     return (
       <div className={className}>
         {label && (
@@ -90,7 +90,7 @@ UIForm.Input = forwardRef(
         )}
       </div>
     );
-  },
+  }
 );
 
 UIForm.defaultProps = {

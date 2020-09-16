@@ -5,14 +5,13 @@ import PropTypes from "prop-types";
 
 import { AmazonButton, UIForm, TermsAndConditions } from "../shared";
 import { login, verify } from "../../actions/AuthActions";
-import { loginUser, userAlert } from "../selectors/authSelectors";
+import { getUser, loginUser, userAlert } from "../selectors/authSelectors";
+import { useMainContext } from "../../utils/hookUtils";
 import FormContainer from "./FormContainer";
 
-const LoginPage = ({
-  auth: { isAuthenticated, LOGIN_STAGE, error },
-  _login,
-  _verifyEmail,
-}) => {
+const LoginPage = ({ auth: { LOGIN_STAGE, error }, _login, _verifyEmail }) => {
+  const { listener } = useMainContext();
+
   const [loginData, setLoginData] = useState({});
   const history = useHistory();
   const inputRef = useRef(null);
@@ -34,7 +33,7 @@ const LoginPage = ({
     if (inputRef?.current) inputRef.current.focus();
   }, []);
 
-  if (isAuthenticated) return <Redirect to="/" />;
+  if (listener.isAuthenticated) return <Redirect to="/" />;
 
   return (
     <FormContainer
@@ -80,6 +79,7 @@ const LoginPage = ({
 const mapStateToProps = (state) => {
   return {
     auth: loginUser(state),
+    user: getUser(state),
     alert: userAlert(state),
   };
 };
@@ -87,8 +87,9 @@ const mapStateToProps = (state) => {
 LoginPage.propTypes = {
   _verifyEmail: PropTypes.func.isRequired,
   _login: PropTypes.func.isRequired,
+  user: PropTypes.shape({ isAuthenticated: PropTypes.bool.isRequired })
+    .isRequired,
   auth: PropTypes.shape({
-    isAuthenticated: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     hasAccount: PropTypes.bool.isRequired,
     data: PropTypes.shape({}),

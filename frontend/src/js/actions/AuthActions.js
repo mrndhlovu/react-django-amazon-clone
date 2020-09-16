@@ -54,7 +54,8 @@ export const login = (data) => {
           access: response.data.access,
           refresh: response.data.refresh,
         });
-        dispatch(requestSuccess(LOGIN_SUCCESS, response?.data));
+        dispatch(requestSuccess(LOGIN_SUCCESS, response?.data?.user));
+        dispatch(requestSuccess(GET_USER_SUCCESS, response?.data.user));
       })
       .catch((error) => {
         updateLocalStorage();
@@ -103,11 +104,15 @@ export const register = (data) => {
           refresh: response.data.refresh,
         });
         dispatch(requestSuccess(REGISTER_SUCCESS, response?.data.user));
+        dispatch(requestSuccess(GET_USER_SUCCESS, response?.data.user));
       })
       .catch((error) => {
         updateLocalStorage();
-        dispatch(requestFail(REGISTER_ERROR, error?.response));
-        dispatch(alertUser("Register fail"));
+        dispatch(
+          requestFail(REGISTER_ERROR, {
+            message: Object.values(error?.response?.data)[0],
+          })
+        );
       });
   };
 };

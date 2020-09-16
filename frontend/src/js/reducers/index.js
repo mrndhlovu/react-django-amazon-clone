@@ -3,9 +3,11 @@ import { combineReducers } from "redux";
 import authReducer from "./authReducer";
 import alertReducer from "./alertReducer";
 import loginReducer from "./loginReducer";
+import registerReducer from "./registerReducer";
 
 export default combineReducers({
   user: authReducer,
   alert: alertReducer,
   login: loginReducer,
+  register: registerReducer,
 });
