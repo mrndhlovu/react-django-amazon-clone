@@ -106,19 +106,13 @@ def log_api_view(request):
         return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST', ])
-@permission_classes(())
+@api_view(['get', ])
 def logout_api_view(request):
 
-    user = authenticate(
-        email=request.data['email'].lower(),
-        password=request.data['password']
-    )
-    if user:
-        data = get_user_with_tokens(user)
-        return Response(data=data,)
+    if True:
+        return Response(status=status.HTTP_200_OK)
     else:
-        data = {'message': 'Invalid credentials'}
+        data = {'message': 'Logout failed'}
         return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
 
 

@@ -11,7 +11,8 @@ const UIForm = ({
   validationSchema,
 }) => {
   const childrenWithProps = (props) =>
-    Children.map(children, (child) => cloneElement(child, { ...props }));
+    Children.map(children, (child) =>
+      cloneElement(child || <></>, { ...props }));
 
   return (
     <>
@@ -36,7 +37,9 @@ const UIForm = ({
   );
 };
 
-UIForm.Button = ({ button: RenderButton, className, type, content }) => {
+UIForm.Button = ({
+  button: RenderButton, className, type, content,
+}) => {
   return RenderButton ? (
     <RenderButton />
   ) : (
@@ -60,7 +63,7 @@ UIForm.Input = forwardRef(
       errors,
       value,
     },
-    ref
+    ref,
   ) => {
     return (
       <div className={className}>
@@ -88,7 +91,7 @@ UIForm.Input = forwardRef(
         )}
       </div>
     );
-  }
+  },
 );
 
 UIForm.defaultProps = {

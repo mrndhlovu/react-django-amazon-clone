@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory, Redirect, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -7,7 +7,7 @@ import { AmazonButton, UIForm, TermsAndConditions } from "../shared";
 import { login, verify } from "../../actions/AuthActions";
 import { getUser, loginUser, userAlert } from "../selectors/authSelectors";
 import { useMainContext } from "../../utils/hookUtils";
-import FormContainer from "./FormContainer";
+import FormLayout from "../shared/FormLayout";
 
 const LoginPage = ({ auth: { LOGIN_STAGE, error }, _login, _verifyEmail }) => {
   const { listener } = useMainContext();
@@ -17,7 +17,7 @@ const LoginPage = ({ auth: { LOGIN_STAGE, error }, _login, _verifyEmail }) => {
   const inputRef = useRef(null);
 
   const handleLogin = (data) => {
-    switch (LOGIN_STAGE.STEP) {
+    switch (LOGIN_STAGE.STEPID) {
       case 1:
         setLoginData({ ...loginData, email: data.email });
         return _verifyEmail(data);
@@ -36,7 +36,7 @@ const LoginPage = ({ auth: { LOGIN_STAGE, error }, _login, _verifyEmail }) => {
   if (listener.isAuthenticated) return <Redirect to="/" />;
 
   return (
-    <FormContainer
+    <FormLayout
       dataTestId="login-page-container"
       header="Sign-In"
       alert={error?.message}
@@ -72,7 +72,8 @@ const LoginPage = ({ auth: { LOGIN_STAGE, error }, _login, _verifyEmail }) => {
         />
       </UIForm>
       <TermsAndConditions />
-    </FormContainer>
+      <Link to="/forgotpassword">Forgot Password</Link>
+    </FormLayout>
   );
 };
 
@@ -95,7 +96,7 @@ LoginPage.propTypes = {
     data: PropTypes.shape({}),
     error: PropTypes.shape({ message: PropTypes.string }),
     LOGIN_STAGE: PropTypes.shape({
-      STEP: PropTypes.number.isRequired,
+      STEPID: PropTypes.number.isRequired,
       BUTTON_TEXT: PropTypes.string.isRequired,
       INITIAL_STATE: PropTypes.shape({}).isRequired,
       INPUT: PropTypes.shape({

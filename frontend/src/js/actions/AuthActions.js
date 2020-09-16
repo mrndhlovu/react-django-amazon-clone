@@ -14,6 +14,9 @@ import {
   VERIFY_EMAIL_SUCCESS,
   VERIFY_EMAIL_ERROR,
   VERIFY_EMAIL,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_ERROR,
+  UPDATE_PASSWORD,
 } from "./ActionTypes";
 import {
   requestCurrentUser,
@@ -94,6 +97,20 @@ export const verify = (data) => {
   };
 };
 
+export const updatePassword = (data) => {
+  return (dispatch) => {
+    dispatch(makeRequest(UPDATE_PASSWORD));
+    requestVerifyUser(data)
+      .then((response) => {
+        dispatch(requestSuccess(UPDATE_PASSWORD_SUCCESS, response?.data));
+      })
+      .catch((error) => {
+        dispatch(requestFail(UPDATE_PASSWORD_ERROR, error?.response?.data));
+        dispatch(alertUser(error?.response?.data.message));
+      });
+  };
+};
+
 export const register = (data) => {
   return (dispatch) => {
     dispatch(makeRequest(REGISTER));
@@ -111,7 +128,7 @@ export const register = (data) => {
         dispatch(
           requestFail(REGISTER_ERROR, {
             message: Object.values(error?.response?.data)[0],
-          })
+          }),
         );
       });
   };

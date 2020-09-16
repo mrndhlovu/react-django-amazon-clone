@@ -9,7 +9,7 @@ import { registerUser } from "../selectors/authSelectors";
 import { useMainContext } from "../../utils/hookUtils";
 
 import { AmazonButton, UIForm, TermsAndConditions } from "../shared";
-import FormContainer from "./FormContainer";
+import FormLayout from "../shared/FormLayout";
 
 const REGISTER_INITIAL_STATE = {
   full_name: undefined,
@@ -33,7 +33,7 @@ const Register = ({ _register, user: { isLoading, error } }) => {
   if (listener.isAuthenticated) return <Redirect to="/" />;
 
   return (
-    <FormContainer
+    <FormLayout
       dataTestId="register-page-container"
       header="Create account"
       alert={error?.message}
@@ -83,7 +83,7 @@ const Register = ({ _register, user: { isLoading, error } }) => {
         />
         <TermsAndConditions />
       </UIForm>
-    </FormContainer>
+    </FormLayout>
   );
 };
 

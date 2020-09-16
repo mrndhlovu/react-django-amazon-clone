@@ -5,13 +5,11 @@ import styled from "styled-components";
 
 import WarningIcon from "@material-ui/icons/Warning";
 
-import {
-  AmazonButton,
-  AmazonLogo,
-  TextDivider,
-  UIForm,
-  UIHeader,
-} from "../shared";
+import AmazonButton from "./AmazonButton";
+import AmazonLogo from "./AmazonLogo";
+import TextDivider from "./TextDivider";
+import UIForm from "./UIForm";
+import UIHeader from "./UIHeader";
 
 const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
@@ -109,12 +107,12 @@ const FormAlert = styled.div`
   & > div:last-child {
     margin-left: 10%;
     margin-right: 5%;
-    font-weight: ${({ theme }) => theme.fonts.weight.medium};
+    font-weight: ${({ theme }) => theme.fonts.weight.light};
     font-size: 15px;
   }
 `;
 
-const FormContainer = ({
+const FormLayout = ({
   children,
   header,
   footerButtonProps,
@@ -183,7 +181,7 @@ const FormContainer = ({
   );
 };
 
-FormContainer.defaultProps = {
+FormLayout.defaultProps = {
   dataTestId: "",
   dividerContent: "",
   footerButtonProps: {},
@@ -192,7 +190,7 @@ FormContainer.defaultProps = {
   alert: "",
 };
 
-FormContainer.propTypes = {
+FormLayout.propTypes = {
   children: PropTypes.node.isRequired,
   alert: PropTypes.string,
   header: PropTypes.string,
@@ -210,4 +208,4 @@ FormContainer.propTypes = {
   dataTestId: PropTypes.string,
 };
 
-export default FormContainer;
+export default FormLayout;

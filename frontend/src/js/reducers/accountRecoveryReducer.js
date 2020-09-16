@@ -1,12 +1,15 @@
 import {
-  LOGIN_SUCCESS,
-  LOGIN_ERROR,
-  LOGIN,
+  VERIFY_OTP_SUCCESS,
+  VERIFY_OTP_ERROR,
+  VERIFY_OTP,
   VERIFY_EMAIL_SUCCESS,
   VERIFY_EMAIL_ERROR,
   VERIFY_EMAIL,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_ERROR,
+  UPDATE_PASSWORD,
 } from "../actions/ActionTypes";
-import { LOGIN_STAGES } from "../constants/constants";
+import { PASSWORD_ASSISTANCE_STAGES } from "../constants/constants";
 
 const INITIAL_STATE = {
   data: {},
@@ -14,10 +17,10 @@ const INITIAL_STATE = {
   isAuthenticated: false,
   isLoading: false,
   hasAccount: false,
-  LOGIN_STAGE: LOGIN_STAGES.EMAIL,
+  RECOVERY_STAGE: PASSWORD_ASSISTANCE_STAGES.EMAIL,
 };
 
-const loginReducer = (state = INITIAL_STATE, action = {}) => {
+const accountRecoveryReducer = (state = INITIAL_STATE, action = {}) => {
   switch (action.type) {
     case VERIFY_EMAIL_ERROR:
       return { ...state, isLoading: false, error: action.payload };
@@ -28,14 +31,26 @@ const loginReducer = (state = INITIAL_STATE, action = {}) => {
         ...state,
         isLoading: false,
         hasAccount: true,
-        LOGIN_STAGE: LOGIN_STAGES.PASSWORD,
+        RECOVERY_STAGE: PASSWORD_ASSISTANCE_STAGES.OPT,
       };
 
-    case LOGIN_ERROR:
+    case VERIFY_OTP_ERROR:
       return { ...state, isLoading: false, error: action.payload };
-    case LOGIN:
+    case VERIFY_OTP:
       return { ...state, isLoading: true, error: {} };
-    case LOGIN_SUCCESS:
+    case VERIFY_OTP_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        hasAccount: true,
+        RECOVERY_STAGE: PASSWORD_ASSISTANCE_STAGES.OPT,
+      };
+
+    case UPDATE_PASSWORD_ERROR:
+      return { ...state, isLoading: false, error: action.payload };
+    case UPDATE_PASSWORD:
+      return { ...state, isLoading: true, error: {} };
+    case UPDATE_PASSWORD_SUCCESS:
       return {
         ...state,
         data: action.payload,
@@ -43,10 +58,9 @@ const loginReducer = (state = INITIAL_STATE, action = {}) => {
         isAuthenticated: true,
         error: {},
       };
-
     default:
       return state;
   }
 };
 
-export default loginReducer;
+export default accountRecoveryReducer;

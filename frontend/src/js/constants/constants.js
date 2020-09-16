@@ -54,30 +54,62 @@ export const FORM_VALIDATION = {
   }),
 };
 
-export const LOGIN_STAGES = {
-  EMAIL: {
-    VALIDATION: yup.object({
-      email: yup.string().required(),
-    }),
-    INITIAL_STATE: { email: undefined },
-    INPUT: {
-      type: "email",
-      label: "E-mail (phone for mobile accounts)",
-    },
-    BUTTON_TEXT: "Continue",
-    STEP: 1,
+const EMAIL_VERIFICATION_STAGE = {
+  VALIDATION: yup.object({
+    email: yup.string().required(),
+  }),
+  INITIAL_STATE: { email: undefined },
+  INPUT: {
+    type: "email",
+    label: "E-mail (phone for mobile accounts)",
   },
+  BUTTON_TEXT: "Continue",
+  STEPID: 1,
+};
 
+const PASSWORD_VALIDATION = yup.object({
+  password: yup.string().required().min(6),
+});
+
+export const LOGIN_STAGES = {
+  EMAIL: EMAIL_VERIFICATION_STAGE,
   PASSWORD: {
-    VALIDATION: yup.object({
-      password: yup.string().required().min(6),
-    }),
+    VALIDATION: PASSWORD_VALIDATION,
     INITIAL_STATE: { password: undefined },
     INPUT: {
       type: "password",
       label: "Password",
     },
     BUTTON_TEXT: "Sign-In",
-    STEP: 2,
+    STEPID: 2,
+  },
+};
+
+export const PASSWORD_ASSISTANCE_STAGES = {
+  EMAIL: {
+    VALIDATION: EMAIL_VERIFICATION_STAGE.VALIDATION,
+    INITIAL_STATE: { email: undefined },
+    HEADER: "Password assistance",
+    STEPID: 1,
+  },
+  OPT: {
+    VALIDATION: yup.object({
+      opt: yup.string().required(),
+    }),
+    INITIAL_STATE: { opt: undefined },
+    HEADER: "Authentication Required.",
+    STEPID: 2,
+  },
+  PASSWORD_RECOVERY: {
+    HEADER: "Create new password",
+    VALIDATION: PASSWORD_VALIDATION,
+    INITIAL_STATE: { new_password: undefined, confirm_new_password: undefined },
+    TIPS: [
+      "Use at least 8 characters, a combination of numbers and letters is best",
+      "Do not use the same password you have used with us previously.",
+      "Do not use dictionary words, your name, e-mail address, mobile phone number or other personal information that can be easily obtained.",
+      "Do not use the same password for multiple online accounts.",
+    ],
+    STEPID: 3,
   },
 };

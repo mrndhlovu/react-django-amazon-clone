@@ -6,7 +6,9 @@ import { MainContext } from "../utils/contextUtils";
 import { getUserInfo, logout } from "../actions/AuthActions";
 import { getUser } from "../components/selectors/authSelectors";
 
-const AppContainer = ({ children, user, _userInfo, _logout }) => {
+const AppContainer = ({
+  children, user, _userInfo, _logout,
+}) => {
   const openSideBarHandler = () => {};
 
   useEffect(() => {

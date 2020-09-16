@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./_header.scss";
@@ -126,15 +127,17 @@ const Navigation = () => {
                       <Divider variant="fullWidth" />
                       <MenuList list={_ACCOUNT_OPTIONS.LISTS} />
                     </ul>
-
+                    {/* // TODO Fix logout handler server side */}
                     <ul className="lists__right">
                       <h2>Your Account</h2>
                       <Divider variant="fullWidth" />
                       <MenuList list={_ACCOUNT_OPTIONS.ACCOUNT} />
-                      <MenuList
-                        list={_ACCOUNT_OPTIONS.AUTH}
-                        handleClick={logoutHandler}
-                      />
+                      {listener.isAuthenticated && (
+                        <MenuList
+                          list={_ACCOUNT_OPTIONS.AUTH}
+                          handleClick={logoutHandler}
+                        />
+                      )}
                     </ul>
                   </div>
                 </div>
