@@ -99,7 +99,7 @@ export const PASSWORD_ASSISTANCE_STAGES = {
   },
   OPT: {
     VALIDATION: yup.object({
-      otp: yup.number().integer().required(),
+      otp: yup.string().required(),
     }),
     INITIAL_STATE: { otp: undefined },
     HEADER: "Authentication Required.",

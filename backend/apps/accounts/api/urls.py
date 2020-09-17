@@ -9,22 +9,32 @@ from .views import (
     UpdatePasswordAPIView, user_api_view, logout_api_view,
     authenticate,
     recovery_verify_otp_api_view,
-    recovery_new_password_api_view
+    PasswordTokenVerificationAPI,
+    RequestPasswordResetEmail,
+    SetNewPasswordSerializer
 )
 
 app_name = 'accounts'
 
 urlpatterns = [
-    path('delete-account/', delete_user_api_view, name='delete-account'),
+
+    path('delete-account/', delete_user_api_view, name='delete'),
     path('login/', log_api_view, name='login'),
     path('logout/', logout_api_view, name='login'),
     path('me/', user_api_view, name='me'),
     path('overview/', api_overview, name='overview'),
-    path('recovery-new-password/', recovery_new_password_api_view, name='recover'),
-    path('recovery-verify-otp/', recovery_verify_otp_api_view, name='recover'),
+
     path('register/', registration_api_view, name='register'),
-    path('update-password/', UpdatePasswordAPIView.as_view(), name='update_password'),
-    path('update-user-detail/', update_api_view, name='update'),
-    path('verify', verify_account_api_view, name='verify'),
+    path('update-password/', UpdatePasswordAPIView.as_view(),
+         name='update_password'),
+    path('verify-account/', verify_account_api_view, name='verify'),
+    path('update-user-detail/', update_api_view, name='update-detail'),
+
+    path('password-reset-email/', RequestPasswordResetEmail.as_view(),
+         name='password-reset-email'),
+    path('password-reset/<uidb64>/<token>/', PasswordTokenVerificationAPI.as_view(),
+         name='password-reset-verify'),
+    path('password-reset-complete/',
+         SetNewPasswordSerializer.as_view(), name='password-reset-complete')
 
 ]

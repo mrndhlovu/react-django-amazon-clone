@@ -3,13 +3,18 @@ import { useHistory, Redirect, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { AmazonButton, UIForm, TermsAndConditions } from "../shared";
+import {
+  AmazonButton,
+  UIForm,
+  TermsAndConditions,
+  UILinkButton,
+} from "../shared";
 import { login, verify } from "../../actions/AuthActions";
 import { getUser, loginUser, userAlert } from "../selectors/authSelectors";
 import { useMainContext } from "../../utils/hookUtils";
 import FormLayout from "../shared/FormLayout";
 
-const LoginPage = ({ auth: { LOGIN_STAGE, error }, _login, _verifyEmail }) => {
+const LoginPage = ({ auth: { LOGIN_STAGE }, _login, _verifyEmail }) => {
   const { listener } = useMainContext();
 
   const [loginData, setLoginData] = useState({});
@@ -39,7 +44,6 @@ const LoginPage = ({ auth: { LOGIN_STAGE, error }, _login, _verifyEmail }) => {
     <FormLayout
       dataTestId="login-page-container"
       header="Sign-In"
-      alert={error?.message}
       dividerContent="New to Amazon"
       footerButtonProps={{
         content: "Creat your Amazon account",
@@ -72,7 +76,9 @@ const LoginPage = ({ auth: { LOGIN_STAGE, error }, _login, _verifyEmail }) => {
         />
       </UIForm>
       <TermsAndConditions />
-      <Link to="/forgotpassword">Forgot Password</Link>
+      <Link to="/forgotpassword">
+        <UILinkButton content="Forgot password" />
+      </Link>
     </FormLayout>
   );
 };
@@ -94,7 +100,6 @@ LoginPage.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     hasAccount: PropTypes.bool.isRequired,
     data: PropTypes.shape({}),
-    error: PropTypes.shape({ message: PropTypes.string }),
     LOGIN_STAGE: PropTypes.shape({
       STEPID: PropTypes.number.isRequired,
       BUTTON_TEXT: PropTypes.string.isRequired,

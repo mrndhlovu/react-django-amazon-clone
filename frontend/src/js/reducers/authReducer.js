@@ -1,7 +1,7 @@
 import {
-  GET_USER_ERROR,
-  GET_USER,
-  GET_USER_SUCCESS,
+  AUTH_USER_ERROR,
+  AUTH_USER,
+  AUTH_USER_SUCCESS,
   LOGOUT_ERROR,
   LOGOUT_SUCCESS,
   LOGOUT,
@@ -15,11 +15,11 @@ const INITIAL_STATE = {
 
 const authReducer = (state = INITIAL_STATE, action = {}) => {
   switch (action.type) {
-    case GET_USER_ERROR:
+    case AUTH_USER_ERROR:
       return { ...state, isLoading: false };
-    case GET_USER:
+    case AUTH_USER:
       return { ...state, isLoading: true };
-    case GET_USER_SUCCESS:
+    case AUTH_USER_SUCCESS:
       return {
         ...state,
         data: action.payload,

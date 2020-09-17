@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable no-confusing-arrow */
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -10,11 +11,13 @@ import AmazonLogo from "./AmazonLogo";
 import TextDivider from "./TextDivider";
 import UIForm from "./UIForm";
 import UIHeader from "./UIHeader";
+import { useMainContext } from "../../utils/hookUtils";
 
 const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   height: 100%;
   position: relative;
+  width: 100%;
 
   .amazon__form__logo {
     ${({ theme }) => theme.helpers.absoluteCenter("2%")};
@@ -22,24 +25,24 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div`
-  ${({ theme }) => theme.helpers.absoluteCenter("8%")};
-  ${({ theme }) => theme.helpers.useFlex("column", "space-evenly")};
+  ${({ theme }) => theme.helpers.absoluteCenter("10%")};
   z-index: 10;
 
-  height: 50%;
   max-width: 350px;
 
-  button {
-    font-weight: ${({ theme }) => theme.fonts.weight.light};
+  & > button {
     color: ${({ theme }) => theme.colors.black};
     font-size: 13px;
   }
 
-  .amazon__button.secondary {
-    margin: 0;
+  & > .amazon__button.primary {
+    font-weight: ${({ theme }) => theme.fonts.weight.light};
   }
 
-  .auth__divider__account {
+  & > .amazon__button.secondary {
+    font-weight: ${({ theme }) => theme.fonts.weight.light};
+    margin: 0;
+    margin-top: 8%;
   }
 `;
 
@@ -47,18 +50,18 @@ const FooterLink = styled.div`
   position: relative;
   padding-top: 15px;
 
-  hr {
+  & > hr {
     margin: 13px 0;
   }
 
-  a,
+  & > a,
   span {
     font-size: 11px;
     padding-right: 5px;
     font-weight: ${({ theme }) => theme.fonts.weight.medium};
   }
 
-  a {
+  & > a {
     color: ${({ theme }) => theme.colors.amazonBlue};
   }
 `;
@@ -69,8 +72,9 @@ const FormWrapper = styled.div`
   padding: 20px;
   border: 1px #ddd solid;
   border-radius: 4px;
+  margin-bottom: 29px;
 
-  h2 {
+  & > h2 {
     padding-bottom: 10px;
     font-weight: ${({ theme }) => theme.fonts.weight.medium};
   }
@@ -78,7 +82,7 @@ const FormWrapper = styled.div`
 
 const PageDivider = styled.div`
   background-color: #dddddd42;
-  height: 42vh;
+  height: 25vh;
   width: 100%;
   position: absolute;
   bottom: 0;
@@ -90,12 +94,14 @@ const FormAlert = styled.div`
   ${({ theme }) => theme.helpers.useOverFlowWrap};
   position: relative;
   width: 100%;
-  border: 1px solid #ff00008a;
+  border: ${({ success }) =>
+    success ? "1px solid #fba730" : "1px solid #ff00008a"};
   border-radius: 2px;
   padding: 15px 10px;
+  margin-bottom: 15px;
 
   & > div:first-child {
-    color: #ff00008a;
+    color: ${({ success }) => (success ? "#fba730" : "#ff00008a")};
     font-weight: ${({ theme }) => theme.fonts.weight.light};
 
     svg {
@@ -119,8 +125,16 @@ const FormLayout = ({
   footerLinkProps,
   dividerContent,
   dataTestId,
-  alert,
+  success,
 }) => {
+  const { uiAlert, _clearAlert } = useMainContext();
+
+  useEffect(() => {
+    return () => {
+      _clearAlert();
+    };
+  }, [_clearAlert]);
+
   return (
     <Wrapper data-testid={dataTestId}>
       <Link to="/" className="amazon__form__logo">
@@ -136,13 +150,15 @@ const FormLayout = ({
       </Link>
 
       <Container>
-        {alert && (
-          <FormAlert>
-            <div>
-              <WarningIcon />
-              <UIHeader as="h4" content="There was a problem" />
-            </div>
-            <div>{alert}</div>
+        {uiAlert.message && (
+          <FormAlert success={success}>
+            {!success && (
+              <div>
+                <WarningIcon />
+                <UIHeader as="h4" content="There was a problem" />
+              </div>
+            )}
+            <div>{uiAlert.message}</div>
           </FormAlert>
         )}
         <FormWrapper>
@@ -187,12 +203,12 @@ FormLayout.defaultProps = {
   footerButtonProps: {},
   footerLinkProps: {},
   header: "",
-  alert: "",
+  success: false,
 };
 
 FormLayout.propTypes = {
   children: PropTypes.node.isRequired,
-  alert: PropTypes.string,
+  success: PropTypes.bool,
   header: PropTypes.string,
   footerLinkProps: PropTypes.shape({
     content: PropTypes.string,

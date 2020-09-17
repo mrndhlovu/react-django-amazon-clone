@@ -61,7 +61,6 @@ UIForm.Input = forwardRef(
       handleBlur,
       type,
       errors,
-      value,
     },
     ref,
   ) => {
@@ -81,7 +80,6 @@ UIForm.Input = forwardRef(
           placeholder={placeholder}
           onBlur={handleBlur}
           className="form__input"
-          defaultValue={value}
         />
         {errors[name] && (
           <div className="form__error">
@@ -109,7 +107,6 @@ UIForm.Input.defaultProps = {
   label: "",
   placeholder: "",
   type: "text",
-  value: "",
 };
 
 UIForm.Button.defaultProps = {
@@ -143,7 +140,6 @@ UIForm.Input.propTypes = {
   placeholder: PropTypes.string,
   type: PropTypes.string,
   className: PropTypes.string,
-  value: PropTypes.string,
 };
 
 export default UIForm;

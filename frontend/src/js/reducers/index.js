@@ -7,7 +7,7 @@ import registerReducer from "./registerReducer";
 import accountRecoveryReducer from "./accountRecoveryReducer";
 
 export default combineReducers({
-  user: authReducer,
+  auth: authReducer,
   alert: alertReducer,
   login: loginReducer,
   register: registerReducer,

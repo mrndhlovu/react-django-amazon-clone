@@ -21,6 +21,8 @@ const DEFAULT_CONTEXT = {
   isSubmitting: jest.fn(),
   submitHandler: jest.fn(),
   listener: { isAuthenticated: false },
+  uiAlert: { message: "" },
+  _clearAlert: jest.fn(),
 };
 
 const LOGIN_INITIAL_STATE = {

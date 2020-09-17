@@ -4,9 +4,15 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
-import { AmazonButton, UIForm, UIHeader } from "../shared";
-import { recoverUser, userAlert } from "../selectors/authSelectors";
-import { updatePassword, verify, verifyOtp } from "../../actions/AuthActions";
+import {
+  AmazonButton, UIForm, UIHeader, UILinkButton,
+} from "../shared";
+import { recoverUser } from "../selectors/authSelectors";
+import {
+  updatePassword,
+  passwordResetVerifyEmail,
+  verifyOtp,
+} from "../../actions/AuthActions";
 import FormLayout from "../shared/FormLayout";
 import { useMainContext } from "../../utils/hookUtils";
 
@@ -20,46 +26,58 @@ const Paragraph = styled.p`
   }
 `;
 
-const Button = styled.button`
-  &.resend__otp {
-    margin-top: 10px;
-    font-weight: ${({ theme }) => theme.fonts.weight.medium};
-    color: ${({ theme }) => theme.colors.amazonBlue};
+const List = styled.ul`
+  padding: 10px 0;
+  font-size: 14px;
 
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
+  & > li {
+    list-style: circle;
+    margin-left: 5%;
+    line-height: 18px;
   }
 `;
 
+const Button = styled(UILinkButton)`
+  margin-top: 10px;
+  font-weight: ${({ theme }) => theme.fonts.weight.medium};
+`;
+
 const PasswordAssistance = ({
-  auth: { RECOVERY_STAGE },
+  auth: {
+    RECOVERY_STAGE, data, isLoading, resetSuccess,
+  },
   _verifyEmail,
   _updatePassword,
   _verifyOtp,
 }) => {
-  const { listener } = useMainContext();
-  const [userData, setLoginData] = useState({});
+  const { _clearAlert, _resetChangePasswordFlow } = useMainContext();
 
-  const handlePasswordRecover = (data) => {
+  const [userData, setUserData] = useState({});
+
+  const handlePasswordRecover = (inputData) => {
+    setUserData({ ...userData, ...inputData });
+    _clearAlert();
     switch (RECOVERY_STAGE.STEPID) {
       case 1:
-        setLoginData({ ...userData, email: data.email });
-        return _verifyEmail({ ...data, sendOtp: true });
+        return _verifyEmail({ ...inputData });
       case 2:
-        return _verifyOtp({ otp: data.otp });
+        return _verifyOtp({ ...inputData });
 
       case 3:
-        return _updatePassword({ ...userData, ...data });
+        return _updatePassword({
+          ...inputData,
+          token: data.token,
+          uidb64: data.uidb64,
+        });
       default:
         return null;
     }
   };
 
-  if (listener.isAuthenticated) return <Redirect to="/" />;
+  if (resetSuccess) return <Redirect to="/login" />;
 
   return (
-    <FormLayout header={RECOVERY_STAGE.HEADER}>
+    <FormLayout header={RECOVERY_STAGE.HEADER} success={resetSuccess}>
       {RECOVERY_STAGE.STEPID === 1 && (
         <>
           <Paragraph>
@@ -78,12 +96,12 @@ const PasswordAssistance = ({
               label="E-mail or mobile phone number"
             />
             <UIForm.Button
-              button={({ isSubmitting }) => (
+              button={() => (
                 <AmazonButton
                   buttonText="Continue"
                   dataTestId="login-button"
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isLoading}
                 />
               )}
             />
@@ -103,31 +121,29 @@ const PasswordAssistance = ({
 
       {RECOVERY_STAGE.STEPID === 2 && (
         <>
-          <Paragraph>
-            {`For your security, we need to authenticate your request. We've sent
-            a One Time Password (OTP) to the ${userData?.email}. Please
-            enter it below to complete verification`}
-          </Paragraph>
+          <Paragraph>{data?.message}</Paragraph>
 
           <UIForm
             validationSchema={RECOVERY_STAGE.VALIDATION}
             initialState={RECOVERY_STAGE.INITIAL_STATE}
             submitHandler={handlePasswordRecover}
           >
-            <UIForm.Input type="number" name="otp" label="Enter OTP" />
+            <UIForm.Input type="text" name="otp" label="Enter OTP" />
             <UIForm.Button
-              button={({ isSubmitting }) => (
+              button={() => (
                 <AmazonButton
                   buttonText="Continue"
                   dataTestId="login-button"
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isLoading}
                 />
               )}
             />
           </UIForm>
-
-          <Button className="resend__otp">Resend OTP</Button>
+          <Button
+            onClick={() => _resetChangePasswordFlow()}
+            content="Resend OTP"
+          />
         </>
       )}
 
@@ -154,37 +170,31 @@ const PasswordAssistance = ({
             />
 
             <UIForm.Button
-              button={({ isSubmitting }) => (
+              button={() => (
                 <AmazonButton
                   buttonText="Save changes and sign in"
                   dataTestId="login-button"
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isLoading}
                 />
               )}
             />
           </UIForm>
 
           <UIHeader as="h4" content="Secure password tips:" />
-          <Paragraph>
-            <ul>
-              {RECOVERY_STAGE.TIPS.map((string) => (
-                <li key={string}>{string}</li>
-              ))}
-            </ul>
-          </Paragraph>
+
+          <List>
+            {RECOVERY_STAGE.TIPS.map((string) => (
+              <li key={string}>{string}</li>
+            ))}
+          </List>
         </>
       )}
     </FormLayout>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    auth: recoverUser(state),
-    alert: userAlert(state),
-  };
-};
+const mapStateToProps = (state) => ({ auth: recoverUser(state) });
 
 PasswordAssistance.propTypes = {
   _verifyEmail: PropTypes.func.isRequired,
@@ -192,10 +202,12 @@ PasswordAssistance.propTypes = {
   _verifyOtp: PropTypes.func.isRequired,
   auth: PropTypes.shape({
     isLoading: PropTypes.bool.isRequired,
-    accountRecovered: PropTypes.bool.isRequired,
-    hasAccount: PropTypes.bool.isRequired,
-    data: PropTypes.shape({}),
-    error: PropTypes.shape({ message: PropTypes.string }),
+    resetSuccess: PropTypes.bool.isRequired,
+    data: PropTypes.shape({
+      token: PropTypes.string,
+      uidb64: PropTypes.string,
+      message: PropTypes.string,
+    }),
     RECOVERY_STAGE: PropTypes.shape({
       HEADER: PropTypes.isRequired,
       STEPID: PropTypes.number.isRequired,
@@ -205,13 +217,13 @@ PasswordAssistance.propTypes = {
       CONFIRM_PASSWORD: PropTypes.shape({}),
       data: PropTypes.shape({}),
       VALIDATION: PropTypes.shape({}),
-      TIPS: PropTypes.shape([]),
+      TIPS: PropTypes.arrayOf(PropTypes.string),
     }),
   }).isRequired,
 };
 
 export default connect(mapStateToProps, {
   _updatePassword: updatePassword,
-  _verifyEmail: verify,
+  _verifyEmail: passwordResetVerifyEmail,
   _verifyOtp: verifyOtp,
 })(PasswordAssistance);

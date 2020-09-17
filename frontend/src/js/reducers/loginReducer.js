@@ -2,9 +2,9 @@ import {
   LOGIN_SUCCESS,
   LOGIN_ERROR,
   LOGIN,
-  VERIFY_EMAIL_SUCCESS,
-  VERIFY_EMAIL_ERROR,
-  VERIFY_EMAIL,
+  VERIFY_ACCOUNT,
+  VERIFY_ACCOUNT_SUCCESS,
+  VERIFY_ACCOUNT_ERROR,
 } from "../actions/ActionTypes";
 import { LOGIN_STAGES } from "../constants/constants";
 
@@ -19,11 +19,11 @@ const INITIAL_STATE = {
 
 const loginReducer = (state = INITIAL_STATE, action = {}) => {
   switch (action.type) {
-    case VERIFY_EMAIL_ERROR:
-      return { ...state, isLoading: false, error: action.payload };
-    case VERIFY_EMAIL:
-      return { ...state, isLoading: true, error: {} };
-    case VERIFY_EMAIL_SUCCESS:
+    case VERIFY_ACCOUNT_ERROR:
+      return { ...state, isLoading: false };
+    case VERIFY_ACCOUNT:
+      return { ...state, isLoading: true };
+    case VERIFY_ACCOUNT_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -32,9 +32,9 @@ const loginReducer = (state = INITIAL_STATE, action = {}) => {
       };
 
     case LOGIN_ERROR:
-      return { ...state, isLoading: false, error: action.payload };
+      return { ...state, isLoading: false };
     case LOGIN:
-      return { ...state, isLoading: true, error: {} };
+      return { ...state, isLoading: true };
     case LOGIN_SUCCESS:
       return {
         ...state,

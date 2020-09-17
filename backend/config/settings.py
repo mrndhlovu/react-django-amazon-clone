@@ -109,7 +109,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'amazon_clone',
+            'NAME': 'clone_amazon',
             'USER': 'admin1',
             'PASSWORD': 'bazinga',
             'HOST': 'localhost'
@@ -128,11 +128,10 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 3
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = os.environ['SENDGRID_API_KEY']
 EMAIL_PORT = 587
-EMAIL_HOST_USER = '# your email #'
-EMAIL_HOST_PASSWORD = '# your app password #'
 EMAIL_USE_TLS = True
 
 SIMPLE_JWT = {

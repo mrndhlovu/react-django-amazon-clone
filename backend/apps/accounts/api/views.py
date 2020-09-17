@@ -1,19 +1,27 @@
-from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.contrib.sites.shortcuts import get_current_site
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
+from django.utils.encoding import smart_str, force_str, DjangoUnicodeDecodeError, smart_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
-from rest_framework.generics import UpdateAPIView
+from rest_framework.generics import UpdateAPIView, GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
+
+
+from ..backends import Util
 
 
 from .serializers import(
-    RegistrationSerializer,
-    UpdateUserSerializer,
     ChangePasswordSerializer,
-    RecoveryNewPasswordSerializer
+    RegistrationSerializer,
+    ResetPasswordEmailRequestSerializer,
+    SetNewPasswordSerializer,
+    UpdateUserSerializer,
 )
 
 User = get_user_model()
@@ -27,18 +35,6 @@ def validate_email(email):
         return None
     if user != None:
         return email
-
-
-def get_user_with_tokens(user):
-    refresh = RefreshToken.for_user(user)
-    return {
-        'user': {
-            'full_name': user.full_name,
-            'email': user.email,
-        },
-        'refresh': str(refresh),
-        'access': str(refresh.access_token),
-    }
 
 
 @api_view(['GET', ])
@@ -84,28 +80,7 @@ def registration_api_view(request):
 
     if serializer.is_valid():
         user = serializer.save()
-        data = get_user_with_tokens(user)
-        return Response(data)
-    else:
-        data = serializer.errors
-        return Response(data, status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(['PUT', ])
-@permission_classes(())
-def recovery_new_password_api_view(request):
-
-    email = request.data['email']
-    if validate_email(email) == None:
-        data = {}
-        data['message'] = f'Account with email {email} was not found.'
-        return Response(data, status=status.HTTP_400_BAD_REQUEST)
-    user = existing_user = get_object_or_404(User, email=email)
-    serializer = RecoveryNewPasswordSerializer(user, data=request.data)
-
-    if serializer.is_valid():
-        user = serializer.save()
-        data = get_user_with_tokens(user)
+        data = user.with_auth_tokens()
         return Response(data)
     else:
         data = serializer.errors
@@ -121,7 +96,7 @@ def log_api_view(request):
         password=request.data['password']
     )
     if user:
-        data = get_user_with_tokens(user)
+        data = user.with_auth_tokens()
         return Response(data=data,)
     else:
         data = {'message': 'Invalid credentials'}
@@ -170,23 +145,16 @@ def update_api_view(request):
         return Response(context, status=status.HTTP_400_BAD_REQUEST)
 
 
-@ api_view(['GET', ])
+@ api_view(['POST', ])
 @permission_classes(())
 def verify_account_api_view(request):
-    email = request.query_params.get('email')
-
+    email = request.data['email']
     try:
-        existing_user = get_object_or_404(User, email=email)
-    except:
-        data = {
-            'message': f'User with email: {email} not found',
-        }
-        return Response(status=status.HTTP_404_NOT_FOUND, data=data)
-
-    if not request.query_params.get('recovery'):
+        user = User.objects.get(email=email)
         return Response(status=status.HTTP_200_OK)
-    else:
-        return Response(status=status.HTTP_200_OK, data={"OTP": '123456'})
+    except:
+        data = {'message': f'User with email: {email} not found', }
+        return Response(status=status.HTTP_404_NOT_FOUND, data=data)
 
 
 @ api_view(['DELETE', ])
@@ -236,3 +204,68 @@ class UpdatePasswordAPIView(UpdateAPIView):
             return Response(status=status.HTTP_200_OK, data={'message': 'Password updated.'})
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class RequestPasswordResetEmail(GenericAPIView):
+    serializer_class = ResetPasswordEmailRequestSerializer
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request):
+        email = request.data['email']
+        serializer = self.serializer_class(data=request.data)
+
+        if User.objects.filter(email=email).exists():
+            user = User.objects.get(email=email)
+            uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
+            token = PasswordResetTokenGenerator().make_token(user)
+            current_site = get_current_site(request=request).domain
+            otp_link = reverse(
+                'accounts:password-reset-verify', kwargs={'uidb64': uidb64, 'token': token})
+
+            email_body = f'To authenticate, please use the following One Time Password (OTP):\n {otp_link}'
+            data = {'email_body': email_body, 'to_email': user.email,
+                    'email_subject': 'Amazon Clone Password Assistance'}
+            Util.send_email(data)
+            data = {
+                'message': f'For your security, we need to authenticate your request.+\
+                     We ve sent a One Time Password (OTP) to the {email}. +\
+                         Please enter it below to complete verification.'}
+            return Response(status=status.HTTP_200_OK, data=data)
+        else:
+            data = {'message': f'Account with email {email} was not found.'}
+            return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PasswordTokenVerificationAPI(GenericAPIView):
+    serializer_class = ResetPasswordEmailRequestSerializer
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, uidb64, token):
+        try:
+            id = smart_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(id=id)
+
+            has_not_used_token_before = PasswordResetTokenGenerator().check_token(user, token)
+
+            if has_not_used_token_before:
+                data = {'message': 'Credentials Valid',
+                        'uidb64': uidb64, 'token': token}
+                return Response(status=status.HTTP_200_OK, data=data)
+            else:
+                data = {'message': 'Token is not valid, you can request a new one.'}
+                return Response(data=data, status=status.HTTP_401_UNAUTHORIZED)
+
+        except DjangoUnicodeDecodeError as identifier:
+            data = {'message': 'Token is not valid, you can request a new one.'}
+            return Response(data=data, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class SetNewPasswordSerializer(GenericAPIView):
+    serializer_class = SetNewPasswordSerializer
+    permission_classes = (permissions.AllowAny,)
+
+    def patch(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        return Response(status=status.HTTP_200_OK, data={'message': 'Password reset successfully.'})

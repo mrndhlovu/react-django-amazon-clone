@@ -3,24 +3,38 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { MainContext } from "../utils/contextUtils";
-import { getUserInfo, logout } from "../actions/AuthActions";
-import { getUser } from "../components/selectors/authSelectors";
+import {
+  getUserInfo,
+  logout,
+  resetChangePasswordFlow,
+} from "../actions/AuthActions";
+import { clearAlert } from "../actions/AppActions";
+import { getUser, userAlert } from "../components/selectors/authSelectors";
 
 const AppContainer = ({
-  children, user, _userInfo, _logout,
+  children,
+  user,
+  _userInfo,
+  _logout,
+  uiAlert,
+  _clearAlert,
+  _resetChangePasswordFlow,
 }) => {
   const openSideBarHandler = () => {};
+
+  const logoutHandler = () => _logout();
 
   useEffect(() => {
     _userInfo();
   }, [_userInfo]);
 
-  const logoutHandler = () => _logout();
-
   const context = {
     openSideBarHandler,
     logoutHandler,
     listener: user,
+    uiAlert,
+    _clearAlert,
+    _resetChangePasswordFlow,
   };
 
   return (
@@ -32,11 +46,18 @@ const AppContainer = ({
   );
 };
 
+AppContainer.defaultProps = {
+  uiAlert: {},
+};
+
 AppContainer.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+  uiAlert: PropTypes.shape({ message: PropTypes.string }),
+  _clearAlert: PropTypes.func.isRequired,
+  _resetChangePasswordFlow: PropTypes.func.isRequired,
   user: PropTypes.shape({
     isAuthenticated: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
@@ -46,9 +67,14 @@ AppContainer.propTypes = {
   _logout: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({ user: getUser(state) });
+const mapStateToProps = (state) => ({
+  user: getUser(state),
+  uiAlert: userAlert(state),
+});
 
 export default connect(mapStateToProps, {
   _userInfo: getUserInfo,
+  _clearAlert: clearAlert,
   _logout: logout,
+  _resetChangePasswordFlow: resetChangePasswordFlow,
 })(AppContainer);

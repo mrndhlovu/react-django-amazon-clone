@@ -18,7 +18,7 @@ const REGISTER_INITIAL_STATE = {
   confirm_password: undefined,
 };
 
-const Register = ({ _register, user: { isLoading, error } }) => {
+const Register = ({ _register, user: { isLoading } }) => {
   const { listener } = useMainContext();
   const nameRef = useRef(null);
 
@@ -36,7 +36,6 @@ const Register = ({ _register, user: { isLoading, error } }) => {
     <FormLayout
       dataTestId="register-page-container"
       header="Create account"
-      alert={error?.message}
       footerLinkProps={{
         content: "Already have an account?",
         linkText: "Sign in",
@@ -94,7 +93,6 @@ const mapStateToProps = (state) => ({
 Register.propTypes = {
   user: PropTypes.shape({
     isLoading: PropTypes.bool.isRequired,
-    error: PropTypes.shape({ message: PropTypes.string }),
   }).isRequired,
   _register: PropTypes.func.isRequired,
 };
