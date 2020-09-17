@@ -71,6 +71,11 @@ const PASSWORD_VALIDATION = yup.object({
   password: yup.string().required().min(6),
 });
 
+const CONFIRM_PASSWORD_VALIDATION = yup.object({
+  password: yup.string().required().min(6),
+  confirm_password: yup.string().required().min(6),
+});
+
 export const LOGIN_STAGES = {
   EMAIL: EMAIL_VERIFICATION_STAGE,
   PASSWORD: {
@@ -94,16 +99,16 @@ export const PASSWORD_ASSISTANCE_STAGES = {
   },
   OPT: {
     VALIDATION: yup.object({
-      opt: yup.string().required(),
+      otp: yup.number().integer().required(),
     }),
-    INITIAL_STATE: { opt: undefined },
+    INITIAL_STATE: { otp: undefined },
     HEADER: "Authentication Required.",
     STEPID: 2,
   },
-  PASSWORD_RECOVERY: {
+  NEW_PASSWORD: {
     HEADER: "Create new password",
-    VALIDATION: PASSWORD_VALIDATION,
-    INITIAL_STATE: { new_password: undefined, confirm_new_password: undefined },
+    VALIDATION: CONFIRM_PASSWORD_VALIDATION,
+    INITIAL_STATE: { password: undefined, confirm_password: undefined },
     TIPS: [
       "Use at least 8 characters, a combination of numbers and letters is best",
       "Do not use the same password you have used with us previously.",

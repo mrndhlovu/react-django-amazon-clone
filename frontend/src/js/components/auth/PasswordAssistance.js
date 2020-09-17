@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import { AmazonButton, UIForm, UIHeader } from "../shared";
 import { recoverUser, userAlert } from "../selectors/authSelectors";
-import { updatePassword, verify } from "../../actions/AuthActions";
+import { updatePassword, verify, verifyOtp } from "../../actions/AuthActions";
 import FormLayout from "../shared/FormLayout";
+import { useMainContext } from "../../utils/hookUtils";
 
 const Paragraph = styled.p`
   padding: 10px 0;
@@ -34,28 +36,27 @@ const PasswordAssistance = ({
   auth: { RECOVERY_STAGE },
   _verifyEmail,
   _updatePassword,
+  _verifyOtp,
 }) => {
+  const { listener } = useMainContext();
   const [userData, setLoginData] = useState({});
 
   const handlePasswordRecover = (data) => {
     switch (RECOVERY_STAGE.STEPID) {
       case 1:
         setLoginData({ ...userData, email: data.email });
-        return _verifyEmail(data);
+        return _verifyEmail({ ...data, sendOtp: true });
       case 2:
-        setLoginData({
-          ...RECOVERY_STAGE.INITIAL_STATE,
-          password: data.password,
-        });
-        return _updatePassword({ ...userData, password: data.password });
+        return _verifyOtp({ otp: data.otp });
 
       case 3:
-        setLoginData({ ...userData, password: data.password });
-        return _updatePassword({ ...userData, password: data.password });
+        return _updatePassword({ ...userData, ...data });
       default:
         return null;
     }
   };
+
+  if (listener.isAuthenticated) return <Redirect to="/" />;
 
   return (
     <FormLayout header={RECOVERY_STAGE.HEADER}>
@@ -104,7 +105,7 @@ const PasswordAssistance = ({
         <>
           <Paragraph>
             {`For your security, we need to authenticate your request. We've sent
-            a One Time Password (OTP) to the ${RECOVERY_STAGE?.data?.message}. Please
+            a One Time Password (OTP) to the ${userData?.email}. Please
             enter it below to complete verification`}
           </Paragraph>
 
@@ -113,7 +114,7 @@ const PasswordAssistance = ({
             initialState={RECOVERY_STAGE.INITIAL_STATE}
             submitHandler={handlePasswordRecover}
           >
-            <UIForm.Input type="text" name="text" label="Enter OTP" />
+            <UIForm.Input type="number" name="otp" label="Enter OTP" />
             <UIForm.Button
               button={({ isSubmitting }) => (
                 <AmazonButton
@@ -141,8 +142,16 @@ const PasswordAssistance = ({
             initialState={RECOVERY_STAGE.INITIAL_STATE}
             submitHandler={handlePasswordRecover}
           >
-            <UIForm.Input type="password" label="New password" />
-            <UIForm.Input type="password" label="Re-enter password" />
+            <UIForm.Input
+              name="password"
+              type="password"
+              label="New password"
+            />
+            <UIForm.Input
+              name="confirm_password"
+              type="password"
+              label="Re-enter password"
+            />
 
             <UIForm.Button
               button={({ isSubmitting }) => (
@@ -180,8 +189,10 @@ const mapStateToProps = (state) => {
 PasswordAssistance.propTypes = {
   _verifyEmail: PropTypes.func.isRequired,
   _updatePassword: PropTypes.func.isRequired,
+  _verifyOtp: PropTypes.func.isRequired,
   auth: PropTypes.shape({
     isLoading: PropTypes.bool.isRequired,
+    accountRecovered: PropTypes.bool.isRequired,
     hasAccount: PropTypes.bool.isRequired,
     data: PropTypes.shape({}),
     error: PropTypes.shape({ message: PropTypes.string }),
@@ -192,7 +203,7 @@ PasswordAssistance.propTypes = {
       INITIAL_STATE: PropTypes.shape({}),
       PASSWORD_NEW: PropTypes.shape({}),
       CONFIRM_PASSWORD: PropTypes.shape({}),
-      data: PropTypes.shape({ message: PropTypes.string }),
+      data: PropTypes.shape({}),
       VALIDATION: PropTypes.shape({}),
       TIPS: PropTypes.shape([]),
     }),
@@ -202,4 +213,5 @@ PasswordAssistance.propTypes = {
 export default connect(mapStateToProps, {
   _updatePassword: updatePassword,
   _verifyEmail: verify,
+  _verifyOtp: verifyOtp,
 })(PasswordAssistance);

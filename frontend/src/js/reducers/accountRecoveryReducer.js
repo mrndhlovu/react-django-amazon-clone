@@ -14,7 +14,7 @@ import { PASSWORD_ASSISTANCE_STAGES } from "../constants/constants";
 const INITIAL_STATE = {
   data: {},
   error: {},
-  isAuthenticated: false,
+  accountRecovered: false,
   isLoading: false,
   hasAccount: false,
   RECOVERY_STAGE: PASSWORD_ASSISTANCE_STAGES.EMAIL,
@@ -32,6 +32,7 @@ const accountRecoveryReducer = (state = INITIAL_STATE, action = {}) => {
         isLoading: false,
         hasAccount: true,
         RECOVERY_STAGE: PASSWORD_ASSISTANCE_STAGES.OPT,
+        data: action.payload,
       };
 
     case VERIFY_OTP_ERROR:
@@ -43,7 +44,7 @@ const accountRecoveryReducer = (state = INITIAL_STATE, action = {}) => {
         ...state,
         isLoading: false,
         hasAccount: true,
-        RECOVERY_STAGE: PASSWORD_ASSISTANCE_STAGES.OPT,
+        RECOVERY_STAGE: PASSWORD_ASSISTANCE_STAGES.NEW_PASSWORD,
       };
 
     case UPDATE_PASSWORD_ERROR:
@@ -53,9 +54,8 @@ const accountRecoveryReducer = (state = INITIAL_STATE, action = {}) => {
     case UPDATE_PASSWORD_SUCCESS:
       return {
         ...state,
-        data: action.payload,
         isLoading: false,
-        isAuthenticated: true,
+        accountRecovered: true,
         error: {},
       };
     default:

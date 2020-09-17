@@ -12,7 +12,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import(
     RegistrationSerializer,
     UpdateUserSerializer,
-    ChangePasswordSerializer
+    ChangePasswordSerializer,
+    RecoveryNewPasswordSerializer
 )
 
 User = get_user_model()
@@ -90,6 +91,27 @@ def registration_api_view(request):
         return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['PUT', ])
+@permission_classes(())
+def recovery_new_password_api_view(request):
+
+    email = request.data['email']
+    if validate_email(email) == None:
+        data = {}
+        data['message'] = f'Account with email {email} was not found.'
+        return Response(data, status=status.HTTP_400_BAD_REQUEST)
+    user = existing_user = get_object_or_404(User, email=email)
+    serializer = RecoveryNewPasswordSerializer(user, data=request.data)
+
+    if serializer.is_valid():
+        user = serializer.save()
+        data = get_user_with_tokens(user)
+        return Response(data)
+    else:
+        data = serializer.errors
+        return Response(data, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['POST', ])
 @permission_classes(())
 def log_api_view(request):
@@ -106,13 +128,24 @@ def log_api_view(request):
         return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['get', ])
+@api_view(['GET', ])
 def logout_api_view(request):
 
     if True:
         return Response(status=status.HTTP_200_OK)
     else:
         data = {'message': 'Logout failed'}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST', ])
+@permission_classes(())
+def recovery_verify_otp_api_view(request):
+    one_time_pin = request.data['otp']
+    if str(one_time_pin) == '123456':
+        return Response(status=status.HTTP_200_OK, data={'message': 'Now set new password'})
+    else:
+        data = {'message': 'Wrong OTP provided.'}
         return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -149,7 +182,11 @@ def verify_account_api_view(request):
             'message': f'User with email: {email} not found',
         }
         return Response(status=status.HTTP_404_NOT_FOUND, data=data)
-    return Response(status=status.HTTP_200_OK)
+
+    if not request.query_params.get('recovery'):
+        return Response(status=status.HTTP_200_OK)
+    else:
+        return Response(status=status.HTTP_200_OK, data={"OTP": '123456'})
 
 
 @ api_view(['DELETE', ])
@@ -175,6 +212,7 @@ class UpdatePasswordAPIView(UpdateAPIView):
 
     def get_object(self, queryset=None):
         obj = self.request.user
+        print("obj", obj)
         return obj
 
     def update(self, request, *args, **kwargs):
@@ -182,7 +220,6 @@ class UpdatePasswordAPIView(UpdateAPIView):
         serializer = self.get_serializer(data=request.data)
 
         if serializer.is_valid():
-            print("self", self.object.check_password)
             if not self.object.check_password(serializer.data.get("old_password")):
                 return Response(status=status.HTTP_404_NOT_FOUND, data={'message': 'Wrong password'})
 

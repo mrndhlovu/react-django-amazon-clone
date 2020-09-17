@@ -17,13 +17,18 @@ import {
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PASSWORD_ERROR,
   UPDATE_PASSWORD,
+  VERIFY_OTP,
+  VERIFY_OTP_SUCCESS,
+  VERIFY_OTP_ERROR,
 } from "./ActionTypes";
 import {
   requestCurrentUser,
   requestLogin,
   requestLogout,
+  requestVerifyOtp,
   requestRegister,
   requestVerifyUser,
+  requestRecoveryChangePassword,
 } from "../apis/apiRequests";
 import {
   alertUser,
@@ -100,12 +105,31 @@ export const verify = (data) => {
 export const updatePassword = (data) => {
   return (dispatch) => {
     dispatch(makeRequest(UPDATE_PASSWORD));
-    requestVerifyUser(data)
+    requestRecoveryChangePassword(data)
       .then((response) => {
+        updateLocalStorage({
+          access: response.data.access,
+          refresh: response.data.refresh,
+        });
         dispatch(requestSuccess(UPDATE_PASSWORD_SUCCESS, response?.data));
+        dispatch(requestSuccess(GET_USER_SUCCESS, response?.data));
       })
       .catch((error) => {
         dispatch(requestFail(UPDATE_PASSWORD_ERROR, error?.response?.data));
+        dispatch(alertUser(error?.response?.data.message));
+      });
+  };
+};
+
+export const verifyOtp = (data) => {
+  return (dispatch) => {
+    dispatch(makeRequest(VERIFY_OTP));
+    requestVerifyOtp(data)
+      .then((response) => {
+        dispatch(requestSuccess(VERIFY_OTP_SUCCESS, response?.data));
+      })
+      .catch((error) => {
+        dispatch(requestFail(VERIFY_OTP_ERROR, error?.response?.data));
         dispatch(alertUser(error?.response?.data.message));
       });
   };

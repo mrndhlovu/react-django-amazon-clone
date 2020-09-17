@@ -20,6 +20,7 @@ import store from "../../store";
 const DEFAULT_CONTEXT = {
   isSubmitting: jest.fn(),
   submitHandler: jest.fn(),
+  listener: { isAuthenticated: false },
 };
 
 const LOGIN_INITIAL_STATE = {
