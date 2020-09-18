@@ -44,6 +44,12 @@ const gridLayout = (columns) => css`
   grid-template-columns: ${columns};
 `;
 
+const useOverFlowWrap = css`
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+`;
+
 export default {
   useFlex,
   shadowPrimary,
@@ -52,4 +58,5 @@ export default {
   hoverText,
   hoverTransition,
   gridLayout,
+  useOverFlowWrap,
 };

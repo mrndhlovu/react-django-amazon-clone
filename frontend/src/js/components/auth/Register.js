@@ -1,21 +1,39 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import PropTypes from "prop-types";
+
+import { register } from "../../actions/AuthActions";
 import { FORM_VALIDATION } from "../../constants/constants";
+import { registerUser } from "../selectors/authSelectors";
+import { useMainContext } from "../../utils/hookUtils";
 
 import { AmazonButton, UIForm, TermsAndConditions } from "../shared";
-import FormContainer from "./FormContainer";
+import FormLayout from "../shared/FormLayout";
 
 const REGISTER_INITIAL_STATE = {
-  name: undefined,
+  full_name: undefined,
   email: undefined,
   password: undefined,
   confirm_password: undefined,
 };
 
-const Register = () => {
-  const handleRegister = () => {};
+const Register = ({ _register, user: { isLoading } }) => {
+  const { listener } = useMainContext();
+  const nameRef = useRef(null);
+
+  const handleRegister = (data) => {
+    _register(data);
+  };
+
+  useEffect(() => {
+    if (nameRef?.current) nameRef.current.focus();
+  }, []);
+
+  if (listener.isAuthenticated) return <Redirect to="/" />;
 
   return (
-    <FormContainer
+    <FormLayout
       dataTestId="register-page-container"
       header="Create account"
       footerLinkProps={{
@@ -30,7 +48,12 @@ const Register = () => {
         submitHandler={handleRegister}
         validationSchema={FORM_VALIDATION.REGISTER}
       >
-        <UIForm.Input type="name" name="name" label="Your name" />
+        <UIForm.Input
+          label="Your name"
+          name="full_name"
+          ref={nameRef}
+          type="text"
+        />
 
         <UIForm.Input type="email" name="email" label="E-mail" />
 
@@ -47,20 +70,31 @@ const Register = () => {
         />
 
         <UIForm.Button
-          button={({ isSubmitting }) => (
+          button={() => (
             <AmazonButton
               buttonText="Create your Amazon account"
               dataTestId="register-button"
               handleClick={() => {}}
               type="submit"
-              disabled={isSubmitting}
+              disabled={isLoading}
             />
           )}
         />
         <TermsAndConditions />
       </UIForm>
-    </FormContainer>
+    </FormLayout>
   );
 };
 
-export default Register;
+const mapStateToProps = (state) => ({
+  user: registerUser(state),
+});
+
+Register.propTypes = {
+  user: PropTypes.shape({
+    isLoading: PropTypes.bool.isRequired,
+  }).isRequired,
+  _register: PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, { _register: register })(Register);

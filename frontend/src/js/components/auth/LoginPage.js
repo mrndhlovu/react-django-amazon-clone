@@ -1,36 +1,34 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory, Redirect, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { AmazonButton, UIForm, TermsAndConditions } from "../shared";
-import { LOGIN_STAGES } from "../../constants/constants";
-
-import FormContainer from "./FormContainer";
-import { loginUser, verifyUser } from "../selectors/authSelectors";
+import {
+  AmazonButton,
+  UIForm,
+  TermsAndConditions,
+  UILinkButton,
+} from "../shared";
 import { login, verify } from "../../actions/AuthActions";
+import { getUser, loginUser, userAlert } from "../selectors/authSelectors";
+import { useMainContext } from "../../utils/hookUtils";
+import FormLayout from "../shared/FormLayout";
 
-const LoginPage = ({ user, _login, _verify }) => {
+const LoginPage = ({ auth: { LOGIN_STAGE }, _login, _verifyEmail }) => {
+  const { listener } = useMainContext();
+
   const [loginData, setLoginData] = useState({});
   const history = useHistory();
   const inputRef = useRef(null);
 
-  const [STAGE, setSTAGE] = useState(LOGIN_STAGES.EMAIL);
-
   const handleLogin = (data) => {
-    switch (STAGE.STEP) {
+    switch (LOGIN_STAGE.STEPID) {
       case 1:
-        _verify(data);
         setLoginData({ ...loginData, email: data.email });
-        return setSTAGE(LOGIN_STAGES.PASSWORD);
-
+        return _verifyEmail(data);
       case 2:
         setLoginData({ ...loginData, password: data.password });
-
-        _login({ ...loginData, password: data.password });
-
-        return null;
-
+        return _login({ ...loginData, password: data.password });
       default:
         return null;
     }
@@ -40,10 +38,10 @@ const LoginPage = ({ user, _login, _verify }) => {
     if (inputRef?.current) inputRef.current.focus();
   }, []);
 
-  if (user.isAuthenticated) return <Redirect to="/" />;
+  if (listener.isAuthenticated) return <Redirect to="/" />;
 
   return (
-    <FormContainer
+    <FormLayout
       dataTestId="login-page-container"
       header="Sign-In"
       dividerContent="New to Amazon"
@@ -55,21 +53,21 @@ const LoginPage = ({ user, _login, _verify }) => {
     >
       <UIForm
         dataTestId="login-form"
-        initialState={STAGE.INITIAL_STATE}
+        initialState={LOGIN_STAGE.INITIAL_STATE}
         submitHandler={handleLogin}
-        validationSchema={STAGE.VALIDATION}
+        validationSchema={LOGIN_STAGE.VALIDATION}
       >
         <UIForm.Input
-          type={STAGE.INPUT.type}
-          name={STAGE.INPUT.type}
-          label={STAGE.INPUT.label}
+          type={LOGIN_STAGE.INPUT.type}
+          name={LOGIN_STAGE.INPUT.type}
+          label={LOGIN_STAGE.INPUT.label}
           ref={inputRef}
         />
 
         <UIForm.Button
           button={({ isSubmitting }) => (
             <AmazonButton
-              buttonText={STAGE.BUTTON.content}
+              buttonText={LOGIN_STAGE.BUTTON_TEXT}
               dataTestId="login-button"
               type="submit"
               disabled={isSubmitting}
@@ -78,27 +76,44 @@ const LoginPage = ({ user, _login, _verify }) => {
         />
       </UIForm>
       <TermsAndConditions />
-    </FormContainer>
+      <Link to="/forgotpassword">
+        <UILinkButton content="Forgot password" />
+      </Link>
+    </FormLayout>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    user: loginUser(state),
-    verified: verifyUser(state),
+    auth: loginUser(state),
+    user: getUser(state),
+    alert: userAlert(state),
   };
 };
 
 LoginPage.propTypes = {
-  _verify: PropTypes.func.isRequired,
+  _verifyEmail: PropTypes.func.isRequired,
   _login: PropTypes.func.isRequired,
-  user: PropTypes.shape({
-    isAuthenticated: PropTypes.bool.isRequired,
+  user: PropTypes.shape({ isAuthenticated: PropTypes.bool.isRequired })
+    .isRequired,
+  auth: PropTypes.shape({
     isLoading: PropTypes.bool.isRequired,
+    hasAccount: PropTypes.bool.isRequired,
     data: PropTypes.shape({}),
+    LOGIN_STAGE: PropTypes.shape({
+      STEPID: PropTypes.number.isRequired,
+      BUTTON_TEXT: PropTypes.string.isRequired,
+      INITIAL_STATE: PropTypes.shape({}).isRequired,
+      INPUT: PropTypes.shape({
+        type: PropTypes.string.isRequired,
+        label: PropTypes.string.isRequired,
+      }),
+      VALIDATION: PropTypes.shape({}),
+    }),
   }).isRequired,
 };
 
-export default connect(mapStateToProps, { _login: login, _verify: verify })(
-  LoginPage,
-);
+export default connect(mapStateToProps, {
+  _login: login,
+  _verifyEmail: verify,
+})(LoginPage);

@@ -7,10 +7,9 @@ const INITIAL_STATE = {
 const alertReducer = (state = INITIAL_STATE, action = {}) => {
   switch (action.type) {
     case SHOW_ALERT:
-      return { ...state, message: action.payload.message };
+      return { ...state, message: action.payload };
     case REMOVE_ALERT:
-      return { ...state, message: undefined };
-
+      return INITIAL_STATE;
     default:
       return state;
   }

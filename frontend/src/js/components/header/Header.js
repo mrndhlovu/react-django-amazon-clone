@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./_header.scss";
@@ -19,7 +21,14 @@ import MenuList from "./MenuList";
 import NavLinkButton from "./NavLinkButton";
 
 const Navigation = () => {
-  const { openSideBarHandler } = useMainContext();
+  const {
+    openSideBarHandler,
+    listener: {
+      isAuthenticated,
+      data: { full_name },
+    },
+    logoutHandler,
+  } = useMainContext();
   const [, handleChange] = useFormInput();
   const history = useHistory();
   const [activeCategory, setActiveCategory] = useState("All");
@@ -46,7 +55,7 @@ const Navigation = () => {
           onClick={() => history.push("/")}
           onKeyDown={() => history.push("/")}
         >
-          <AmazonLogo dataTestId="logo" />
+          <AmazonLogo height="50" width="120" dataTestId="logo" />
         </div>
       </div>
       <div data-testid="nav-search-bar" className="nav__bar__center">
@@ -101,34 +110,44 @@ const Navigation = () => {
               contentText={() => (
                 <NavLinkButton
                   redirectTo={history.location.pathname}
-                  buttonText="Account"
-                  subText="& Lists"
+                  buttonText={`Hello, ${
+                    isAuthenticated ? full_name.split(" ")[0] : "Sign in"
+                  }`}
+                  subText="Account & Lists"
                   arrow
                 />
               )}
               content={() => (
                 <div data-testid="account-options">
-                  <div className="nav__signin__container">
-                    <AmazonButton
-                      buttonText="Sign in"
-                      handleClick={() => history.push("/login")}
-                    />
-                    <div>
-                      <span>New Customer?</span>
-                      <Link to="/register">Start here.</Link>
+                  {!isAuthenticated && (
+                    <div className="nav__signin__container">
+                      <AmazonButton
+                        buttonText="Sign in"
+                        handleClick={() => history.push("/login")}
+                      />
+                      <div>
+                        <span>New Customer?</span>
+                        <Link to="/register">Start here.</Link>
+                      </div>
                     </div>
-                  </div>
+                  )}
                   <div className="nav__account__lists">
                     <ul className="lists__left first">
                       <h2>Your Lists</h2>
                       <Divider variant="fullWidth" />
                       <MenuList list={_ACCOUNT_OPTIONS.LISTS} />
                     </ul>
-
+                    {/* // TODO Fix logout handler server side */}
                     <ul className="lists__right">
                       <h2>Your Account</h2>
                       <Divider variant="fullWidth" />
                       <MenuList list={_ACCOUNT_OPTIONS.ACCOUNT} />
+                      {isAuthenticated && (
+                        <MenuList
+                          list={_ACCOUNT_OPTIONS.AUTH}
+                          handleClick={logoutHandler}
+                        />
+                      )}
                     </ul>
                   </div>
                 </div>

@@ -1,7 +1,10 @@
 import {
-  GET_CURRENT_FAIL,
-  GET_CURRENT_USER,
-  GET_USER_SUCCESS,
+  AUTH_USER_ERROR,
+  AUTH_USER,
+  AUTH_USER_SUCCESS,
+  LOGOUT_ERROR,
+  LOGOUT_SUCCESS,
+  LOGOUT,
 } from "../actions/ActionTypes";
 
 const INITIAL_STATE = {
@@ -12,17 +15,23 @@ const INITIAL_STATE = {
 
 const authReducer = (state = INITIAL_STATE, action = {}) => {
   switch (action.type) {
-    case GET_CURRENT_FAIL:
+    case AUTH_USER_ERROR:
       return { ...state, isLoading: false };
-    case GET_CURRENT_USER:
+    case AUTH_USER:
       return { ...state, isLoading: true };
-    case GET_USER_SUCCESS:
+    case AUTH_USER_SUCCESS:
       return {
         ...state,
         data: action.payload,
         isLoading: false,
         isAuthenticated: true,
       };
+    case LOGOUT_ERROR:
+      return { ...state, isLoading: false };
+    case LOGOUT:
+      return { ...state, isLoading: true };
+    case LOGOUT_SUCCESS:
+      return { ...state, ...INITIAL_STATE };
     default:
       return state;
   }

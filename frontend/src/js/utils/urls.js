@@ -15,7 +15,7 @@ export const AUTH_PARAMS = {
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
-    Authorization: TOKEN ? `Bearer ${TOKEN}` : undefined,
+    Authorization: `Bearer ${TOKEN}`,
   },
 };
 

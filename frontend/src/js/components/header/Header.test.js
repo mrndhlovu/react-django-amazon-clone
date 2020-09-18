@@ -19,6 +19,7 @@ import MenuList from "./MenuList";
 const DEFAULT_CONTEXT = {
   openSideBarHandler: jest.fn(),
   handleSelectedOption: jest.fn(),
+  listener: { data: {}, isAuthenticated: false },
 };
 
 afterEach(() => cleanup());
