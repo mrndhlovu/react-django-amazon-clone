@@ -11,5 +11,5 @@ export default combineReducers({
   alert: alertReducer,
   login: loginReducer,
   register: registerReducer,
-  recoverUser: accountRecoveryReducer,
+  passwordReset: accountRecoveryReducer,
 });

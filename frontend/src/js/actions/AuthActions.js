@@ -43,7 +43,7 @@ import {
   updateLocalStorage,
 } from "./action.helpers";
 
-export const getUserInfo = () => {
+export const getUserAction = () => {
   return (dispatch) => {
     dispatch(makeRequest(AUTH_USER));
     requestCurrentUser()
@@ -57,7 +57,7 @@ export const getUserInfo = () => {
   };
 };
 
-export const login = (data) => {
+export const loginAction = (data) => {
   return (dispatch) => {
     dispatch(makeRequest(LOGIN));
     requestLogin(data)
@@ -77,7 +77,7 @@ export const login = (data) => {
   };
 };
 
-export const logout = (data) => {
+export const logoutAction = (data) => {
   return (dispatch) => {
     dispatch(makeRequest(LOGOUT));
     requestLogout(data)
@@ -92,7 +92,7 @@ export const logout = (data) => {
   };
 };
 
-export const verify = (data) => {
+export const verifyAccountAction = (data) => {
   return (dispatch) => {
     dispatch(makeRequest(VERIFY_ACCOUNT));
     requestVerifyUser(data)
@@ -126,7 +126,7 @@ export const resetChangePasswordFlow = () => {
   };
 };
 
-export const updatePassword = (data) => {
+export const updatePasswordAction = (data) => {
   return (dispatch) => {
     dispatch(makeRequest(UPDATE_PASSWORD));
     requestChangePassword(data)
@@ -145,7 +145,7 @@ export const updatePassword = (data) => {
   };
 };
 
-export const verifyOtp = (data) => {
+export const verifyOtpAction = (data) => {
   return (dispatch) => {
     dispatch(makeRequest(VERIFY_OTP));
     requestVerifyOtp(data)
@@ -159,7 +159,7 @@ export const verifyOtp = (data) => {
   };
 };
 
-export const register = (data) => {
+export const registerAction = (data) => {
   return (dispatch) => {
     dispatch(makeRequest(REGISTER));
     requestRegister(data)

@@ -1,17 +1,18 @@
 /* eslint-disable no-confusing-arrow */
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import WarningIcon from "@material-ui/icons/Warning";
 
+import { clearAlert } from "../../actions/AppActions";
 import AmazonButton from "./AmazonButton";
 import AmazonLogo from "./AmazonLogo";
 import TextDivider from "./TextDivider";
 import UIForm from "./UIForm";
 import UIHeader from "./UIHeader";
-import { useMainContext } from "../../utils/hookUtils";
 
 const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
@@ -127,13 +128,14 @@ const FormLayout = ({
   dataTestId,
   success,
 }) => {
-  const { uiAlert, _clearAlert } = useMainContext();
+  const { alert } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     return () => {
-      _clearAlert();
+      dispatch(clearAlert());
     };
-  }, [_clearAlert]);
+  }, [dispatch]);
 
   return (
     <Wrapper data-testid={dataTestId}>
@@ -150,7 +152,7 @@ const FormLayout = ({
       </Link>
 
       <Container>
-        {uiAlert.message && (
+        {alert.message && (
           <FormAlert success={success}>
             {!success && (
               <div>
@@ -158,7 +160,7 @@ const FormLayout = ({
                 <UIHeader as="h4" content="There was a problem" />
               </div>
             )}
-            <div>{uiAlert.message}</div>
+            <div>{alert.message}</div>
           </FormAlert>
         )}
         <FormWrapper>

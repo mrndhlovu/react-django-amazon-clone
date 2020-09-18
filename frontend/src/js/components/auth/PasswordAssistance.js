@@ -1,20 +1,17 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
+import { AmazonButton, UIForm, UIHeader, UILinkButton } from "../shared";
+import { useMainContext } from "../../utils/hookUtils";
 import {
-  AmazonButton, UIForm, UIHeader, UILinkButton,
-} from "../shared";
-import { recoverUser } from "../selectors/authSelectors";
-import {
-  updatePassword,
+  updatePasswordAction,
   passwordResetVerifyEmail,
-  verifyOtp,
+  verifyOtpAction,
 } from "../../actions/AuthActions";
 import FormLayout from "../shared/FormLayout";
-import { useMainContext } from "../../utils/hookUtils";
 
 const Paragraph = styled.p`
   padding: 10px 0;
@@ -42,14 +39,12 @@ const Button = styled(UILinkButton)`
   font-weight: ${({ theme }) => theme.fonts.weight.medium};
 `;
 
-const PasswordAssistance = ({
-  auth: {
-    RECOVERY_STAGE, data, isLoading, resetSuccess,
-  },
-  _verifyEmail,
-  _updatePassword,
-  _verifyOtp,
-}) => {
+const PasswordAssistance = () => {
+  const dispatch = useDispatch();
+
+  const {
+    passwordReset: { RECOVERY_STAGE, data, isLoading, resetSuccess },
+  } = useSelector((state) => state);
   const { _clearAlert, _resetChangePasswordFlow } = useMainContext();
 
   const [userData, setUserData] = useState({});
@@ -59,16 +54,18 @@ const PasswordAssistance = ({
     _clearAlert();
     switch (RECOVERY_STAGE.STEPID) {
       case 1:
-        return _verifyEmail({ ...inputData });
+        return dispatch(passwordResetVerifyEmail({ ...inputData }));
       case 2:
-        return _verifyOtp({ ...inputData });
+        return dispatch(verifyOtpAction({ ...inputData }));
 
       case 3:
-        return _updatePassword({
-          ...inputData,
-          token: data.token,
-          uidb64: data.uidb64,
-        });
+        return dispatch(
+          updatePasswordAction({
+            ...inputData,
+            token: data.token,
+            uidb64: data.uidb64,
+          })
+        );
       default:
         return null;
     }
@@ -194,12 +191,7 @@ const PasswordAssistance = ({
   );
 };
 
-const mapStateToProps = (state) => ({ auth: recoverUser(state) });
-
 PasswordAssistance.propTypes = {
-  _verifyEmail: PropTypes.func.isRequired,
-  _updatePassword: PropTypes.func.isRequired,
-  _verifyOtp: PropTypes.func.isRequired,
   auth: PropTypes.shape({
     isLoading: PropTypes.bool.isRequired,
     resetSuccess: PropTypes.bool.isRequired,
@@ -222,8 +214,4 @@ PasswordAssistance.propTypes = {
   }).isRequired,
 };
 
-export default connect(mapStateToProps, {
-  _updatePassword: updatePassword,
-  _verifyEmail: passwordResetVerifyEmail,
-  _verifyOtp: verifyOtp,
-})(PasswordAssistance);
+export default PasswordAssistance;

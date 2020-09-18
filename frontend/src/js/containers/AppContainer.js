@@ -1,41 +1,28 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { MainContext } from "../utils/contextUtils";
-import {
-  getUserInfo,
-  logout,
-  resetChangePasswordFlow,
-} from "../actions/AuthActions";
-import { clearAlert } from "../actions/AppActions";
-import { getUser, userAlert } from "../components/selectors/authSelectors";
+import { getUserAction } from "../actions/AuthActions";
 
-const AppContainer = ({
-  children,
-  user,
-  _userInfo,
-  _logout,
-  uiAlert,
-  _clearAlert,
-  _resetChangePasswordFlow,
-}) => {
+const AppContainer = ({ children }) => {
+  const { auth, alert } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
   const openSideBarHandler = () => {};
 
-  const logoutHandler = () => _logout();
-
-  useEffect(() => {
-    _userInfo();
-  }, [_userInfo]);
+  const logoutHandler = () => {};
 
   const context = {
     openSideBarHandler,
     logoutHandler,
-    listener: user,
-    uiAlert,
-    _clearAlert,
-    _resetChangePasswordFlow,
+    listener: auth,
+    uiAlert: alert,
   };
+
+  useEffect(() => {
+    dispatch(getUserAction());
+  }, [dispatch]);
 
   return (
     <MainContext.Provider value={context}>
@@ -46,35 +33,11 @@ const AppContainer = ({
   );
 };
 
-AppContainer.defaultProps = {
-  uiAlert: {},
-};
-
 AppContainer.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
-  uiAlert: PropTypes.shape({ message: PropTypes.string }),
-  _clearAlert: PropTypes.func.isRequired,
-  _resetChangePasswordFlow: PropTypes.func.isRequired,
-  user: PropTypes.shape({
-    isAuthenticated: PropTypes.bool.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    data: PropTypes.shape({}).isRequired,
-  }).isRequired,
-  _userInfo: PropTypes.func.isRequired,
-  _logout: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  user: getUser(state),
-  uiAlert: userAlert(state),
-});
-
-export default connect(mapStateToProps, {
-  _userInfo: getUserInfo,
-  _clearAlert: clearAlert,
-  _logout: logout,
-  _resetChangePasswordFlow: resetChangePasswordFlow,
-})(AppContainer);
+export default AppContainer;

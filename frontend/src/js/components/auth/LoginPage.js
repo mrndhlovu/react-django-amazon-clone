@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useHistory, Redirect, Link } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
 
 import {
   AmazonButton,
@@ -9,13 +8,15 @@ import {
   TermsAndConditions,
   UILinkButton,
 } from "../shared";
-import { login, verify } from "../../actions/AuthActions";
-import { getUser, loginUser, userAlert } from "../selectors/authSelectors";
-import { useMainContext } from "../../utils/hookUtils";
+import { loginAction, verifyAccountAction } from "../../actions/AuthActions";
 import FormLayout from "../shared/FormLayout";
 
-const LoginPage = ({ auth: { LOGIN_STAGE }, _login, _verifyEmail }) => {
-  const { listener } = useMainContext();
+const LoginPage = () => {
+  const {
+    login: { LOGIN_STAGE },
+    auth: { isAuthenticated },
+  } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const [loginData, setLoginData] = useState({});
   const history = useHistory();
@@ -25,10 +26,10 @@ const LoginPage = ({ auth: { LOGIN_STAGE }, _login, _verifyEmail }) => {
     switch (LOGIN_STAGE.STEPID) {
       case 1:
         setLoginData({ ...loginData, email: data.email });
-        return _verifyEmail(data);
+        return dispatch(verifyAccountAction(data));
       case 2:
         setLoginData({ ...loginData, password: data.password });
-        return _login({ ...loginData, password: data.password });
+        return dispatch(loginAction({ ...loginData, password: data.password }));
       default:
         return null;
     }
@@ -38,7 +39,7 @@ const LoginPage = ({ auth: { LOGIN_STAGE }, _login, _verifyEmail }) => {
     if (inputRef?.current) inputRef.current.focus();
   }, []);
 
-  if (listener.isAuthenticated) return <Redirect to="/" />;
+  if (isAuthenticated) return <Redirect to="/" />;
 
   return (
     <FormLayout
@@ -83,37 +84,4 @@ const LoginPage = ({ auth: { LOGIN_STAGE }, _login, _verifyEmail }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    auth: loginUser(state),
-    user: getUser(state),
-    alert: userAlert(state),
-  };
-};
-
-LoginPage.propTypes = {
-  _verifyEmail: PropTypes.func.isRequired,
-  _login: PropTypes.func.isRequired,
-  user: PropTypes.shape({ isAuthenticated: PropTypes.bool.isRequired })
-    .isRequired,
-  auth: PropTypes.shape({
-    isLoading: PropTypes.bool.isRequired,
-    hasAccount: PropTypes.bool.isRequired,
-    data: PropTypes.shape({}),
-    LOGIN_STAGE: PropTypes.shape({
-      STEPID: PropTypes.number.isRequired,
-      BUTTON_TEXT: PropTypes.string.isRequired,
-      INITIAL_STATE: PropTypes.shape({}).isRequired,
-      INPUT: PropTypes.shape({
-        type: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired,
-      }),
-      VALIDATION: PropTypes.shape({}),
-    }),
-  }).isRequired,
-};
-
-export default connect(mapStateToProps, {
-  _login: login,
-  _verifyEmail: verify,
-})(LoginPage);
+export default LoginPage;

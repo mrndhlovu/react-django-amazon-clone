@@ -2,10 +2,11 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import "./_header.scss";
 
 import { Menu as MenuIcon, Search as SearchIcon } from "@material-ui/icons";
-
 import { Button, Divider } from "@material-ui/core";
 
 import { _ACCOUNT_OPTIONS } from "../../constants/constants";
@@ -21,14 +22,13 @@ import MenuList from "./MenuList";
 import NavLinkButton from "./NavLinkButton";
 
 const Navigation = () => {
+  const { openSideBarHandler, logoutHandler } = useMainContext();
   const {
-    openSideBarHandler,
-    listener: {
+    auth: {
       isAuthenticated,
       data: { full_name },
     },
-    logoutHandler,
-  } = useMainContext();
+  } = useSelector((state) => state);
   const [, handleChange] = useFormInput();
   const history = useHistory();
   const [activeCategory, setActiveCategory] = useState("All");

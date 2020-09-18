@@ -1,12 +1,9 @@
 import React, { useRef, useEffect } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import PropTypes from "prop-types";
 
-import { register } from "../../actions/AuthActions";
+import { registerAction } from "../../actions/AuthActions";
 import { FORM_VALIDATION } from "../../constants/constants";
-import { registerUser } from "../selectors/authSelectors";
-import { useMainContext } from "../../utils/hookUtils";
 
 import { AmazonButton, UIForm, TermsAndConditions } from "../shared";
 import FormLayout from "../shared/FormLayout";
@@ -18,19 +15,21 @@ const REGISTER_INITIAL_STATE = {
   confirm_password: undefined,
 };
 
-const Register = ({ _register, user: { isLoading } }) => {
-  const { listener } = useMainContext();
+const Register = () => {
+  const {
+    auth: { isAuthenticated },
+    register: { isLoading },
+  } = useSelector();
+  const dispatch = useDispatch();
   const nameRef = useRef(null);
 
-  const handleRegister = (data) => {
-    _register(data);
-  };
+  const handleRegister = (data) => dispatch(registerAction(data));
 
   useEffect(() => {
     if (nameRef?.current) nameRef.current.focus();
   }, []);
 
-  if (listener.isAuthenticated) return <Redirect to="/" />;
+  if (isAuthenticated) return <Redirect to="/" />;
 
   return (
     <FormLayout
@@ -86,15 +85,4 @@ const Register = ({ _register, user: { isLoading } }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  user: registerUser(state),
-});
-
-Register.propTypes = {
-  user: PropTypes.shape({
-    isLoading: PropTypes.bool.isRequired,
-  }).isRequired,
-  _register: PropTypes.func.isRequired,
-};
-
-export default connect(mapStateToProps, { _register: register })(Register);
+export default Register;
