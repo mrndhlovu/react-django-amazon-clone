@@ -3,6 +3,9 @@
 export const APP_STARTED = "APP_STARTED";
 export const INITIALIZE_AUTH = "INITIALIZE_AUTH";
 
+export const FETCH_DATA = "FETCH_DATA";
+export const FETCH_DATA_END = "FETCH_DATA_END";
+
 export const SHOW_ALERT = "SHOW_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";
 

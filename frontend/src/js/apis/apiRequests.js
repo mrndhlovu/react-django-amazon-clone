@@ -1,7 +1,5 @@
 import axios from "axios";
-import {
-  PARAMS, AUTH_EP, AUTH_PARAMS, baseURL,
-} from "../utils/urls";
+import { PARAMS, AUTH_EP, AUTH_PARAMS, baseURL } from "../utils/urls";
 
 const authAxiosInstance = axios.create({ ...AUTH_PARAMS });
 const axiosInstance = axios.create({ ...PARAMS });
@@ -26,7 +24,7 @@ export const requestUpdateProfile = (data) =>
 export const requestVerifyUser = (data) =>
   axiosInstance.post(`${AUTH_EP}/verify-account/`, data);
 
-export const requestPasswordRestEmailVerification = (data) =>
+export const requestPasswordResetEmailVerification = (data) =>
   axiosInstance.post(`${AUTH_EP}/password-reset-email/`, data);
 
 export const requestVerifyOtp = (data) =>

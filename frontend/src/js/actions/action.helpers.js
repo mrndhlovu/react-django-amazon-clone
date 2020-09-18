@@ -1,23 +1,26 @@
-import { SHOW_ALERT, REMOVE_ALERT } from "./ActionTypes";
+import {
+  SHOW_ALERT,
+  REMOVE_ALERT,
+  FETCH_DATA,
+  FETCH_DATA_END,
+} from "./ActionTypes";
 
-export const makeRequest = (type) => ({ type });
+export const fireAction = (type, payload) => ({ type, payload });
 
-export const requestSuccess = (type, payload) => ({ type, payload });
+export const showAlertAction = (data) => ({
+  type: SHOW_ALERT,
+  payload: data?.message || data?.error || data?.detail,
+});
 
-export const requestFail = (type, payload) => ({ type, payload });
+export const removeAlertAction = () => ({
+  type: REMOVE_ALERT,
+  payload: {},
+});
 
-export const alertUser = (data) => {
-  return {
-    type: SHOW_ALERT,
-    payload: data?.message || data?.error || data?.detail,
-  };
-};
+export const fireActionWithAlert = (type, payload) => (dispatch) => {
+  dispatch(showAlertAction(payload));
 
-export const removeAlert = () => {
-  return {
-    type: REMOVE_ALERT,
-    payload: {},
-  };
+  return dispatch(fireAction(type, payload));
 };
 
 export const updateLocalStorage = (data) => {
@@ -29,3 +32,8 @@ export const updateLocalStorage = (data) => {
     localStorage.removeItem("refreshToken");
   }
 };
+
+export const showSpinner = () => (dispatch) => dispatch(fireAction(FETCH_DATA));
+
+export const removeSpinner = () => (dispatch) =>
+  dispatch(fireAction(FETCH_DATA_END));

@@ -19,7 +19,7 @@ const Register = () => {
   const {
     auth: { isAuthenticated },
     register: { isLoading },
-  } = useSelector();
+  } = useSelector((state) => state);
   const dispatch = useDispatch();
   const nameRef = useRef(null);
 

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
 import { AmazonButton, UIForm, UIHeader, UILinkButton } from "../shared";
-import { useMainContext } from "../../utils/hookUtils";
+
 import {
   updatePasswordAction,
   passwordResetVerifyEmail,
   verifyOtpAction,
+  resetChangePasswordFlow,
 } from "../../actions/AuthActions";
 import FormLayout from "../shared/FormLayout";
 
@@ -45,13 +45,12 @@ const PasswordAssistance = () => {
   const {
     passwordReset: { RECOVERY_STAGE, data, isLoading, resetSuccess },
   } = useSelector((state) => state);
-  const { _clearAlert, _resetChangePasswordFlow } = useMainContext();
 
   const [userData, setUserData] = useState({});
 
   const handlePasswordRecover = (inputData) => {
     setUserData({ ...userData, ...inputData });
-    _clearAlert();
+
     switch (RECOVERY_STAGE.STEPID) {
       case 1:
         return dispatch(passwordResetVerifyEmail({ ...inputData }));
@@ -138,7 +137,7 @@ const PasswordAssistance = () => {
             />
           </UIForm>
           <Button
-            onClick={() => _resetChangePasswordFlow()}
+            onClick={() => resetChangePasswordFlow()}
             content="Resend OTP"
           />
         </>
@@ -189,29 +188,6 @@ const PasswordAssistance = () => {
       )}
     </FormLayout>
   );
-};
-
-PasswordAssistance.propTypes = {
-  auth: PropTypes.shape({
-    isLoading: PropTypes.bool.isRequired,
-    resetSuccess: PropTypes.bool.isRequired,
-    data: PropTypes.shape({
-      token: PropTypes.string,
-      uidb64: PropTypes.string,
-      message: PropTypes.string,
-    }),
-    RECOVERY_STAGE: PropTypes.shape({
-      HEADER: PropTypes.isRequired,
-      STEPID: PropTypes.number.isRequired,
-      PASSWORD: PropTypes.shape({}),
-      INITIAL_STATE: PropTypes.shape({}),
-      PASSWORD_NEW: PropTypes.shape({}),
-      CONFIRM_PASSWORD: PropTypes.shape({}),
-      data: PropTypes.shape({}),
-      VALIDATION: PropTypes.shape({}),
-      TIPS: PropTypes.arrayOf(PropTypes.string),
-    }),
-  }).isRequired,
 };
 
 export default PasswordAssistance;

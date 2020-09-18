@@ -7,7 +7,7 @@ import styled from "styled-components";
 
 import WarningIcon from "@material-ui/icons/Warning";
 
-import { clearAlert } from "../../actions/AppActions";
+import { removeAlertAction } from "../../actions/action.helpers";
 import AmazonButton from "./AmazonButton";
 import AmazonLogo from "./AmazonLogo";
 import TextDivider from "./TextDivider";
@@ -133,7 +133,7 @@ const FormLayout = ({
 
   useEffect(() => {
     return () => {
-      dispatch(clearAlert());
+      dispatch(removeAlertAction());
     };
   }, [dispatch]);
 

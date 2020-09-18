@@ -9,8 +9,6 @@ import {
 import { LOGIN_STAGES } from "../constants/constants";
 
 const INITIAL_STATE = {
-  data: {},
-  error: {},
   isAuthenticated: false,
   isLoading: false,
   hasAccount: false,
@@ -38,10 +36,8 @@ const loginReducer = (state = INITIAL_STATE, action = {}) => {
     case LOGIN_SUCCESS:
       return {
         ...state,
-        data: action.payload,
         isLoading: false,
         isAuthenticated: true,
-        error: {},
       };
 
     default:

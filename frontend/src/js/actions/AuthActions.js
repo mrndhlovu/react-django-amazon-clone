@@ -33,148 +33,146 @@ import {
   requestRegister,
   requestVerifyUser,
   requestChangePassword,
-  requestPasswordRestEmailVerification,
+  requestPasswordResetEmailVerification,
 } from "../apis/apiRequests";
 import {
-  alertUser,
-  makeRequest,
-  requestSuccess,
-  requestFail,
+  fireAction,
+  fireActionWithAlert,
   updateLocalStorage,
+  showAlertAction,
 } from "./action.helpers";
 
 export const getUserAction = () => {
   return (dispatch) => {
-    dispatch(makeRequest(AUTH_USER));
+    dispatch(fireAction(AUTH_USER));
     requestCurrentUser()
       .then((response) => {
-        dispatch(requestSuccess(AUTH_USER_SUCCESS, response?.data));
+        dispatch(fireAction(AUTH_USER_SUCCESS, response?.data));
       })
       .catch(() => {
         updateLocalStorage();
-        dispatch(requestFail(AUTH_USER_ERROR));
+        dispatch(fireAction(AUTH_USER_ERROR));
       });
   };
 };
 
 export const loginAction = (data) => {
   return (dispatch) => {
-    dispatch(makeRequest(LOGIN));
+    dispatch(fireAction(LOGIN));
     requestLogin(data)
       .then((response) => {
         updateLocalStorage({
           access: response.data.access,
           refresh: response.data.refresh,
         });
-        dispatch(requestSuccess(LOGIN_SUCCESS, response?.data?.user));
-        dispatch(requestSuccess(AUTH_USER_SUCCESS, response?.data.user));
+        dispatch(fireAction(LOGIN_SUCCESS));
+        dispatch(fireAction(AUTH_USER_SUCCESS, response?.data.user));
       })
       .catch((error) => {
         updateLocalStorage();
-        dispatch(requestFail(LOGIN_ERROR));
-        dispatch(alertUser(error?.response?.data));
+        dispatch(fireActionWithAlert(LOGIN_ERROR, error?.response?.data));
       });
   };
 };
 
 export const logoutAction = (data) => {
   return (dispatch) => {
-    dispatch(makeRequest(LOGOUT));
+    dispatch(fireAction(LOGOUT));
     requestLogout(data)
       .then(() => {
         updateLocalStorage();
-        dispatch(requestSuccess(LOGOUT_SUCCESS));
+        dispatch(fireAction(LOGOUT_SUCCESS));
       })
       .catch((error) => {
-        dispatch(requestFail(LOGOUT_ERROR));
-        dispatch(alertUser(error?.response?.data));
+        dispatch(fireActionWithAlert(LOGOUT_ERROR, error?.response?.data));
       });
   };
 };
 
 export const verifyAccountAction = (data) => {
   return (dispatch) => {
-    dispatch(makeRequest(VERIFY_ACCOUNT));
+    dispatch(fireAction(VERIFY_ACCOUNT));
     requestVerifyUser(data)
       .then((response) => {
-        dispatch(requestSuccess(VERIFY_ACCOUNT_SUCCESS, response?.data));
+        dispatch(fireAction(VERIFY_ACCOUNT_SUCCESS, response?.data));
       })
       .catch((error) => {
-        dispatch(requestFail(VERIFY_ACCOUNT_ERROR));
-        dispatch(alertUser(error?.response?.data));
+        dispatch(
+          fireActionWithAlert(VERIFY_ACCOUNT_ERROR, error?.response?.data)
+        );
       });
   };
 };
 
 export const passwordResetVerifyEmail = (data) => {
   return (dispatch) => {
-    dispatch(makeRequest(VERIFY_EMAIL));
-    requestPasswordRestEmailVerification(data)
+    dispatch(fireAction(VERIFY_EMAIL));
+    requestPasswordResetEmailVerification(data)
       .then((response) => {
-        dispatch(requestSuccess(VERIFY_EMAIL_SUCCESS, response?.data));
+        dispatch(fireAction(VERIFY_EMAIL_SUCCESS, response?.data));
       })
       .catch((error) => {
-        dispatch(requestFail(VERIFY_EMAIL_ERROR));
-        dispatch(alertUser(error?.response?.data));
+        dispatch(
+          fireActionWithAlert(VERIFY_EMAIL_ERROR, error?.response?.data)
+        );
       });
   };
 };
 
 export const resetChangePasswordFlow = () => {
   return (dispatch) => {
-    dispatch(makeRequest(RESET_FLOW));
+    dispatch(fireAction(RESET_FLOW));
   };
 };
 
 export const updatePasswordAction = (data) => {
   return (dispatch) => {
-    dispatch(makeRequest(UPDATE_PASSWORD));
+    dispatch(fireAction(UPDATE_PASSWORD));
     requestChangePassword(data)
       .then((response) => {
         updateLocalStorage({
           access: response.data.access,
           refresh: response.data.refresh,
         });
-        dispatch(requestSuccess(UPDATE_PASSWORD_SUCCESS));
-        dispatch(alertUser(response?.data));
+        dispatch(fireAction(UPDATE_PASSWORD_SUCCESS));
+        dispatch(showAlertAction(response?.data));
       })
       .catch((error) => {
-        dispatch(requestFail(UPDATE_PASSWORD_ERROR));
-        dispatch(alertUser(error?.response?.data));
+        dispatch(
+          fireActionWithAlert(UPDATE_PASSWORD_ERROR, error?.response?.data)
+        );
       });
   };
 };
 
 export const verifyOtpAction = (data) => {
   return (dispatch) => {
-    dispatch(makeRequest(VERIFY_OTP));
+    dispatch(fireAction(VERIFY_OTP));
     requestVerifyOtp(data)
       .then((response) => {
-        dispatch(requestSuccess(VERIFY_OTP_SUCCESS, response?.data));
+        dispatch(fireAction(VERIFY_OTP_SUCCESS, response?.data));
       })
       .catch((error) => {
-        dispatch(requestFail(VERIFY_OTP_ERROR));
-        dispatch(alertUser(error?.response?.data));
+        dispatch(fireActionWithAlert(VERIFY_OTP_ERROR, error?.response?.data));
       });
   };
 };
 
 export const registerAction = (data) => {
   return (dispatch) => {
-    dispatch(makeRequest(REGISTER));
+    dispatch(fireAction(REGISTER));
     requestRegister(data)
       .then((response) => {
         updateLocalStorage({
           access: response.data.access,
           refresh: response.data.refresh,
         });
-        dispatch(requestSuccess(REGISTER_SUCCESS, response?.data.user));
-        dispatch(requestSuccess(AUTH_USER_SUCCESS, response?.data.user));
+        dispatch(fireAction(REGISTER_SUCCESS, response?.data.user));
+        dispatch(fireAction(AUTH_USER_SUCCESS, response?.data.user));
       })
       .catch((error) => {
         updateLocalStorage();
-        dispatch(requestFail(REGISTER_ERROR));
-        dispatch(alertUser(error?.response?.data));
+        dispatch(fireActionWithAlert(REGISTER_ERROR, error?.response?.data));
       });
   };
 };

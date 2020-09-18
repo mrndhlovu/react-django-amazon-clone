@@ -4,6 +4,14 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+product_rating = (
+    ('1', 1),
+    ('2', 2),
+    ('3', 3),
+    ('4', 4),
+    ('5', 5),
+)
+
 
 class Customer (models.Model):
     address = models.CharField(max_length=250)
@@ -20,6 +28,7 @@ class Customer (models.Model):
 class Product (models.Model):
     name = models.CharField(max_length=250)
     price = models.FloatField()
+    rating = models.IntegerChoices('Rating', product_rating)
     # image
 
     def __str__(self):
@@ -59,6 +68,7 @@ class ShippingAddress (models.Model):
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
+
     zip_code = models.CharField(max_length=100)
     date_added = models.DateTimeField(auto_now_add=True)
 

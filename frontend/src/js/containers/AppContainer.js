@@ -4,10 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { MainContext } from "../utils/contextUtils";
 import { getUserAction } from "../actions/AuthActions";
+import UILoadingSpinner from "../components/shared/UILoadingSpinner";
 
 const AppContainer = ({ children }) => {
-  const { auth, alert } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const {
+    spinner: { isLoading },
+  } = useSelector((state) => state);
 
   const openSideBarHandler = () => {};
 
@@ -16,8 +19,6 @@ const AppContainer = ({ children }) => {
   const context = {
     openSideBarHandler,
     logoutHandler,
-    listener: auth,
-    uiAlert: alert,
   };
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const AppContainer = ({ children }) => {
 
   return (
     <MainContext.Provider value={context}>
+      {isLoading && <UILoadingSpinner />}
       <div className="app__container" data-testid="app-container">
         {children}
       </div>

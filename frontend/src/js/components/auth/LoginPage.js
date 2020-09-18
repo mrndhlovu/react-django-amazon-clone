@@ -26,6 +26,7 @@ const LoginPage = () => {
     switch (LOGIN_STAGE.STEPID) {
       case 1:
         setLoginData({ ...loginData, email: data.email });
+
         return dispatch(verifyAccountAction(data));
       case 2:
         setLoginData({ ...loginData, password: data.password });
