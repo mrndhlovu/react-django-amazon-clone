@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
@@ -20,7 +21,14 @@ import MenuList from "./MenuList";
 import NavLinkButton from "./NavLinkButton";
 
 const Navigation = () => {
-  const { openSideBarHandler, listener, logoutHandler } = useMainContext();
+  const {
+    openSideBarHandler,
+    listener: {
+      isAuthenticated,
+      data: { full_name },
+    },
+    logoutHandler,
+  } = useMainContext();
   const [, handleChange] = useFormInput();
   const history = useHistory();
   const [activeCategory, setActiveCategory] = useState("All");
@@ -47,7 +55,7 @@ const Navigation = () => {
           onClick={() => history.push("/")}
           onKeyDown={() => history.push("/")}
         >
-          <AmazonLogo dataTestId="logo" />
+          <AmazonLogo height="50" width="120" dataTestId="logo" />
         </div>
       </div>
       <div data-testid="nav-search-bar" className="nav__bar__center">
@@ -102,14 +110,16 @@ const Navigation = () => {
               contentText={() => (
                 <NavLinkButton
                   redirectTo={history.location.pathname}
-                  buttonText="Account"
-                  subText="& Lists"
+                  buttonText={`Hello, ${
+                    isAuthenticated ? full_name.split(" ")[0] : "Sign in"
+                  }`}
+                  subText="Account & Lists"
                   arrow
                 />
               )}
               content={() => (
                 <div data-testid="account-options">
-                  {!listener.isAuthenticated && (
+                  {!isAuthenticated && (
                     <div className="nav__signin__container">
                       <AmazonButton
                         buttonText="Sign in"
@@ -132,7 +142,7 @@ const Navigation = () => {
                       <h2>Your Account</h2>
                       <Divider variant="fullWidth" />
                       <MenuList list={_ACCOUNT_OPTIONS.ACCOUNT} />
-                      {listener.isAuthenticated && (
+                      {isAuthenticated && (
                         <MenuList
                           list={_ACCOUNT_OPTIONS.AUTH}
                           handleClick={logoutHandler}

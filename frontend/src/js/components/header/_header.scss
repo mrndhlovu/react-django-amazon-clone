@@ -2,17 +2,17 @@
 
 .nav__bar__container {
   background-color: $amazonDarkBlue;
-  display: grid;
-  grid-template-columns: 11% 69% 16%;
+  display: flex;
   height: 60px;
-  justify-content: space-around;
+  justify-content: space-evenly;
   width: 100%;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
+  padding: 0 10px;
 
   .nav__bar__left {
-    @include useFlex(row, flex-start, center);
+    @include useFlex(row, center);
 
     .nav__burger__menu {
       cursor: pointer;
@@ -83,6 +83,12 @@
     }
   }
 
+  .nav__bar__center {
+    flex-grow: 8;
+    max-width: 74%;
+    margin: 0 15px;
+  }
+
   .nav__bar__right,
   .nav__bar__center,
   .nav__links__wrapper {
@@ -90,11 +96,11 @@
   }
 
   .nav__bar__right {
-    @include useFlex(row, flex-end, center);
+    @include useFlex(row, space-evenly);
   }
 
   .nav__links__container {
-    @include useFlex(row);
+    @include useFlex(row, space-around);
     color: $white;
     list-style: none;
     width: 100%;
@@ -111,13 +117,15 @@
     }
 
     & > li {
+      @include useFlex(row, space-around);
       border-radius: 3px;
-      min-width: 25%;
+      box-sizing: border-box;
       cursor: pointer;
-      padding: 5px;
-
+      padding: 5px 10px;
+      border: 2px solid $white;
+      border-color: transparent;
       &:hover {
-        border: 2px solid $white;
+        border-color: $white;
       }
 
       .link__text__first {
@@ -174,6 +182,7 @@
   background-image: url($primeLogo);
   height: 400px;
   margin: 10px 0;
+  padding: 10px;
   background-color: $amazonBlue;
   background-position: 50% 20px;
   background-repeat: no-repeat;
