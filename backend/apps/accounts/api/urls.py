@@ -1,6 +1,7 @@
 from django.urls import path, include
 
 from .views import (
+    AccountVerificationAPIView,
     AuthenticateAPIView,
     DeleteUserAPIView,
     LoginAPIView,
@@ -25,6 +26,7 @@ urlpatterns = [
     path('update-password/', UpdatePasswordAPIView.as_view(),
          name='update_password'),
     path('update-user-detail/', UpdateUserAPIView.as_view(), name='update-detail'),
+    path('verify-account/', AccountVerificationAPIView.as_view(), name='verify'),
 
     path('password-reset-email/', RequestPasswordResetEmailAPIView.as_view(),
          name='password-reset-email'),

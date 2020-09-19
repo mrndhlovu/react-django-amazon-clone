@@ -34,7 +34,7 @@ import {
   requestVerifyUser,
   requestChangePassword,
   requestPasswordResetEmailVerification,
-} from "../apis/apiRequests";
+} from "../api/auth.requests";
 import {
   fireAction,
   fireActionWithAlert,
@@ -61,10 +61,7 @@ export const loginAction = (data) => {
     dispatch(fireAction(LOGIN));
     requestLogin(data)
       .then((response) => {
-        updateLocalStorage({
-          access: response.data.access,
-          refresh: response.data.refresh,
-        });
+        updateLocalStorage(response.data.tokens);
         dispatch(fireAction(LOGIN_SUCCESS));
         dispatch(fireAction(AUTH_USER_SUCCESS, response?.data.user));
       })
@@ -130,10 +127,7 @@ export const updatePasswordAction = (data) => {
     dispatch(fireAction(UPDATE_PASSWORD));
     requestChangePassword(data)
       .then((response) => {
-        updateLocalStorage({
-          access: response.data.access,
-          refresh: response.data.refresh,
-        });
+        updateLocalStorage(response.data.tokens);
         dispatch(fireAction(UPDATE_PASSWORD_SUCCESS));
         dispatch(showAlertAction(response?.data));
       })
@@ -163,10 +157,7 @@ export const registerAction = (data) => {
     dispatch(fireAction(REGISTER));
     requestRegister(data)
       .then((response) => {
-        updateLocalStorage({
-          access: response.data.access,
-          refresh: response.data.refresh,
-        });
+        updateLocalStorage(response.data.tokens);
         dispatch(fireAction(REGISTER_SUCCESS, response?.data.user));
         dispatch(fireAction(AUTH_USER_SUCCESS, response?.data.user));
       })

@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.utils.encoding import smart_str, force_str, DjangoUnicodeDecodeError, smart_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.http import JsonResponse
+import json
 
 from rest_framework import status, permissions
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
@@ -17,9 +18,7 @@ from rest_framework.generics import (
     DestroyAPIView
 )
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import BlacklistedToken
 
 
 from ..backends import Util
@@ -86,35 +85,52 @@ class AuthenticateAPIView(RetrieveAPIView):
             return Response(status=status.HTTP_404_NOT_FOUND, data=data)
 
 
+class AccountVerificationAPIView(GenericAPIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request):
+
+        try:
+            email = request.data['email']
+            user = User.objects.get(email=email)
+            return Response(status=status.HTTP_200_OK)
+        except:
+            data = {'message': 'Account not found', }
+            return Response(status=status.HTTP_404_NOT_FOUND, data=data)
+
+
 class RegistrationAPIView(CreateAPIView):
     serializer_class = RegistrationSerializer
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request):
-        email = request.data['email']
-        if validate_email(email) != None:
-            data = {'message': f'Account with email {email} already exists.'}
-            return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            email = request.data['email']
+            if validate_email(email) != None:
+                raise ValueError(
+                    f'Account with email {email} already exists.')
 
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            email_body = {
-                'body': 'To authenticate your email, please the One Time Password below',
-                'reverse': 'accounts:password-reset-verify',
-                'subject': 'Welcome to Amazon Clone'
-            }
-            send_otp_email(user, request, email_body)
-            data = user.with_auth_tokens()
-            data['confirmed'] = False
-            data['message'] = f'For your security, we need to authenticate account.\
-                            We ve sent a One Time Password (OTP) to the {email}.\
-                            Please enter it below to complete verification.'
+            serializer = self.serializer_class(data=request.data)
+            if serializer.is_valid():
+                user = serializer.save()
+                email_body = {
+                    'body': 'To authenticate your email, please the One Time Password below',
+                    'reverse': 'accounts:password-reset-verify',
+                    'subject': 'Welcome to Amazon Clone'
+                }
+                send_otp_email(user, request, email_body)
+                data = user.with_auth_tokens()
+                data['confirmed'] = False
+                data['message'] = f'For your security, we need to authenticate account.\
+                                We ve sent a One Time Password (OTP) to the {email}.\
+                                Please enter it below to complete verification.'
 
-            return Response(data)
-        else:
-            data = serializer.errors
-            return Response(data, status=status.HTTP_400_BAD_REQUEST)
+                return Response(data)
+            else:
+                data = serializer.errors
+                return Response(data, status=status.HTTP_400_BAD_REQUEST)
+        except ValueError as arr:
+            return Response({'message': str(arr)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LoginAPIView(GenericAPIView):
