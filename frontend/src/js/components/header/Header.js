@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./_header.scss";
 
@@ -20,9 +20,10 @@ import { useMainContext, useFormInput } from "../../utils/hookUtils";
 
 import MenuList from "./MenuList";
 import NavLinkButton from "./NavLinkButton";
+import { logoutAction } from "../../actions/AuthActions";
 
 const Navigation = () => {
-  const { openSideBarHandler, logoutHandler } = useMainContext();
+  const { openSideBarHandler } = useMainContext();
   const {
     auth: {
       isAuthenticated,
@@ -32,6 +33,7 @@ const Navigation = () => {
   const [, handleChange] = useFormInput();
   const history = useHistory();
   const [activeCategory, setActiveCategory] = useState("All");
+  const dispatch = useDispatch();
 
   const selectedCategoryHandler = (category) => {
     setActiveCategory(category === "All Departments" ? "All" : category);
@@ -137,7 +139,6 @@ const Navigation = () => {
                       <Divider variant="fullWidth" />
                       <MenuList list={_ACCOUNT_OPTIONS.LISTS} />
                     </ul>
-                    {/* // TODO Fix logout handler server side */}
                     <ul className="lists__right">
                       <h2>Your Account</h2>
                       <Divider variant="fullWidth" />
@@ -145,7 +146,7 @@ const Navigation = () => {
                       {isAuthenticated && (
                         <MenuList
                           list={_ACCOUNT_OPTIONS.AUTH}
-                          handleClick={logoutHandler}
+                          handleClick={() => dispatch(logoutAction())}
                         />
                       )}
                     </ul>

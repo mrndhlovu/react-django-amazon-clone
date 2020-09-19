@@ -153,7 +153,7 @@ class LogoutAPIView (GenericAPIView):
     serializer_class = BlacklistTokenSerializer
     permission_classes = (permissions.IsAuthenticated, )
 
-    def get(self, request):
+    def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()

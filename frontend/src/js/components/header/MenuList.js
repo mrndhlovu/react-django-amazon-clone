@@ -1,3 +1,4 @@
+/* eslint-disable no-confusing-arrow */
 import React from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
@@ -18,10 +19,10 @@ const MenuList = ({ list, handleClick }) => {
       <button
         type="button"
         className="link__menu__button"
-        onClick={
+        onClick={() =>
           handleClick
-            ? () => handleClick(category?.redirect || category)
-            : () => handleSelectedOption(category?.redirect || category)
+            ? handleClick(category?.redirect || category)
+            : handleSelectedOption(category?.redirect || category)
         }
       >
         {category?.header || category}

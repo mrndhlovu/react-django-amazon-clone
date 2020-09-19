@@ -72,10 +72,12 @@ export const loginAction = (data) => {
   };
 };
 
-export const logoutAction = (data) => {
+export const logoutAction = () => {
+  const refreshToken = { refresh: localStorage.getItem("refreshToken") };
+
   return (dispatch) => {
     dispatch(fireAction(LOGOUT));
-    requestLogout(data)
+    requestLogout(refreshToken)
       .then(() => {
         updateLocalStorage();
         dispatch(fireAction(LOGOUT_SUCCESS));
