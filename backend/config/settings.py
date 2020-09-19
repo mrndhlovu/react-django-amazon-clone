@@ -52,8 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework_simplejwt.token_blacklist',
     'rest_framework',
-
 
     'apps.accounts',
     'apps.store',
@@ -110,7 +110,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'clone_amazon',
+            'NAME': 'amazonclone',
             'USER': 'admin1',
             'PASSWORD': 'bazinga',
             'HOST': 'localhost'

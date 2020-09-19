@@ -1,5 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
+from django.urls import reverse
+from django.utils.encoding import smart_str, force_str, DjangoUnicodeDecodeError, smart_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.contrib.sites.shortcuts import get_current_site
 
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -56,7 +61,6 @@ class User (AbstractBaseUser):
     confirmed = models.BooleanField(default=False)
     time_stamp = models.DateTimeField(auto_now=True)
     confirmed_date = models.DateTimeField(auto_now=False, null=True)
-    is_verified = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
 
@@ -102,7 +106,10 @@ class User (AbstractBaseUser):
             'user': {
                 'full_name': self.full_name,
                 'email': self.email,
+                'confirmed': self.confirmed,
             },
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
+            'tokens': {
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+            }
         }

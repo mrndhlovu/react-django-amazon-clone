@@ -7,11 +7,11 @@ from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 
 
-API_PREFIX = 'v1/api'
-
 urlpatterns = [
     path('v1/api/', include([
         path('auth/', include('apps.accounts.api.urls',  namespace='accounts')),
+        path('products/', include('apps.store.api.urls',  namespace='store')),
+
     ])),
     path('api-auth/', include('rest_framework.urls')),
     path('admin/', admin.site.urls),

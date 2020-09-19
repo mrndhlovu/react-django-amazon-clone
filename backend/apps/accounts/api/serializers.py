@@ -2,10 +2,11 @@ from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import smart_str, force_str, DjangoUnicodeDecodeError, smart_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.text import gettext_lazy
 
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
-
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
 User = get_user_model()
 
@@ -123,3 +124,18 @@ class SetNewPasswordSerializer(serializers.Serializer):
             raise AuthenticationFailed(
                 'Reset token is invalid or has expired.', 401)
         return super().validate(attrs)
+
+
+class BlacklistTokenSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+    def validate(self, attrs):
+        self.token = attrs['refresh']
+        return attrs
+
+    def save(self, **kwargs):
+        try:
+            RefreshToken(self.token).blacklist()
+        except TokenError:
+            raise AuthenticationFailed(
+                'Reset token is invalid or has expired.', 401)
