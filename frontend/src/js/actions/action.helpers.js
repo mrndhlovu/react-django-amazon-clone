@@ -9,7 +9,7 @@ export const fireAction = (type, payload) => ({ type, payload });
 
 export const showAlertAction = (data) => ({
   type: SHOW_ALERT,
-  payload: data?.message || data?.error || data?.detail,
+  payload: data?.message || data?.error || data?.detail || data,
 });
 
 export const removeAlertAction = () => ({
@@ -25,11 +25,11 @@ export const fireActionWithAlert = (type, payload) => (dispatch) => {
 
 export const updateLocalStorage = (data) => {
   if (data) {
-    localStorage.setItem("accessToken", data.access);
-    localStorage.setItem("refreshToken", data.refresh);
+    localStorage.setItem("access", data.access);
+    localStorage.setItem("refresh", data.refresh);
   } else {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
   }
 };
 

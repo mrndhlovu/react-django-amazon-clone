@@ -109,12 +109,16 @@ if "DATABASE_URL" in os.environ:
 else:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'amazonclone',
-            'USER': 'admin1',
-            'PASSWORD': 'bazinga',
-            'HOST': 'localhost'
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
+        # 'default': {
+        #     'ENGINE': 'django.db.backends.postgresql',
+        #     'NAME': 'amazonclone',
+        #     'USER': 'admin1',
+        #     'PASSWORD': 'bazinga',
+        #     'HOST': 'localhost'
+        # }
     }
 
 
@@ -136,7 +140,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,

@@ -9,7 +9,6 @@ import {
 import { LOGIN_STAGES } from "../constants/constants";
 
 const INITIAL_STATE = {
-  isAuthenticated: false,
   isLoading: false,
   hasAccount: false,
   LOGIN_STAGE: LOGIN_STAGES.EMAIL,
@@ -37,7 +36,6 @@ const loginReducer = (state = INITIAL_STATE, action = {}) => {
       return {
         ...state,
         isLoading: false,
-        isAuthenticated: true,
       };
 
     default:

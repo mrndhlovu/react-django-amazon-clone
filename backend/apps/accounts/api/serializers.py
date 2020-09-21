@@ -7,6 +7,7 @@ from django.utils.text import gettext_lazy
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
+from rest_framework.fields import CurrentUserDefault
 
 User = get_user_model()
 
@@ -66,10 +67,40 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return user
 
 
-class UpdateUserSerializer(serializers.ModelSerializer):
+class UpdateUserSerializer(serializers.Serializer):
+    email = serializers.CharField(required=True)
+    full_name = serializers.CharField(required=True)
+
+    class Meta:
+        fields = ['email', 'full_name', ]
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField(min_length=2)
+    password = serializers.CharField(min_length=2, write_only=True)
+    tokens = serializers.SerializerMethodField()
+
+    def get_tokens(self, attrs):
+        try:
+            password = self.validated_data['password']
+            email = self.validated_data['email']
+            user = authenticate(email=email, password=password)
+            if not user:
+                raise AuthenticationFailed(
+                    'No a account found with those credentials.', 400)
+            return user.with_auth_tokens()
+        except:
+            raise AuthenticationFailed(
+                'Reset token is invalid or has expired.', 401)
+
+    class Meta:
+        fields = ['email', 'full_name',  'tokens']
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'full_name']
+        fields = ['full_name', 'email', 'confirmed']
 
 
 class ResetPasswordEmailRequestSerializer(serializers.Serializer):

@@ -6,6 +6,7 @@ import loginReducer from "./loginReducer";
 import registerReducer from "./registerReducer";
 import loadingReducer from "./loadingReducer";
 import accountRecoveryReducer from "./accountRecoveryReducer";
+import editProfileReducer from "./editProfileReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -14,4 +15,5 @@ export default combineReducers({
   register: registerReducer,
   spinner: loadingReducer,
   passwordReset: accountRecoveryReducer,
+  editProfile: editProfileReducer,
 });

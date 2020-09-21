@@ -99,17 +99,10 @@ class User (AbstractBaseUser):
     def is_active(self):
         return self.active
 
-    def with_auth_tokens(self):
+    def auth_tokens(self):
         refresh = RefreshToken.for_user(self)
 
         return {
-            'user': {
-                'full_name': self.full_name,
-                'email': self.email,
-                'confirmed': self.confirmed,
-            },
-            'tokens': {
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-            }
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
         }

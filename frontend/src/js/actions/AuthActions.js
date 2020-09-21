@@ -24,6 +24,9 @@ import {
   VERIFY_ACCOUNT_SUCCESS,
   VERIFY_ACCOUNT_ERROR,
   RESET_FLOW,
+  UPDATE_PROFILE,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_ERROR,
 } from "./ActionTypes";
 import {
   requestCurrentUser,
@@ -33,14 +36,15 @@ import {
   requestRegister,
   requestVerifyUser,
   requestChangePassword,
+  requestUpdateProfile,
   requestPasswordResetEmailVerification,
 } from "../api/auth.requests";
 import {
   fireAction,
   fireActionWithAlert,
-  updateLocalStorage,
   showAlertAction,
 } from "./action.helpers";
+import storageService from "../utils/localstorage.service";
 
 export const getUserAction = () => {
   return (dispatch) => {
@@ -50,7 +54,7 @@ export const getUserAction = () => {
         dispatch(fireAction(AUTH_USER_SUCCESS, response?.data));
       })
       .catch(() => {
-        updateLocalStorage();
+        storageService.clearToken();
         dispatch(fireAction(AUTH_USER_ERROR));
       });
   };
@@ -61,25 +65,25 @@ export const loginAction = (data) => {
     dispatch(fireAction(LOGIN));
     requestLogin(data)
       .then((response) => {
-        updateLocalStorage(response.data.tokens);
+        storageService.setToken(response.data?.tokens);
         dispatch(fireAction(LOGIN_SUCCESS));
         dispatch(fireAction(AUTH_USER_SUCCESS, response?.data.user));
       })
       .catch((error) => {
-        updateLocalStorage();
+        storageService.clearToken();
         dispatch(fireActionWithAlert(LOGIN_ERROR, error?.response?.data));
       });
   };
 };
 
 export const logoutAction = () => {
-  const refreshToken = { refresh: localStorage.getItem("refreshToken") };
+  const refreshToken = { refresh: storageService.getRefreshToken() };
 
   return (dispatch) => {
     dispatch(fireAction(LOGOUT));
     requestLogout(refreshToken)
       .then(() => {
-        updateLocalStorage();
+        storageService.clearToken();
         dispatch(fireAction(LOGOUT_SUCCESS));
       })
       .catch((error) => {
@@ -129,7 +133,7 @@ export const updatePasswordAction = (data) => {
     dispatch(fireAction(UPDATE_PASSWORD));
     requestChangePassword(data)
       .then((response) => {
-        updateLocalStorage(response.data.tokens);
+        storageService.setToken(response.data?.tokens);
         dispatch(fireAction(UPDATE_PASSWORD_SUCCESS));
         dispatch(showAlertAction(response?.data));
       })
@@ -159,13 +163,31 @@ export const registerAction = (data) => {
     dispatch(fireAction(REGISTER));
     requestRegister(data)
       .then((response) => {
-        updateLocalStorage(response.data.tokens);
-        dispatch(fireAction(REGISTER_SUCCESS, response?.data.user));
+        storageService.setToken(response.data?.tokens);
+        dispatch(fireAction(REGISTER_SUCCESS));
+        return response;
+      })
+      .then((response) => {
         dispatch(fireAction(AUTH_USER_SUCCESS, response?.data.user));
       })
       .catch((error) => {
-        updateLocalStorage();
         dispatch(fireActionWithAlert(REGISTER_ERROR, error?.response?.data));
+      });
+  };
+};
+
+export const updateUserAction = (data) => {
+  return (dispatch) => {
+    dispatch(fireAction(UPDATE_PROFILE));
+    requestUpdateProfile(data)
+      .then((response) => {
+        dispatch(fireAction(UPDATE_PROFILE_SUCCESS));
+        dispatch(fireAction(AUTH_USER_SUCCESS, response?.data.user));
+      })
+      .catch((error) => {
+        dispatch(
+          fireActionWithAlert(UPDATE_PROFILE_ERROR, error?.response?.data)
+        );
       });
   };
 };

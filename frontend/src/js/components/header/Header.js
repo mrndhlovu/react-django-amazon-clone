@@ -25,11 +25,9 @@ import { logoutAction } from "../../actions/AuthActions";
 const Navigation = () => {
   const { openSideBarHandler } = useMainContext();
   const {
-    auth: {
-      isAuthenticated,
-      data: { full_name },
-    },
+    auth: { isAuthenticated, data },
   } = useSelector((state) => state);
+
   const [, handleChange] = useFormInput();
   const history = useHistory();
   const [activeCategory, setActiveCategory] = useState("All");
@@ -113,7 +111,7 @@ const Navigation = () => {
                 <NavLinkButton
                   redirectTo={history.location.pathname}
                   buttonText={`Hello, ${
-                    isAuthenticated ? full_name.split(" ")[0] : "Sign in"
+                    isAuthenticated ? data?.full_name.split(" ")[0] : "Sign in"
                   }`}
                   subText="Account & Lists"
                   arrow

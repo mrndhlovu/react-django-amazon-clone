@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
 
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { getQueryParam } from "../../utils/urls";
+import { getQueryParam } from "../../api/urls";
 
 const ShoppingCartCount = ({ count, dataTestId }) => {
   const history = useHistory();

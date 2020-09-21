@@ -16,6 +16,7 @@ body {
 
 .app__container {
   @include containerSize();
+  padding-top: 60px;
 }
 
 ul {

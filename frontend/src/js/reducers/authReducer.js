@@ -22,7 +22,7 @@ const authReducer = (state = INITIAL_STATE, action = {}) => {
     case AUTH_USER_SUCCESS:
       return {
         ...state,
-        data: action.payload,
+        data: { ...state.data, ...action.payload },
         isLoading: false,
         isAuthenticated: true,
       };

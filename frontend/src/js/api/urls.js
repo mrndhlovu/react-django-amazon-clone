@@ -1,21 +1,16 @@
 /* eslint-disable no-unused-expressions */
 import { isArray } from "lodash";
+import localStorage from "../utils/localstorage.service";
 
 export const baseURL = "http://localhost:8000";
 
 export const AUTH_EP = "/v1/api/auth";
-
-const accessToken = localStorage.getItem("accessToken");
-const refreshToken = localStorage.getItem("refreshToken");
-
-const TOKEN = accessToken || refreshToken;
-
 export const AUTH_PARAMS = {
   baseURL,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
-    Authorization: `Bearer ${TOKEN}`,
+    Authorization: `Bearer ${localStorage.getAccessToken()}`,
   },
 };
 

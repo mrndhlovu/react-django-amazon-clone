@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
@@ -7,16 +7,17 @@ const StyledH1 = styled.h1`
   text-align: ${({ align }) => align};
 `;
 
-const UIHeader = ({
-  content, as, className, color, align,
-}) => (
-  <StyledH1 align={align} color={color} className={className} as={as}>
+const UIHeader = forwardRef(({ content, as, className, color, align }, ref) => (
+  <StyledH1 ref={ref} align={align} color={color} className={className} as={as}>
     {content}
   </StyledH1>
-);
+));
 
 UIHeader.defaultProps = {
-  as: "", className: "", color: "", align: "left",
+  as: "",
+  className: "",
+  color: "",
+  align: "left",
 };
 
 UIHeader.propTypes = {

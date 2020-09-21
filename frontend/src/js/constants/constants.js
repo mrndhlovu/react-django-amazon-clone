@@ -71,6 +71,10 @@ const PASSWORD_VALIDATION = yup.object({
   password: yup.string().required().min(6),
 });
 
+export const EMAIL_VALIDATION = yup.object({
+  email: yup.string().required(),
+});
+
 const CONFIRM_PASSWORD_VALIDATION = yup.object({
   password: yup.string().required().min(6),
   confirm_password: yup.string().required().min(6),

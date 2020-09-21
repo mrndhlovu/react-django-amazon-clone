@@ -28,7 +28,9 @@ from .serializers import(
     ResetPasswordEmailRequestSerializer,
     SetNewPasswordSerializer,
     UpdateUserSerializer,
-    BlacklistTokenSerializer
+    BlacklistTokenSerializer,
+    LoginSerializer,
+    UserDetailSerializer,
 )
 
 User = get_user_model()
@@ -70,19 +72,21 @@ def send_otp_email(user, request, data):
     return Util.send_email(email)
 
 
-class AuthenticateAPIView(RetrieveAPIView):
+class UserDetailAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
+    model = User
+
+    def get_object(self, queryset=None):
+        user = self.request.user
+        return user
 
     def get(self, request):
         try:
-            user = request.user
-            serializer = UpdateUserSerializer(user)
-            data = serializer.data
-            data['isAuthenticated'] = True
-            return Response(status=status.HTTP_200_OK, data=data)
+            serializer = UserDetailSerializer(request.user)
+            return Response(data=serializer.data)
         except:
-            data = {'message': 'User not found'}
-            return Response(status=status.HTTP_404_NOT_FOUND, data=data)
+            data = {'message': 'Invalid Credentials'}
+            return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AccountVerificationAPIView(GenericAPIView):
@@ -97,6 +101,29 @@ class AccountVerificationAPIView(GenericAPIView):
         except:
             data = {'message': 'Account not found', }
             return Response(status=status.HTTP_404_NOT_FOUND, data=data)
+
+
+class LoginAPIView(GenericAPIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request):
+
+        user = authenticate(
+            email=request.data['email'].lower(),
+            password=request.data['password']
+        )
+        serialized_user = UserDetailSerializer(user)
+
+        if serialized_user:
+            tokens = user.auth_tokens()
+            data = {
+                'tokens': tokens,
+                'user': serialized_user.data
+            }
+            return Response(data=data,)
+        else:
+            data = {'message': 'Invalid credentials'}
+            return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RegistrationAPIView(CreateAPIView):
@@ -118,12 +145,15 @@ class RegistrationAPIView(CreateAPIView):
                     'reverse': 'accounts:password-reset-verify',
                     'subject': 'Welcome to Amazon Clone'
                 }
-                send_otp_email(user, request, email_body)
-                data = user.with_auth_tokens()
-                data['confirmed'] = False
-                data['message'] = f'For your security, we need to authenticate account.\
+                # send_otp_email(user, request, email_body)
+                serialized_user = UserDetailSerializer(user)
+                data = {
+                    'tokens': user.auth_tokens(),
+                    'user': serialized_user.data,
+                    'message': f'For your security, we need to authenticate account.\
                                 We ve sent a One Time Password (OTP) to the {email}.\
                                 Please enter it below to complete verification.'
+                }
 
                 return Response(data)
             else:
@@ -133,27 +163,12 @@ class RegistrationAPIView(CreateAPIView):
             return Response({'message': str(arr)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class LoginAPIView(GenericAPIView):
-    permission_classes = (permissions.AllowAny,)
-
-    def post(self, request):
-        user = authenticate(
-            email=request.data['email'].lower(),
-            password=request.data['password']
-        )
-        if user:
-            data = user.with_auth_tokens()
-            return Response(data=data,)
-        else:
-            data = {'message': 'Invalid credentials'}
-            return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
-
-
 class LogoutAPIView (GenericAPIView):
     serializer_class = BlacklistTokenSerializer
     permission_classes = (permissions.IsAuthenticated, )
 
     def post(self, request):
+
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -164,17 +179,28 @@ class UpdateUserAPIView(UpdateAPIView):
     serializer_class = UpdateUserSerializer
     permission_classes = (permissions.IsAuthenticated, )
 
+    def get_object(self, queryset=None):
+        user = self.request.user
+        return user
+
     def put(self, request):
+        user = self.get_object()
         data = request.data
+
         try:
             user = request.user
-            serializer = UpdateUserSerializer(user, data=data)
+            serializer = self.serializer_class(data=data)
         except:
             data = {'message': 'Account not found.'}
             return Response(status=status.HTTP_404_NOT_FOUND, data=data)
 
         if serializer.is_valid():
-            serializer.save()
+            email = serializer.data.get('email')
+            full_name = serializer.data.get('full_name')
+            user.email = email
+            user.full_name = full_name
+
+            user.save()
             data = {'success': True, 'user': serializer.data}
             return Response(data=data)
         else:
@@ -207,8 +233,8 @@ class UpdatePasswordAPIView(UpdateAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_object(self, queryset=None):
-        obj = self.request.user
-        return obj
+        user = self.request.user
+        return user
 
     def update(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -272,7 +298,8 @@ class PasswordTokenVerificationAPIView(GenericAPIView):
             has_not_used_token_before = PasswordResetTokenGenerator().check_token(user, token)
 
             if has_not_used_token_before:
-                user.confirmed = True
+                if not user.confirmed:
+                    user.confirmed = True
                 user.save()
                 data = {'message': 'Credentials Valid',
                         'uidb64': uidb64, 'token': token}

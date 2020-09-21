@@ -1,36 +1,39 @@
+/* eslint-disable no-return-await */
 import axios from "axios";
-import { PARAMS, AUTH_EP, AUTH_PARAMS, baseURL } from "../utils/urls";
+import { PARAMS, AUTH_EP, AUTH_PARAMS, baseURL } from "./urls";
 
 const authAxiosInstance = axios.create({ ...AUTH_PARAMS });
 const axiosInstance = axios.create({ ...PARAMS });
 
-export const requestCurrentUser = () => authAxiosInstance.get(`${AUTH_EP}/me/`);
-export const requestLogin = (data) =>
-  axiosInstance.post(`${AUTH_EP}/login/`, data);
+export const requestCurrentUser = async () =>
+  await authAxiosInstance.get(`${AUTH_EP}/me/`);
 
-export const requestLogout = (body) =>
-  authAxiosInstance.post(`${AUTH_EP}/logout/`, body);
+export const requestLogin = async (data) =>
+  await axiosInstance.post(`${AUTH_EP}/login/`, data);
 
-export const requestUpdatePassword = (data) =>
-  authAxiosInstance.post(`${AUTH_EP}/update-password/`, data);
+export const requestLogout = async (body) =>
+  await authAxiosInstance.post(`${AUTH_EP}/logout/`, body);
 
-export const requestRegister = (data) =>
-  axiosInstance.post(`${AUTH_EP}/register/`, data);
+export const requestUpdatePassword = async (data) =>
+  await authAxiosInstance.post(`${AUTH_EP}/update-password/`, data);
 
-export const requestDeleteAccount = () =>
-  authAxiosInstance.delete(`${AUTH_EP}/delete-account/`);
+export const requestRegister = async (data) =>
+  await axiosInstance.post(`${AUTH_EP}/register/`, data);
 
-export const requestUpdateProfile = (data) =>
-  authAxiosInstance.post(`${AUTH_EP}/update-user-detail/`, data);
+export const requestDeleteAccount = async () =>
+  await authAxiosInstance.delete(`${AUTH_EP}/delete-account/`);
 
-export const requestVerifyUser = (data) =>
-  axiosInstance.post(`${AUTH_EP}/verify-account/`, data);
+export const requestUpdateProfile = async (data) =>
+  await authAxiosInstance.put(`${AUTH_EP}/update-user-detail/`, data);
 
-export const requestPasswordResetEmailVerification = (data) =>
-  axiosInstance.post(`${AUTH_EP}/password-reset-email/`, data);
+export const requestVerifyUser = async (data) =>
+  await axiosInstance.post(`${AUTH_EP}/verify-account/`, data);
 
-export const requestVerifyOtp = (data) =>
-  axiosInstance.get(`${baseURL}${data.otp}`, data);
+export const requestPasswordResetEmailVerification = async (data) =>
+  await axiosInstance.post(`${AUTH_EP}/password-reset-email/`, data);
 
-export const requestChangePassword = (data) =>
-  axiosInstance.patch(`${AUTH_EP}/password-reset-complete/`, data);
+export const requestVerifyOtp = async (data) =>
+  await axiosInstance.get(`${baseURL}${data.otp}`, data);
+
+export const requestChangePassword = async (data) =>
+  await axiosInstance.patch(`${AUTH_EP}/password-reset-complete/`, data);
