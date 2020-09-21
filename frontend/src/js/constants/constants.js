@@ -122,3 +122,22 @@ export const PASSWORD_ASSISTANCE_STAGES = {
     STEPID: 3,
   },
 };
+
+export const MANAGE_ACCOUNT_SECTIONS = {
+  ACCOUNT: {
+    HEADER: "Your Account",
+  },
+
+  ORDERS: {
+    HEADER: "Your Orders",
+  },
+  LOGIN_SECURITY: {
+    HEADER: "Login & Security",
+  },
+  ADDRESS: {
+    HEADER: "Your Account",
+  },
+  PAYMENTS: {
+    HEADER: "Your Payments",
+  },
+};

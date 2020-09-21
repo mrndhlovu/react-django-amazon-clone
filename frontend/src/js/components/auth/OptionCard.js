@@ -1,18 +1,21 @@
 import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
 import { UIHeader } from "../shared";
 
-const Card = styled.div`
+const Card = styled(NavLink)`
   ${({ theme }) => theme.helpers.useFlex()};
   ${({ theme }) => theme.helpers.hoverTransition()};
+  color: ${({ theme }) => theme.colors.black};
   padding: 15px;
   border: 1px solid #00000054;
   border-radius: 3px;
   height: 85px;
   cursor: pointer;
   margin: 0 15px 15px 0;
+  text-decoration: none;
 
   &:hover {
     background-color: #68686847;
@@ -42,9 +45,9 @@ const ContextWrapper = styled.div`
 `;
 
 const OptionCard = forwardRef(
-  ({ icon: Icon, header, content, onClick }, ref) => {
+  ({ icon: Icon, header, content, onClick, linkTo }, ref) => {
     return (
-      <Card onClick={onClick}>
+      <Card to={linkTo} onClick={onClick}>
         <IconContainer>
           <Icon />
         </IconContainer>
@@ -66,6 +69,7 @@ OptionCard.propTypes = {
   onClick: PropTypes.func.isRequired,
   header: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
+  linkTo: PropTypes.string.isRequired,
 };
 
 export default OptionCard;

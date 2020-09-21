@@ -23,16 +23,6 @@ export const fireActionWithAlert = (type, payload) => (dispatch) => {
   return dispatch(fireAction(type, payload));
 };
 
-export const updateLocalStorage = (data) => {
-  if (data) {
-    localStorage.setItem("access", data.access);
-    localStorage.setItem("refresh", data.refresh);
-  } else {
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
-  }
-};
-
 export const showSpinner = () => (dispatch) => dispatch(fireAction(FETCH_DATA));
 
 export const removeSpinner = () => (dispatch) =>
