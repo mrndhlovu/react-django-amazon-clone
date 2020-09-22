@@ -1,7 +1,7 @@
 /* eslint-disable react/button-has-type */
 import React, { Children, cloneElement, forwardRef } from "react";
 import PropTypes from "prop-types";
-import { Formik, Form, useFormikContext } from "formik";
+import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 
 const UIForm = ({
   dataTestId,
@@ -48,11 +48,8 @@ UIForm.Button = ({ button: RenderButton, className, type, content }) => {
 };
 
 UIForm.Input = forwardRef(
-  (
-    { className, name, placeholder, dataTestId, label, handleChange, type },
-    ref
-  ) => {
-    const { touched, errors, setFieldTouched } = useFormikContext();
+  ({ className, name, dataTestId, label, type }, ref) => {
+    const { touched, errors } = useFormikContext();
 
     return (
       <div className={className}>
@@ -61,21 +58,17 @@ UIForm.Input = forwardRef(
             {label}
           </label>
         )}
-        <input
+        <Field
           id={name}
           ref={ref}
           name={name}
-          type={type || name}
+          type={type}
           data-testid={dataTestId}
-          onChange={handleChange}
-          onFocus={() => setFieldTouched(type)}
-          placeholder={placeholder}
-          className="form__input"
         />
-        {touched[type] && errors[type] && (
+        {touched[name] && errors[name] && (
           <div className="form__error">
             <span>*</span>
-            <span>{errors[type]}</span>
+            <span>{errors[name]}</span>
           </div>
         )}
       </div>

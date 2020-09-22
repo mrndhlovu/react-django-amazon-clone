@@ -10,7 +10,7 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
 
   & > h1 {
-    padding-left: 13px;
+    padding-left: 10px;
     font-weight: ${({ theme }) => theme.fonts.weight.medium};
   }
 `;

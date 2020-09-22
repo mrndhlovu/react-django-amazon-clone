@@ -5,7 +5,7 @@ import alertReducer from "./alertReducer";
 import loginReducer from "./loginReducer";
 import registerReducer from "./registerReducer";
 import loadingReducer from "./loadingReducer";
-import accountRecoveryReducer from "./accountRecoveryReducer";
+import accountRecoveryReducer from "./accountAssistReducer";
 import editProfileReducer from "./editProfileReducer";
 
 export default combineReducers({

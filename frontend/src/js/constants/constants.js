@@ -41,22 +41,57 @@ export const DEVICES = {
   desktopL: `(min-width: ${size.desktop})`,
 };
 
+const PASSWORD_VALIDATION = yup.string().required("Required field").min(6);
+const NEW_PASSWORD_VALIDATION = yup
+  .string()
+  .required("New email is a required field")
+  .min(6);
+const CONFIRM_PASSWORD_FIELD = yup
+  .string()
+  .required("Confirm email is a required field")
+  .min(6);
+
+const EMAIL_VALIDATION = yup
+  .string()
+  .email("Invalid email")
+  .required("Required field");
+
+const PHONE_VALIDATION = yup.string().required("Required field").min(8);
+
+const NAME_VALIDATION = yup
+  .string()
+  .min(2, "Too Short!")
+  .max(70, "Too Long!")
+  .required("Required field");
+
+export const PHONE_FORM_VALIDATION = yup.object({
+  phone: PHONE_VALIDATION,
+});
+
+export const NAME_FORM_VALIDATION = yup.object({
+  name: NAME_VALIDATION,
+});
+
+export const EMAIL_FORM_VALIDATION = yup.object({
+  email: EMAIL_VALIDATION,
+});
+
 export const FORM_VALIDATION = {
   REGISTER: yup.object({
-    full_name: yup.string().required().min(8),
-    email: yup.string().required(),
-    password: yup.string().required().min(6),
-    confirm_password: yup.string().required().min(6),
+    full_name: NAME_VALIDATION,
+    email: EMAIL_VALIDATION,
+    password: PASSWORD_VALIDATION,
+    confirm_password: PASSWORD_VALIDATION,
   }),
   LOGIN: yup.object({
-    email: yup.string().required(),
-    password: yup.string().required().min(6),
+    email: EMAIL_VALIDATION,
+    password: PASSWORD_VALIDATION,
   }),
 };
 
 const EMAIL_VERIFICATION_STAGE = {
   VALIDATION: yup.object({
-    email: yup.string().required(),
+    email: EMAIL_VALIDATION,
   }),
   INITIAL_STATE: { email: undefined },
   INPUT: {
@@ -67,17 +102,15 @@ const EMAIL_VERIFICATION_STAGE = {
   STEPID: 1,
 };
 
-const PASSWORD_VALIDATION = yup.object({
-  password: yup.string().required().min(6),
-});
-
-export const EMAIL_VALIDATION = yup.object({
-  email: yup.string().required(),
-});
-
 const CONFIRM_PASSWORD_VALIDATION = yup.object({
-  password: yup.string().required().min(6),
-  confirm_password: yup.string().required().min(6),
+  password: PASSWORD_VALIDATION,
+  confirm_password: PASSWORD_VALIDATION,
+});
+
+export const CHANGE_PASSWORD_VALIDATION = yup.object({
+  password: PASSWORD_VALIDATION,
+  new_password: NEW_PASSWORD_VALIDATION,
+  confirm_password: CONFIRM_PASSWORD_FIELD,
 });
 
 export const LOGIN_STAGES = {
@@ -103,7 +136,7 @@ export const PASSWORD_ASSISTANCE_STAGES = {
   },
   OPT: {
     VALIDATION: yup.object({
-      otp: yup.string().required(),
+      otp: yup.string().required("Required field"),
     }),
     INITIAL_STATE: { otp: undefined },
     HEADER: "Authentication Required.",
@@ -135,7 +168,7 @@ export const MANAGE_ACCOUNT_SECTIONS = {
     HEADER: "Login & Security",
   },
   ADDRESS: {
-    HEADER: "Your Account",
+    HEADER: "Your Address",
   },
   PAYMENTS: {
     HEADER: "Your Payments",

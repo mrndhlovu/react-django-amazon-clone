@@ -13,6 +13,7 @@ from .views import (
     SetNewPasswordAPIView,
     UpdatePasswordAPIView,
     UpdateUserAPIView,
+    UpdatePasswordAPIView
 )
 
 app_name = 'accounts'

@@ -36,6 +36,7 @@ class ProductManager(models.Manager):
 class Customer (models.Model):
     address = models.CharField(max_length=250)
     city = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=15)
     created = models.DateTimeField(auto_now_add=True)
     customer = models.OneToOneField(User, on_delete=models.CASCADE)
     postal_code = models.CharField(max_length=20)

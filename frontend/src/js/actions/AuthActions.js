@@ -27,6 +27,7 @@ import {
   UPDATE_PROFILE,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_ERROR,
+  OPEN_YOUR_ACCOUNT,
 } from "./ActionTypes";
 import {
   requestCurrentUser,
@@ -38,6 +39,7 @@ import {
   requestChangePassword,
   requestUpdateProfile,
   requestPasswordResetEmailVerification,
+  requestUpdatePassword,
 } from "../api/auth.requests";
 import {
   fireAction,
@@ -128,14 +130,18 @@ export const resetChangePasswordFlow = () => {
   };
 };
 
-export const updatePasswordAction = (data) => {
+export const updatePasswordAction = (data, update) => {
   return (dispatch) => {
     dispatch(fireAction(UPDATE_PASSWORD));
-    requestChangePassword(data)
-      .then((response) => {
-        storageService.setToken(response.data?.tokens);
+    (update ? requestUpdatePassword : requestChangePassword)(data)
+      .then(() => {
         dispatch(fireAction(UPDATE_PASSWORD_SUCCESS));
-        dispatch(showAlertAction(response?.data));
+        if (update) {
+          dispatch(logoutAction());
+          setTimeout(() => {
+            dispatch(fireAction(OPEN_YOUR_ACCOUNT));
+          }, 1500);
+        }
       })
       .catch((error) => {
         dispatch(

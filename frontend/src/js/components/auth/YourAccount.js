@@ -8,6 +8,9 @@ import PaymentIcon from "@material-ui/icons/Payment";
 import RoomIcon from "@material-ui/icons/Room";
 
 import LoginAndSecurity from "./LoginAndSecurity";
+import Orders from "./Orders";
+import Address from "./Address";
+import Payments from "./Payments";
 import OptionCard from "./OptionCard";
 import UIContentWrapper from "../shared/UIContentWrapper";
 
@@ -29,7 +32,7 @@ const OptionsContainer = styled.div`
 
 const YourAccount = () => {
   const {
-    editProfile: { ACTIVE_SECTION, BREADCRUMBS, OPEN },
+    editProfile: { ACTIVE_SECTION, BREADCRUMBS },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
   const {
@@ -48,11 +51,7 @@ const YourAccount = () => {
     <UIContentWrapper
       header={ACTIVE_SECTION?.SUBHEADER || ACTIVE_SECTION.HEADER}
     >
-      <UIBreadcrumbs
-        breadCrumbs={BREADCRUMBS}
-        activePageId={OPEN}
-        onClick={handleClickOption}
-      />
+      <UIBreadcrumbs breadCrumbs={BREADCRUMBS} onClick={handleClickOption} />
       {ACCOUNT.HEADER === ACTIVE_SECTION.HEADER && (
         <OptionsContainer>
           <OptionCard
@@ -89,6 +88,27 @@ const YourAccount = () => {
 
       {LOGIN_SECURITY.HEADER === ACTIVE_SECTION.HEADER && (
         <LoginAndSecurity
+          ACTIVE_SECTION={ACTIVE_SECTION}
+          sectionHeader={ACTIVE_SECTION.HEADER}
+        />
+      )}
+
+      {ORDERS.HEADER === ACTIVE_SECTION.HEADER && (
+        <Orders
+          ACTIVE_SECTION={ACTIVE_SECTION}
+          sectionHeader={ACTIVE_SECTION.HEADER}
+        />
+      )}
+
+      {ADDRESS.HEADER === ACTIVE_SECTION.HEADER && (
+        <Address
+          ACTIVE_SECTION={ACTIVE_SECTION}
+          sectionHeader={ACTIVE_SECTION.HEADER}
+        />
+      )}
+
+      {PAYMENTS.HEADER === ACTIVE_SECTION.HEADER && (
+        <Payments
           ACTIVE_SECTION={ACTIVE_SECTION}
           sectionHeader={ACTIVE_SECTION.HEADER}
         />

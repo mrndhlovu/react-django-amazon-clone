@@ -241,18 +241,18 @@ class UpdatePasswordAPIView(UpdateAPIView):
         serializer = self.get_serializer(data=request.data)
 
         if serializer.is_valid():
-            if not self.object.check_password(serializer.data.get("old_password")):
+            if not self.object.check_password(serializer.data.get("password")):
                 return Response(status=status.HTTP_404_NOT_FOUND, data={'message': 'Wrong password'})
 
             new_password = serializer.data.get('new_password')
-            confirm_new_password = serializer.data.get('confirm_new_password')
+            confirm_password = serializer.data.get('confirm_password')
 
-            if new_password != confirm_new_password:
+            if new_password != confirm_password:
                 data = {'message': 'New passwords must match.'}
                 return Response(status=status.HTTP_404_NOT_FOUND, data=data)
 
             self.object.set_password(
-                serializer.data.get('confirm_new_password'))
+                serializer.data.get('confirm_password'))
             self.object.save()
             return Response(status=status.HTTP_200_OK, data={'message': 'Password updated.'})
         else:

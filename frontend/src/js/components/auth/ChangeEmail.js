@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { AmazonButton, UIForm } from "../shared";
-import { EMAIL_VALIDATION } from "../../constants/constants";
+import { EMAIL_FORM_VALIDATION } from "../../constants/constants";
 import { updateUserAction } from "../../actions/AuthActions";
 import FormLayout from "../shared/FormLayout";
 
@@ -52,7 +52,7 @@ const ChangeEmail = () => {
 
       <UIForm
         initialState={INITIAL_STATE}
-        validationSchema={EMAIL_VALIDATION}
+        validationSchema={EMAIL_FORM_VALIDATION}
         submitHandler={handleChangeEmail}
       >
         {!isUpdated && (

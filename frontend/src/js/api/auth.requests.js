@@ -15,7 +15,7 @@ export const requestLogout = async (body) =>
   await authAxiosInstance.post(`${AUTH_EP}/logout/`, body);
 
 export const requestUpdatePassword = async (data) =>
-  await authAxiosInstance.post(`${AUTH_EP}/update-password/`, data);
+  await authAxiosInstance.put(`${AUTH_EP}/update-password/`, data);
 
 export const requestRegister = async (data) =>
   await axiosInstance.post(`${AUTH_EP}/register/`, data);

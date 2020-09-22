@@ -1,6 +1,5 @@
 import {
   EDIT_EMAIL,
-  EDIT_LOGIN_SECURITY,
   EDIT_NAME,
   EDIT_PASSWORD,
   EDIT_PHONE_NUMBER,
@@ -15,7 +14,6 @@ import {
 } from "../actions/ActionTypes";
 
 import { MANAGE_ACCOUNT_SECTIONS } from "../constants/constants";
-import { getParamString } from "../utils/appUtils";
 
 const INITIAL_STATE = {
   BREADCRUMBS: [{ header: "Your Account", redirectTo: OPEN_YOUR_ACCOUNT }],
@@ -88,18 +86,16 @@ const editProfileReducer = (state = INITIAL_STATE, action = {}) => {
           { header: "Edit Your Phone", redirectTo: OPEN_LOGIN_SECURITY },
         ],
       };
-    case EDIT_LOGIN_SECURITY:
-      return {
-        ...state,
-
-        ACTIVE_SECTION: MANAGE_ACCOUNT_SECTIONS.EDIT_LOGIN_SECURITY,
-      };
 
     case OPEN_ADDRESS:
       return {
         ...state,
         ACTIVE_SECTION: MANAGE_ACCOUNT_SECTIONS.ADDRESS,
-        OPEN: "your-address",
+
+        BREADCRUMBS: [
+          ...INITIAL_STATE.BREADCRUMBS,
+          { header: "Your Address", redirectTo: OPEN_ADDRESS },
+        ],
       };
 
     case OPEN_LOGIN_SECURITY:
@@ -117,14 +113,21 @@ const editProfileReducer = (state = INITIAL_STATE, action = {}) => {
       return {
         ...state,
         ACTIVE_SECTION: MANAGE_ACCOUNT_SECTIONS.PAYMENTS,
-        OPEN: "your-payments",
+        BREADCRUMBS: [
+          ...INITIAL_STATE.BREADCRUMBS,
+          { header: "Your Payments", redirectTo: OPEN_PAYMENTS },
+        ],
       };
 
     case OPEN_ORDERS:
       return {
         ...state,
         ACTIVE_SECTION: MANAGE_ACCOUNT_SECTIONS.ORDERS,
-        OPEN: "your-orders",
+
+        BREADCRUMBS: [
+          ...INITIAL_STATE.BREADCRUMBS,
+          { header: "Your Orders", redirectTo: OPEN_ORDERS },
+        ],
       };
 
     case OPEN_YOUR_ACCOUNT:

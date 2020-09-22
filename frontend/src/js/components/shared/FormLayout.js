@@ -81,15 +81,15 @@ const FormWrapper = styled.div`
   }
 `;
 
-const PageDivider = styled.div`
-  background-color: #dddddd42;
-  height: 25vh;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  box-shadow: -4px -4px 29px 1px rgba(0, 0, 0, 0.12);
-`;
+// const PageDivider = styled.div`
+//   background-color: #dddddd42;
+//   height: 25vh;
+//   width: 100%;
+//   position: absolute;
+//   bottom: 0;
+//   left: 0;
+//   box-shadow: -4px -4px 29px 1px rgba(0, 0, 0, 0.12);
+// `;
 
 const FormAlert = styled.div`
   ${({ theme }) => theme.helpers.useOverFlowWrap};
@@ -127,6 +127,7 @@ const FormLayout = ({
   dividerContent,
   dataTestId,
   success,
+  className,
 }) => {
   const { alert } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -138,7 +139,7 @@ const FormLayout = ({
   }, [dispatch]);
 
   return (
-    <Wrapper data-testid={dataTestId}>
+    <Wrapper className={className} data-testid={dataTestId}>
       <Link to="/" className="amazon__form__logo">
         <AmazonLogo
           dataTestId={`${(header || "auth")
@@ -194,7 +195,6 @@ const FormLayout = ({
           />
         )}
       </Container>
-      <PageDivider />
     </Wrapper>
   );
 };
@@ -206,6 +206,7 @@ FormLayout.defaultProps = {
   footerLinkProps: {},
   header: "",
   success: false,
+  className: "",
 };
 
 FormLayout.propTypes = {
@@ -224,6 +225,7 @@ FormLayout.propTypes = {
   }),
   dividerContent: PropTypes.string,
   dataTestId: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default FormLayout;

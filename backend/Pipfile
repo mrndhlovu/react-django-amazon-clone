@@ -8,11 +8,11 @@ djangorestframework = "*"
 dj-database-url = "*"
 django-rest-knox = "*"
 Django = "*"
-pyjwt = "*"
+PyJWT = "*"
 psycopg2-binary = "*"
 djangorestframework-simplejwt = "*"
 django-cors-headers = "*"
-pillow = "*"
+Pillow = "*"
 
 [dev-packages]
 

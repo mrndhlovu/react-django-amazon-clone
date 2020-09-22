@@ -14,9 +14,9 @@ User = get_user_model()
 
 class ChangePasswordSerializer(serializers.Serializer):
 
-    old_password = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
-    confirm_new_password = serializers.CharField(required=True)
+    confirm_password = serializers.CharField(required=True)
 
     def save(self):
         user = User(

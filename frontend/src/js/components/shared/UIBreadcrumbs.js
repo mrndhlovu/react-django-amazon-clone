@@ -20,7 +20,6 @@ const LinkContainer = styled(Link)`
   max-height: 10px;
   text-decoration: none;
   font-size: 15px;
-
   cursor: pointer;
   width: fit-content;
 
@@ -34,6 +33,7 @@ const Container = styled.div`
   padding: 10px 0;
   position: absolute;
   top: 4%;
+  left: 8%;
   display: flex;
 `;
 
@@ -63,7 +63,7 @@ UIBreadcrumbs.defaultProps = {
 };
 
 UIBreadcrumbs.propTypes = {
-  breadCrumbs: PropTypes.arrayOf(PropTypes.string).isRequired,
+  breadCrumbs: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   onClick: PropTypes.func,
 };
 

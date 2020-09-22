@@ -59,7 +59,7 @@ const accountRecoveryReducer = (state = INITIAL_STATE, action = {}) => {
         ...state,
         isLoading: false,
         resetSuccess: true,
-        error: {},
+        isUpdated: true,
       };
     default:
       return state;
