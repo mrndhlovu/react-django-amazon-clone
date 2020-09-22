@@ -99,7 +99,7 @@ const EMAIL_VERIFICATION_STAGE = {
     label: "E-mail (phone for mobile accounts)",
   },
   BUTTON_TEXT: "Continue",
-  STEPID: 1,
+  STEPID: "EMAIL",
 };
 
 const CONFIRM_PASSWORD_VALIDATION = yup.object({
@@ -123,7 +123,7 @@ export const LOGIN_STAGES = {
       label: "Password",
     },
     BUTTON_TEXT: "Sign-In",
-    STEPID: 2,
+    STEPID: "PASSWORD",
   },
 };
 

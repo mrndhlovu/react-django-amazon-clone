@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
-import { AmazonButton, UIForm, UIHeader, UILinkButton } from "../shared";
+import { UIForm, UIHeader, UILinkButton } from "../shared";
 
 import {
   updatePasswordAction,
@@ -92,14 +92,9 @@ const PasswordAssistance = () => {
               label="E-mail or mobile phone number"
             />
             <UIForm.Button
-              button={() => (
-                <AmazonButton
-                  buttonText="Continue"
-                  dataTestId="login-button"
-                  type="submit"
-                  disabled={isLoading}
-                />
-              )}
+              buttonText="Continue"
+              dataTestId="login-button"
+              type="submit"
             />
           </UIForm>
 
@@ -126,14 +121,9 @@ const PasswordAssistance = () => {
           >
             <UIForm.Input type="text" name="otp" label="Enter OTP" />
             <UIForm.Button
-              button={() => (
-                <AmazonButton
-                  buttonText="Continue"
-                  dataTestId="login-button"
-                  type="submit"
-                  disabled={isLoading}
-                />
-              )}
+              buttonText="Continue"
+              dataTestId="login-button"
+              type="submit"
             />
           </UIForm>
           <Button
@@ -166,14 +156,9 @@ const PasswordAssistance = () => {
             />
 
             <UIForm.Button
-              button={() => (
-                <AmazonButton
-                  buttonText="Save changes and sign in"
-                  dataTestId="login-button"
-                  type="submit"
-                  disabled={isLoading}
-                />
-              )}
+              buttonText="Save changes and sign in"
+              dataTestId="login-button"
+              type="submit"
             />
           </UIForm>
 

@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { AmazonButton, UIForm } from "../shared";
+import { UIForm } from "../shared";
 import { NAME_FORM_VALIDATION } from "../../constants/constants";
 import { updateUserAction } from "../../actions/AuthActions";
 import FormLayout from "../shared/FormLayout";
@@ -47,22 +47,16 @@ const ChangeName = () => {
           Enter new name you would like to associate with your account below.
         </span>
       </Paragraph>
-
       <UIForm
         initialState={INITIAL_STATE}
         validationSchema={NAME_FORM_VALIDATION}
         submitHandler={handleChangeName}
       >
         <UIForm.Input ref={inputRef} label="New name" name="name" type="name" />
-
         <UIForm.Button
-          button={() => (
-            <AmazonButton
-              buttonText={isUpdated ? "Done" : "Continue"}
-              type={isUpdated ? "button" : "submit"}
-              disabled={isUpdated}
-            />
-          )}
+          buttonText={isUpdated ? "Done" : "Continue"}
+          type={isUpdated ? "button" : "submit"}
+          disabled={isUpdated}
         />
       </UIForm>
     </FormLayout>

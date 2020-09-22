@@ -99,7 +99,7 @@ class User (AbstractBaseUser):
     def is_active(self):
         return self.active
 
-    def with_auth_tokens(self):
+    def auth_tokens(self):
         refresh = RefreshToken.for_user(self)
 
         return {

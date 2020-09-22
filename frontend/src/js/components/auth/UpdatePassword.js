@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { AmazonButton, UIForm } from "../shared";
+import { UIForm } from "../shared";
 import { CHANGE_PASSWORD_VALIDATION } from "../../constants/constants";
 import { updatePasswordAction } from "../../actions/AuthActions";
 import FormLayout from "../shared/FormLayout";
@@ -90,12 +90,8 @@ const UpdatePassword = () => {
           />
 
           <UIForm.Button
-            button={() => (
-              <AmazonButton
-                buttonText={isUpdated ? "Login" : "Save changes"}
-                type={isUpdated ? "button" : "submit"}
-              />
-            )}
+            buttonText={isUpdated ? "Login" : "Save changes"}
+            type={isUpdated ? "button" : "submit"}
           />
         </UIForm>
       )}

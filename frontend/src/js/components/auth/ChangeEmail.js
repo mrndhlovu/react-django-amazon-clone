@@ -3,12 +3,12 @@ import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { AmazonButton, UIForm } from "../shared";
+import { UIForm } from "../shared";
 import { EMAIL_FORM_VALIDATION } from "../../constants/constants";
 import { updateUserAction } from "../../actions/AuthActions";
 import FormLayout from "../shared/FormLayout";
 
-const Paragraph = styled.p`
+const Paragraph = styled.span`
   padding: 10px 0;
   font-size: 14px;
 
@@ -64,13 +64,9 @@ const ChangeEmail = () => {
           />
         )}
         <UIForm.Button
-          button={() => (
-            <AmazonButton
-              buttonText={isUpdated ? "Done" : "Continue"}
-              type={isUpdated ? "button" : "submit"}
-              disabled={isUpdated}
-            />
-          )}
+          buttonText={isUpdated ? "Done" : "Continue"}
+          type={isUpdated ? "button" : "submit"}
+          disabled={isUpdated}
         />
       </UIForm>
     </FormLayout>

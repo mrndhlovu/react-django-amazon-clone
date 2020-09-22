@@ -11,7 +11,6 @@ import { removeAlertAction } from "../../actions/action.helpers";
 import AmazonButton from "./AmazonButton";
 import AmazonLogo from "./AmazonLogo";
 import TextDivider from "./TextDivider";
-import UIForm from "./UIForm";
 import UIHeader from "./UIHeader";
 
 const Wrapper = styled.div`
@@ -80,16 +79,6 @@ const FormWrapper = styled.div`
     font-weight: ${({ theme }) => theme.fonts.weight.medium};
   }
 `;
-
-// const PageDivider = styled.div`
-//   background-color: #dddddd42;
-//   height: 25vh;
-//   width: 100%;
-//   position: absolute;
-//   bottom: 0;
-//   left: 0;
-//   box-shadow: -4px -4px 29px 1px rgba(0, 0, 0, 0.12);
-// `;
 
 const FormAlert = styled.div`
   ${({ theme }) => theme.helpers.useOverFlowWrap};
@@ -167,7 +156,6 @@ const FormLayout = ({
         <FormWrapper>
           <UIHeader content={header} as="h2" />
           {children}
-
           {footerLinkProps?.content && (
             <>
               <TextDivider content={dividerContent} />
@@ -183,15 +171,11 @@ const FormLayout = ({
 
         {dividerContent && <TextDivider content={dividerContent} />}
         {footerButtonProps?.content && (
-          <UIForm.Button
-            button={() => (
-              <AmazonButton
-                buttonText={footerButtonProps.content}
-                dataTestId={footerButtonProps.testId}
-                handleClick={footerButtonProps.onClick}
-                secondary
-              />
-            )}
+          <AmazonButton
+            buttonText={footerButtonProps.content}
+            dataTestId={footerButtonProps.testId}
+            handleClick={footerButtonProps.onClick}
+            secondary
           />
         )}
       </Container>

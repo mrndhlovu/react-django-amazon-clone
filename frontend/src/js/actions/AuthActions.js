@@ -62,11 +62,12 @@ export const getUserAction = () => {
   };
 };
 
-export const loginAction = (data) => {
+export const loginAction = (data, callback) => {
   return (dispatch) => {
     dispatch(fireAction(LOGIN));
     requestLogin(data)
       .then((response) => {
+        if (callback) callback();
         storageService.setToken(response.data?.tokens);
         dispatch(fireAction(LOGIN_SUCCESS));
         dispatch(fireAction(AUTH_USER_SUCCESS, response?.data.user));
@@ -74,6 +75,7 @@ export const loginAction = (data) => {
       .catch((error) => {
         storageService.clearToken();
         dispatch(fireActionWithAlert(LOGIN_ERROR, error?.response?.data));
+        if (callback) callback(error?.response?.data);
       });
   };
 };

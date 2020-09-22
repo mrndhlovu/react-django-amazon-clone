@@ -5,7 +5,7 @@ import { Redirect } from "react-router-dom";
 import { registerAction } from "../../actions/AuthActions";
 import { FORM_VALIDATION } from "../../constants/constants";
 
-import { AmazonButton, UIForm, TermsAndConditions } from "../shared";
+import { UIForm, TermsAndConditions } from "../shared";
 import FormLayout from "../shared/FormLayout";
 
 const REGISTER_INITIAL_STATE = {
@@ -67,17 +67,11 @@ const Register = () => {
           name="confirm_password"
           label="Re-enter password"
         />
-
         <UIForm.Button
-          button={() => (
-            <AmazonButton
-              buttonText="Create your Amazon account"
-              dataTestId="register-button"
-              handleClick={() => {}}
-              type="submit"
-              disabled={isLoading}
-            />
-          )}
+          buttonText="Create your Amazon account"
+          dataTestId="register-button"
+          type="submit"
+          disabled={isLoading}
         />
         <TermsAndConditions />
       </UIForm>

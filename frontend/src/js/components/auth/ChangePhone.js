@@ -61,15 +61,10 @@ const ChangePhone = () => {
         submitHandler={handleChangeEmail}
       >
         <UIForm.Input ref={inputRef} label="Mobile number" name="phone" />
-
         <UIForm.Button
-          button={() => (
-            <AmazonButton
-              buttonText={isUpdated ? "Done" : "Continue"}
-              type="submit"
-              disabled={isUpdated}
-            />
-          )}
+          buttonText={isUpdated ? "Done" : "Continue"}
+          type="submit"
+          disabled={isUpdated}
         />
       </UIForm>
       <AmazonButton secondary buttonText="Cancel" />

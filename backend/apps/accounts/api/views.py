@@ -107,21 +107,21 @@ class LoginAPIView(GenericAPIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request):
-
-        user = authenticate(
-            email=request.data['email'].lower(),
-            password=request.data['password']
-        )
-        serialized_user = UserDetailSerializer(user)
-
-        if serialized_user:
-            tokens = user.auth_tokens()
-            data = {
-                'tokens': tokens,
-                'user': serialized_user.data
-            }
-            return Response(data=data,)
-        else:
+        try:
+            user = authenticate(
+                email=request.data['email'].lower(),
+                password=request.data['password']
+            )
+            serialized_user = UserDetailSerializer(user)
+            context = {}
+            if serialized_user:
+                tokens = user.auth_tokens()
+                context = {
+                    'tokens': tokens,
+                    'user': serialized_user.data
+                }
+            return Response(data=context,)
+        except:
             data = {'message': 'Invalid credentials'}
             return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
 

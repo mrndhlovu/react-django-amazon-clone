@@ -2,12 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useHistory, Redirect, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import {
-  AmazonButton,
-  UIForm,
-  TermsAndConditions,
-  UILinkButton,
-} from "../shared";
+import { UIForm, TermsAndConditions, UILinkButton } from "../shared";
 import { loginAction, verifyAccountAction } from "../../actions/AuthActions";
 import FormLayout from "../shared/FormLayout";
 
@@ -22,15 +17,17 @@ const LoginPage = () => {
   const history = useHistory();
   const inputRef = useRef(null);
 
-  const handleLogin = (data) => {
+  const handleLogin = (data, cb) => {
     switch (LOGIN_STAGE.STEPID) {
-      case 1:
+      case "EMAIL":
         setLoginData({ ...loginData, email: data.email });
 
-        return dispatch(verifyAccountAction(data));
-      case 2:
+        return dispatch(verifyAccountAction(data, cb));
+      case "PASSWORD":
         setLoginData({ ...loginData, password: data.password });
-        return dispatch(loginAction({ ...loginData, password: data.password }));
+        return dispatch(
+          loginAction({ ...loginData, password: data.password }, cb)
+        );
       default:
         return null;
     }
@@ -59,22 +56,27 @@ const LoginPage = () => {
         submitHandler={handleLogin}
         validationSchema={LOGIN_STAGE.VALIDATION}
       >
-        <UIForm.Input
-          type={LOGIN_STAGE.INPUT.type}
-          name={LOGIN_STAGE.INPUT.type}
-          label={LOGIN_STAGE.INPUT.label}
-          ref={inputRef}
-        />
+        {LOGIN_STAGE.STEPID === "EMAIL" && (
+          <UIForm.Input
+            type={LOGIN_STAGE.INPUT.type}
+            name={LOGIN_STAGE.INPUT.type}
+            label={LOGIN_STAGE.INPUT.label}
+            ref={inputRef}
+          />
+        )}
+
+        {LOGIN_STAGE.STEPID === "PASSWORD" && (
+          <UIForm.Input
+            type={LOGIN_STAGE.INPUT.type}
+            name={LOGIN_STAGE.INPUT.type}
+            label={LOGIN_STAGE.INPUT.label}
+          />
+        )}
 
         <UIForm.Button
-          button={({ isSubmitting }) => (
-            <AmazonButton
-              buttonText={LOGIN_STAGE.BUTTON_TEXT}
-              dataTestId="login-button"
-              type="submit"
-              disabled={isSubmitting}
-            />
-          )}
+          buttonText={LOGIN_STAGE.BUTTON_TEXT}
+          dataTestId="login-button"
+          type="submit"
         />
       </UIForm>
       <TermsAndConditions />
