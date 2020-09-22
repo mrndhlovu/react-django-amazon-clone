@@ -10,12 +10,12 @@ import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 
-import { customRenderWithContext as render } from "../../../test/utils/test.utils";
-import { FORM_VALIDATION } from "../../constants/constants";
-import { MainContext } from "../../utils/contextUtils";
-import { THEME } from "../../../assets/theme/index";
-import LoginPage from "./LoginPage";
-import store from "../../store";
+import { customRenderWithContext as render } from "../../../../test/utils/test.utils";
+import { FORM_VALIDATION } from "../../../constants/constants";
+import { MainContext } from "../../../utils/contextUtils";
+import { THEME } from "../../../../assets/theme/index";
+import LoginPage from "../LoginPage";
+import store from "../../../store";
 
 const DEFAULT_CONTEXT = {
   isSubmitting: jest.fn(),

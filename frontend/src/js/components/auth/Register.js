@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 
 import { registerAction } from "../../actions/AuthActions";
 import { FORM_VALIDATION } from "../../constants/constants";
@@ -16,6 +16,9 @@ const REGISTER_INITIAL_STATE = {
 };
 
 const Register = () => {
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: "/" } };
+
   const {
     auth: { isAuthenticated },
     register: { isLoading },
@@ -29,7 +32,7 @@ const Register = () => {
     if (nameRef?.current) nameRef.current.focus();
   }, []);
 
-  if (isAuthenticated) return <Redirect to="/" />;
+  if (isAuthenticated) return <Redirect to={from.pathname} />;
 
   return (
     <FormLayout

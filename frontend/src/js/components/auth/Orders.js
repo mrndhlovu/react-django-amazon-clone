@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import { UIHeader } from "../shared";
 import OrderCard from "../shared/OrderCard";
+import ProtectedComponentWrapper from "./ProtectedComponentWrapper";
 
 const Container = styled.div`
   height: 100%;
@@ -13,10 +14,12 @@ const Container = styled.div`
 
 const Orders = () => {
   return (
-    <Container>
-      <UIHeader as="h4" header="Orders" />
-      <OrderCard />
-    </Container>
+    <ProtectedComponentWrapper>
+      <Container>
+        <UIHeader as="h4" header="Orders" />
+        <OrderCard />
+      </Container>
+    </ProtectedComponentWrapper>
   );
 };
 

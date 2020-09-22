@@ -8,6 +8,7 @@ import { EMAIL_VALIDATION } from "../../constants/constants";
 import { updateUserAction } from "../../actions/AuthActions";
 import FormLayout from "../shared/FormLayout";
 import OrderCard from "../shared/OrderCard";
+import ProtectedComponentWrapper from "./ProtectedComponentWrapper";
 
 const Paragraph = styled.p`
   padding: 10px 0;
@@ -48,9 +49,11 @@ const Address = () => {
   });
 
   return (
-    <Container>
-      <OrderCard />
-    </Container>
+    <ProtectedComponentWrapper>
+      <Container>
+        <OrderCard />
+      </Container>
+    </ProtectedComponentWrapper>
   );
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
@@ -20,8 +20,10 @@ import {
   EDIT_NAME,
   EDIT_PASSWORD,
   EDIT_PHONE_NUMBER,
+  OPEN_YOUR_ACCOUNT,
 } from "../../actions/ActionTypes";
 import { editProfileAction } from "../../actions/AppActions";
+import ProtectedComponentWrapper from "./ProtectedComponentWrapper";
 
 const ListContainer = styled(List)`
   margin-top: 15px !important;
@@ -35,14 +37,18 @@ const ListContainer = styled(List)`
 
 const LoginAndSecurity = ({ ACTIVE_SECTION }) => {
   const {
-    auth: { data },
+    auth: { data, isAuthenticated },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const handleClick = (action) => dispatch(editProfileAction(action));
 
+  useEffect(() => {
+    if (!isAuthenticated) dispatch(editProfileAction(OPEN_YOUR_ACCOUNT));
+  }, [isAuthenticated]);
+
   return (
-    <>
+    <ProtectedComponentWrapper>
       {!ACTIVE_SECTION.SUBHEADER && (
         <ListContainer>
           <ListItem alignItems="flex-start">
@@ -97,7 +103,7 @@ const LoginAndSecurity = ({ ACTIVE_SECTION }) => {
       {ACTIVE_SECTION.SUBHEADER === "Edit Your Name" && <ChangeName />}
       {ACTIVE_SECTION.SUBHEADER === "Edit Your Phone" && <ChangePhone />}
       {ACTIVE_SECTION.SUBHEADER === "Edit Your Password" && <UpdatePassword />}
-    </>
+    </ProtectedComponentWrapper>
   );
 };
 
