@@ -16,7 +16,7 @@ const UIInput = forwardRef(
 
         <input
           data-testid={dataTestId}
-          id={field.name}
+          id={`${field.name}-input-field`}
           ref={ref}
           {...props}
           {...field}

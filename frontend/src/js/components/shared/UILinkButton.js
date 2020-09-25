@@ -10,11 +10,9 @@ const Button = styled.button`
   border: none;
 `;
 
-const UILinkButton = ({
-  content, type, as, onClick, className,
-}) => (
+const UILinkButton = ({ content, type, as, onClick, className, children }) => (
   <Button as={as} type={type} onClick={onClick} className={className}>
-    {content}
+    {children || content}
   </Button>
 );
 UILinkButton.defaultProps = {
@@ -22,12 +20,15 @@ UILinkButton.defaultProps = {
   as: "button",
   onClick: () => {},
   type: "button",
+  content: "",
+  children: undefined,
 };
 
 UILinkButton.propTypes = {
   className: PropTypes.string,
   as: PropTypes.string,
-  content: PropTypes.string.isRequired,
+  content: PropTypes.string,
+  children: PropTypes.node,
   onClick: PropTypes.func,
   type: PropTypes.string,
 };

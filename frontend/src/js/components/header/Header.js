@@ -55,7 +55,7 @@ const Navigation = () => {
           onClick={() => history.push("/")}
           onKeyDown={() => history.push("/")}
         >
-          <AmazonLogo height="50" width="120" dataTestId="logo" />
+          <AmazonLogo height="50" width="100" dataTestId="logo" />
         </div>
       </div>
       <div data-testid="nav-search-bar" className="nav__bar__center">

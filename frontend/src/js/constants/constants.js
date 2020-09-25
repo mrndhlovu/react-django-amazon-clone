@@ -1,5 +1,11 @@
 import * as yup from "yup";
 
+import HeroImage from "../../assets/images/hero/AONT_S1_GWBleedingHero_FT_COVIDUPDATE_XSite_1500X600_PV_en-GB._CB406302419_.jpg";
+import ToplinkImage from "../../assets/images/products/orders._AC_SR120,80_.jpeg";
+import ProductImage from "../../assets/images/products/41ZF+ARVoSL._AC_SL260_.jpg";
+import ProductImage1 from "../../assets/images/products/XCM_CUTTLE_1254139_1313820_UK_3293516_186x116_en_GB._SY116_CB407687161_.jpg";
+import ProductImage2 from "../../assets/images/products/51DhDfarGbL._AC_SY200_.jpg";
+
 export const _SEARCH_CATEGORIES = [
   "Books",
   "Beauty",
@@ -93,7 +99,7 @@ const EMAIL_VERIFICATION_STAGE = {
   VALIDATION: yup.object({
     email: EMAIL_VALIDATION,
   }),
-  INITIAL_STATE: { email: undefined },
+  INITIAL_STATE: { email: "" },
   INPUT: {
     type: "email",
     label: "E-mail (phone for mobile accounts)",
@@ -117,7 +123,7 @@ export const LOGIN_STAGES = {
   EMAIL: EMAIL_VERIFICATION_STAGE,
   PASSWORD: {
     VALIDATION: PASSWORD_VALIDATION,
-    INITIAL_STATE: { password: undefined },
+    INITIAL_STATE: { password: "" },
     INPUT: {
       type: "password",
       label: "Password",
@@ -130,7 +136,7 @@ export const LOGIN_STAGES = {
 export const PASSWORD_ASSISTANCE_STAGES = {
   EMAIL: {
     VALIDATION: EMAIL_VERIFICATION_STAGE.VALIDATION,
-    INITIAL_STATE: { email: undefined },
+    INITIAL_STATE: { email: "" },
     HEADER: "Password assistance",
     STEPID: 1,
   },
@@ -138,14 +144,14 @@ export const PASSWORD_ASSISTANCE_STAGES = {
     VALIDATION: yup.object({
       otp: yup.string().required("Required field"),
     }),
-    INITIAL_STATE: { otp: undefined },
+    INITIAL_STATE: { otp: "" },
     HEADER: "Authentication Required.",
     STEPID: 2,
   },
   NEW_PASSWORD: {
     HEADER: "Create new password",
     VALIDATION: CONFIRM_PASSWORD_VALIDATION,
-    INITIAL_STATE: { password: undefined, confirm_password: undefined },
+    INITIAL_STATE: { password: "", confirm_password: "" },
     TIPS: [
       "Use at least 8 characters, a combination of numbers and letters is best",
       "Do not use the same password you have used with us previously.",
@@ -154,6 +160,27 @@ export const PASSWORD_ASSISTANCE_STAGES = {
     ],
     STEPID: 3,
   },
+};
+
+export const IMAGES = {
+  CAROUSEL: [
+    HeroImage,
+    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/AONT_S1_GWBleedingHero_FT_COVIDUPDATE_XSite_1500X600_PV_en-GB._CB406302419_.jpg",
+    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/BlueField_Price_Perception_Gateway-Hero_1500x600._CB406665980_.jpg",
+    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/N2IxYThmYzAt-MjVlNmIyZTUt-w1500._CB407941419_.jpg",
+    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/UK-EN_070620_EvergreenQ3_ACQ_GW_Hero_D_1500x600_CV9._CB405136406_.jpg",
+    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/new_ft_hero_van._CB430308860_.jpg",
+  ],
+  PRODUCTS: [
+    ToplinkImage,
+    ProductImage,
+    ProductImage1,
+    ProductImage2,
+    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/products/XCM_CUTTLE_1230943_1217242_UK_3156565_379x304_en_GB._SY304_CB428790125_.jpg",
+    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/products/41gBAria4JL._AC_US218_.jpg",
+    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/products/51DhDfarGbL._AC_SY200_.jpg",
+    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/products/51xx9NCutcL._AC_SL1000_.jpg",
+  ],
 };
 
 export const MANAGE_ACCOUNT_SECTIONS = {

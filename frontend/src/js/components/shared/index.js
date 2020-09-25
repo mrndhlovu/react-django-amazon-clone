@@ -7,6 +7,7 @@ import TextDivider from "./TextDivider";
 import UIForm from "./UIForm";
 import UIHeader from "./UIHeader";
 import UILinkButton from "./UILinkButton";
+import DashboardProduct from "./DashboardProduct";
 
 export {
   AmazonButton,
@@ -18,4 +19,5 @@ export {
   UIForm,
   UIHeader,
   UILinkButton,
+  DashboardProduct,
 };

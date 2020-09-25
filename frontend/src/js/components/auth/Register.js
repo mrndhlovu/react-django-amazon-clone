@@ -9,10 +9,10 @@ import { UIForm, TermsAndConditions } from "../shared";
 import FormLayout from "../shared/FormLayout";
 
 const REGISTER_INITIAL_STATE = {
-  full_name: undefined,
-  email: undefined,
-  password: undefined,
-  confirm_password: undefined,
+  full_name: "",
+  email: "",
+  password: "",
+  confirm_password: "",
 };
 
 const Register = () => {
@@ -25,6 +25,9 @@ const Register = () => {
   } = useSelector((state) => state);
   const dispatch = useDispatch();
   const nameRef = useRef(null);
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
 
   const handleRegister = (data) => dispatch(registerAction(data));
 
@@ -50,25 +53,21 @@ const Register = () => {
         submitHandler={handleRegister}
         validationSchema={FORM_VALIDATION.REGISTER}
       >
-        <UIForm.Input
-          label="Your name"
-          name="full_name"
-          ref={nameRef}
-          type="text"
-        />
-
-        <UIForm.Input type="email" name="email" label="E-mail" />
+        <UIForm.Input label="Your name" name="full_name" ref={nameRef} />
+        <UIForm.Input type="email" name="email" label="E-mail" ref={emailRef} />
 
         <UIForm.Input
           type="password"
           name="password"
           label="Password"
           placeholder="At least six characters"
+          ref={passwordRef}
         />
         <UIForm.Input
           type="password"
           name="confirm_password"
           label="Re-enter password"
+          ref={confirmPasswordRef}
         />
         <UIForm.Button
           buttonText="Create your Amazon account"

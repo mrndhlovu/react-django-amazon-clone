@@ -1,19 +1,8 @@
 /* eslint-disable comma-dangle */
 import React from "react";
-import styled from "styled-components";
 
-const Container = styled.div`
-  height: 100%;
-`;
+import HomePage from "../components/home/HomePage";
 
-const HomeContainer = () => {
-  return (
-    <>
-      <Container data-testid="home-page">
-        <h1>React App Mounted</h1>
-      </Container>
-    </>
-  );
-};
+const HomeContainer = () => <HomePage />;
 
 export default HomeContainer;
