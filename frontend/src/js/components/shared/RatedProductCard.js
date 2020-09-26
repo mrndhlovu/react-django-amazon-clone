@@ -34,12 +34,11 @@ const ProductPrice = styled.span`
 const PriceContainer = styled.div`
   display: flex;
   justify-content: end;
-  font-weight: ${({ theme }) => theme.fonts.weight.medium};
+  font-weight: ${({ theme }) => theme.fonts.weight.bold};
 
   & > span:first-child {
     font-size: 12px;
     padding-right: 2px;
-    font-weight: ${({ theme }) => theme.fonts.weight.bold};
   }
 
   & > span:last-child {

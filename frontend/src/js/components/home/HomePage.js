@@ -13,6 +13,7 @@ import Carousel from "./Carousel";
 import ProductCard from "../shared/ProductCard";
 import UICard from "../shared/UICard";
 import UISmall from "../shared/UISmall";
+import UIFooter from "../shared/UIFooter";
 
 const Container = styled.div`
   height: 100vh;
@@ -174,13 +175,14 @@ const HomePage = () => {
       <ProductList>
         <DashboardProduct.List products={FAKE_PRODUCTS} />
         <DashboardProduct.RatedList
-          products={[...FAKE_PRODUCTS, FAKE_PRODUCTS[0]]}
+          products={[...FAKE_PRODUCTS, ...FAKE_PRODUCTS]}
         />
         <DashboardProduct.Books books={IMAGES.BOOKS} />
         <DashboardProduct.RatedList
-          products={[...FAKE_PRODUCTS, FAKE_PRODUCTS[0]]}
+          products={[...FAKE_PRODUCTS, ...FAKE_PRODUCTS]}
         />
       </ProductList>
+      <UIFooter />
     </Container>
   );
 };
