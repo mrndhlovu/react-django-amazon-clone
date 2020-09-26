@@ -5,6 +5,7 @@ import ToplinkImage from "../../assets/images/products/orders._AC_SR120,80_.jpeg
 import ProductImage from "../../assets/images/products/41ZF+ARVoSL._AC_SL260_.jpg";
 import ProductImage1 from "../../assets/images/products/XCM_CUTTLE_1254139_1313820_UK_3293516_186x116_en_GB._SY116_CB407687161_.jpg";
 import ProductImage2 from "../../assets/images/products/51DhDfarGbL._AC_SY200_.jpg";
+import BookImage from "../../assets/images/products/41zLj7a+gIL._AC_SY200_.jpg";
 
 export const _SEARCH_CATEGORIES = [
   "Books",
@@ -181,6 +182,7 @@ export const IMAGES = {
     // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/products/51DhDfarGbL._AC_SY200_.jpg",
     // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/products/51xx9NCutcL._AC_SL1000_.jpg",
   ],
+  BOOKS: [BookImage, BookImage, BookImage, BookImage, BookImage, BookImage],
 };
 
 export const MANAGE_ACCOUNT_SECTIONS = {

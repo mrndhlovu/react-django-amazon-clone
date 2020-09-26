@@ -22,7 +22,6 @@ const Content = styled.div`
 `;
 
 const CategoryImage = ({ category }) => {
-  console.log("CategoryImage -> category", category);
   return (
     <UICard>
       <UICard.Header avatar={<UIHeader as="h3" content={category?.header} />} />
@@ -39,6 +38,16 @@ const CategoryImage = ({ category }) => {
   );
 };
 
-CategoryImage.propTypes = {};
+CategoryImage.defaultProps = {
+  category: {},
+};
+
+CategoryImage.propTypes = {
+  category: PropTypes.shape({
+    image: PropTypes.string,
+    header: PropTypes.string,
+    footerLink: PropTypes.string,
+  }),
+};
 
 export default CategoryImage;
