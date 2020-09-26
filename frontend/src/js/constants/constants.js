@@ -203,3 +203,33 @@ export const MANAGE_ACCOUNT_SECTIONS = {
     HEADER: "Your Payments",
   },
 };
+
+export const FAKE_PRODUCTS = [
+  {
+    header: "Laptops",
+    footerLink: "Show now",
+    image: IMAGES.PRODUCTS[1],
+    rating: 5,
+    price: 99.52,
+    short_description:
+      "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. ",
+  },
+  {
+    header: "Featured Computers & Accessories",
+    footerLink: "See the range",
+    image: IMAGES.PRODUCTS[2],
+    rating: 3.5,
+    price: 5.89,
+    short_description:
+      "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. ",
+  },
+  {
+    header: "Shop smart home",
+    footerLink: "See more",
+    image: IMAGES.PRODUCTS[3],
+    rating: 0,
+    price: 4.88,
+    short_description:
+      "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. ",
+  },
+];

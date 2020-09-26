@@ -1,3 +1,8 @@
+html {
+  overflow-x: hidden;
+  margin-right: (-1 * (100vw - 100vw));
+}
+
 body {
   font-family: $roboto, "sans-serif";
   position: relative;

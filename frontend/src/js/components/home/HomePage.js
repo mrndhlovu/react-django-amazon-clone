@@ -7,57 +7,36 @@ import PropTypes from "prop-types";
 
 import { Avatar } from "@material-ui/core";
 
+import { IMAGES, FAKE_PRODUCTS } from "../../constants/constants";
 import { UIHeader, UILinkButton, DashboardProduct } from "../shared";
-import { IMAGES } from "../../constants/constants";
-import Hero from "./Hero";
+import Carousel from "./Carousel";
 import ProductCard from "../shared/ProductCard";
 import UICard from "../shared/UICard";
 import UISmall from "../shared/UISmall";
 
-const FAKE_PRODUCTS = [
-  {
-    header: "Laptops",
-    footerLink: "Show now",
-    image: IMAGES.PRODUCTS[1],
-    rating: 5,
-    price: 99.5,
-    short_description:
-      "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. ",
-  },
-  {
-    header: "Featured Computers & Accessories",
-    footerLink: "See the range",
-    image: IMAGES.PRODUCTS[2],
-    rating: 3.5,
-    price: 5.89,
-    short_description:
-      "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. ",
-  },
-  {
-    header: "Shop smart home",
-    footerLink: "See more",
-    image: IMAGES.PRODUCTS[3],
-    rating: 0,
-    price: 4.88,
-    short_description:
-      "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. ",
-  },
-];
-
 const Container = styled.div`
-  height: 100%;
+  height: 100vh;
+  justify-content: center;
+  padding: 0 15%;
+`;
+
+const Hero = styled.div`
+  height: fit-content;
   width: 100%;
+  position: relative;
 `;
 
 const FeaturedList = styled.div`
-  top: -11% !important;
   background-color: transparent;
   display: flex;
   left: 50%;
-  position: relative;
-  transform: translate(-50%);
+  position: absolute;
+  transform: translate(-50%, 22%);
   vertical-align: top;
   height: 400px;
+  bottom: 0;
+  width: 100%;
+  padding: 0 10%;
 
   h5 {
     margin-left: 4%;
@@ -96,6 +75,12 @@ const AvatarContainer = styled.div`
 
 const CardImage = styled.img``;
 
+const ProductList = styled.div`
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 6.5%);
+`;
+
 const TopLinkContainer = styled.div`
   ${({ theme }) => theme.helpers.useFlex("column", "space-around")};
   position: relative;
@@ -110,6 +95,96 @@ const TopLinkContainer = styled.div`
   }
 `;
 
+const HomePage = () => {
+  const {
+    auth: { isAuthenticated, data },
+  } = useSelector((state) => state);
+
+  return (
+    <Container>
+      <Hero>
+        <Carousel />
+        <FeaturedList>
+          <UICard>
+            <UICard.Header
+              avatar={
+                <AvatarContainer>
+                  <Avatar>{data?.image}</Avatar>
+                  <div>
+                    <UIHeader
+                      as="h3"
+                      content={`Hi, ${
+                        isAuthenticated
+                          ? data?.full_name.split(" ")[0]
+                          : "Guest"
+                      }`}
+                    />
+                    {isAuthenticated && (
+                      <UISmall content="Customer since 2019" />
+                    )}
+                  </div>
+                </AvatarContainer>
+              }
+            />
+
+            <UIHeader as="h5" content="Top links for you." />
+            <CardContent>
+              <TopLink
+                header="Orders"
+                redirectTo="/orders"
+                image={IMAGES.PRODUCTS[0]}
+              />
+              <TopLink
+                header="Books"
+                redirectTo="/orders"
+                image={IMAGES.PRODUCTS[0]}
+              />
+              <TopLink
+                header="Electronics"
+                redirectTo="/orders"
+                image={IMAGES.PRODUCTS[0]}
+              />
+              <TopLink
+                header="Computers"
+                redirectTo="/orders"
+                image={IMAGES.PRODUCTS[0]}
+              />
+            </CardContent>
+          </UICard>
+          <UICard>
+            <UICard.Header
+              avatar={<UIHeader as="h3" content="Recently viewed" />}
+            />
+            <ProductCard image={IMAGES.PRODUCTS[1]} />
+            <UICard.Action>
+              <UILinkButton content="Show more" />
+            </UICard.Action>
+          </UICard>
+          <UICard>
+            <UICard.Header
+              avatar={<UIHeader as="h3" content="Deal of the day" />}
+            />
+            <ProductCard image={IMAGES.PRODUCTS[1]} />
+            <UICard.Action>
+              <UILinkButton content="Show more deals" />
+            </UICard.Action>
+          </UICard>
+        </FeaturedList>
+      </Hero>
+      <ProductList>
+        <DashboardProduct.List products={FAKE_PRODUCTS} />
+        <DashboardProduct.RatedList
+          products={[...FAKE_PRODUCTS, FAKE_PRODUCTS[0]]}
+        />
+        <DashboardProduct.Books books={IMAGES.BOOKS} />
+        <DashboardProduct.RatedList
+          products={[...FAKE_PRODUCTS, FAKE_PRODUCTS[0]]}
+        />
+      </ProductList>
+    </Container>
+  );
+};
+
 const TopLink = ({ image, header, redirectTo }) => (
   <Link to={redirectTo}>
     <TopLinkContainer>
@@ -118,85 +193,6 @@ const TopLink = ({ image, header, redirectTo }) => (
     </TopLinkContainer>
   </Link>
 );
-
-const HomePage = () => {
-  const {
-    auth: { isAuthenticated, data },
-  } = useSelector((state) => state);
-
-  return (
-    <Container>
-      <Hero />
-      <FeaturedList>
-        <UICard>
-          <UICard.Header
-            avatar={
-              <AvatarContainer>
-                <Avatar>{data?.image}</Avatar>
-                <div>
-                  <UIHeader
-                    as="h3"
-                    content={`Hi, ${
-                      isAuthenticated ? data?.full_name.split(" ")[0] : "Guest"
-                    }`}
-                  />
-                  {isAuthenticated && <UISmall content="Customer since 2019" />}
-                </div>
-              </AvatarContainer>
-            }
-          />
-
-          <UIHeader as="h5" content="Top links for you." />
-          <CardContent>
-            <TopLink
-              header="Orders"
-              redirectTo="/orders"
-              image={IMAGES.PRODUCTS[0]}
-            />
-            <TopLink
-              header="Books"
-              redirectTo="/orders"
-              image={IMAGES.PRODUCTS[0]}
-            />
-            <TopLink
-              header="Electronics"
-              redirectTo="/orders"
-              image={IMAGES.PRODUCTS[0]}
-            />
-            <TopLink
-              header="Computers"
-              redirectTo="/orders"
-              image={IMAGES.PRODUCTS[0]}
-            />
-          </CardContent>
-        </UICard>
-        <UICard>
-          <UICard.Header
-            avatar={<UIHeader as="h3" content="Recently viewed" />}
-          />
-          <ProductCard image={IMAGES.PRODUCTS[1]} />
-          <UICard.Action>
-            <UILinkButton content="Show more" />
-          </UICard.Action>
-        </UICard>
-        <UICard>
-          <UICard.Header
-            avatar={<UIHeader as="h3" content="Deal of the day" />}
-          />
-          <ProductCard image={IMAGES.PRODUCTS[1]} />
-          <UICard.Action>
-            <UILinkButton content="Show more deals" />
-          </UICard.Action>
-        </UICard>
-      </FeaturedList>
-
-      <DashboardProduct.List products={FAKE_PRODUCTS} />
-      <DashboardProduct.Books books={IMAGES.BOOKS} />
-      <DashboardProduct.RatedList products={FAKE_PRODUCTS} />
-      {/* <DashboardProduct.RatedList products={FAKE_PRODUCTS} /> */}
-    </Container>
-  );
-};
 
 TopLink.propTypes = {
   image: PropTypes.string.isRequired,

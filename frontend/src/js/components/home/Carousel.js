@@ -11,11 +11,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { UILinkButton } from "../shared";
 import { IMAGES } from "../../constants/constants";
 
-const Container = styled.div`
-  height: 24vh;
-  width: 100%;
-  margin-top: -2px;
-`;
+const Container = styled.div``;
 const StyledResponsiveCarousel = styled(ResponsiveCarousel)`
   position: relative;
 `;
@@ -51,38 +47,32 @@ const ImageContainer = styled.div`
   justify-content: center;
 `;
 
-const Hero = () => {
+const Carousel = () => {
   return (
     <Container>
-      <Carousel />
+      <StyledResponsiveCarousel
+        showStatus={false}
+        showIndicators={false}
+        autoPlay
+        renderArrowNext={({ onClickHandler }) => (
+          <IconRight onClick={onClickHandler}>
+            <ArrowForwardIosIcon fontSize="large" />
+          </IconRight>
+        )}
+        renderArrowPrev={({ onClickHandler }) => (
+          <IconLeft onClick={onClickHandler}>
+            <ArrowBackIosIcon fontSize="large" />
+          </IconLeft>
+        )}
+      >
+        {IMAGES.CAROUSEL.map((image) => (
+          <ImageContainer key={uuid()}>
+            <Image src={image} alt="carousel-image" />
+          </ImageContainer>
+        ))}
+      </StyledResponsiveCarousel>
     </Container>
   );
 };
 
-const Carousel = () => {
-  return (
-    <StyledResponsiveCarousel
-      showStatus={false}
-      showIndicators={false}
-      autoPlay
-      renderArrowNext={({ onClickHandler }) => (
-        <IconRight onClick={onClickHandler}>
-          <ArrowForwardIosIcon fontSize="large" />
-        </IconRight>
-      )}
-      renderArrowPrev={({ onClickHandler }) => (
-        <IconLeft onClick={onClickHandler}>
-          <ArrowBackIosIcon fontSize="large" />
-        </IconLeft>
-      )}
-    >
-      {IMAGES.CAROUSEL.map((image) => (
-        <ImageContainer key={uuid()}>
-          <Image src={image} alt="carousel-image" />
-        </ImageContainer>
-      ))}
-    </StyledResponsiveCarousel>
-  );
-};
-
-export default Hero;
+export default Carousel;

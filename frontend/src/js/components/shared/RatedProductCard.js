@@ -10,7 +10,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 450px;
-  justify-content: space-evenly;
+  justify-content: space-around;
   width: 285px;
   padding: 15px;
 `;
@@ -34,10 +34,12 @@ const ProductPrice = styled.span`
 const PriceContainer = styled.div`
   display: flex;
   justify-content: end;
+  font-weight: ${({ theme }) => theme.fonts.weight.medium};
 
   & > span:first-child {
-    font-size: 10px;
+    font-size: 12px;
     padding-right: 2px;
+    font-weight: ${({ theme }) => theme.fonts.weight.bold};
   }
 
   & > span:last-child {

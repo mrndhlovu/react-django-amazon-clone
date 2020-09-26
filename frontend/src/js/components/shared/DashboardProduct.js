@@ -10,36 +10,24 @@ import UIHeader from "./UIHeader";
 import UILinkButton from "./UILinkButton";
 
 const DashBoardCards = styled.div`
-  background-color: transparent;
+  background-color: ${({ theme }) => theme.colors.white};
   display: flex;
   height: fit-content;
-  left: 50%;
-  position: relative;
-  top: -9.5% !important;
-  transform: translate(-50%);
   vertical-align: top;
-  width: 98%;
 `;
 
 const RatedListContainer = styled(DashBoardCards)`
-  background-color: ${({ theme }) => theme.colors.white};
-  height: fit-content;
-  top: -9% !important;
-  width: 96%;
   display: grid;
   grid-template-columns: repeat(4, 25%);
+  justify-items: center;
 `;
 
 const BooksContainer = styled(DashBoardCards)`
-  background-color: ${({ theme }) => theme.colors.white};
   flex-direction: column;
-  height: fit-content;
-  padding: 10px;
-  top: -9% !important;
-  width: 96%;
 
   h3 {
     padding-bottom: 14px;
+    padding-left: 14px;
   }
 
   div {
@@ -57,7 +45,7 @@ const DashboardProduct = ({ children }) => (
 );
 
 DashboardProduct.List = ({ products }) => (
-  <DashBoardCards>
+  <DashboardProduct>
     {products.map((product) => (
       <UICard key={uuid()}>
         <UICard.Header
@@ -69,7 +57,7 @@ DashboardProduct.List = ({ products }) => (
         </UICard.Action>
       </UICard>
     ))}
-  </DashBoardCards>
+  </DashboardProduct>
 );
 
 DashboardProduct.RatedList = ({ products }) => (
