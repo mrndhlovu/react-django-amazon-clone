@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { v4 as uuid } from "uuid";
+import { Link } from "react-router-dom";
 
 import ProductCard from "./ProductCard";
 import RatedProductCard from "./RatedProductCard";
@@ -44,21 +45,25 @@ const DashboardProduct = ({ children }) => (
   <DashBoardCards>{children}</DashBoardCards>
 );
 
-DashboardProduct.List = ({ products }) => (
-  <DashboardProduct>
-    {products.map((product) => (
-      <UICard key={uuid()}>
-        <UICard.Header
-          avatar={<UIHeader as="h3" content={product?.header} />}
-        />
-        <ProductCard image={product?.image} />
-        <UICard.Action>
-          <UILinkButton content={product?.footerLink} />
-        </UICard.Action>
-      </UICard>
-    ))}
-  </DashboardProduct>
-);
+DashboardProduct.List = ({ products }) => {
+  return (
+    <DashboardProduct>
+      {products.map((product) => (
+        <UICard key={uuid()}>
+          <UICard.Header
+            avatar={<UIHeader as="h3" content={product?.header} />}
+          />
+          <ProductCard image={product?.image} />
+          <UICard.Action>
+            <Link to={`/category-list?category=${product?.category} `}>
+              <UILinkButton content={product?.footerLink} />
+            </Link>
+          </UICard.Action>
+        </UICard>
+      ))}
+    </DashboardProduct>
+  );
+};
 
 DashboardProduct.RatedList = ({ products }) => (
   <RatedListContainer>

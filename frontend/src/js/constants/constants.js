@@ -233,3 +233,14 @@ export const FAKE_PRODUCTS = [
       "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. ",
   },
 ];
+
+export const CATEGORY_FILTER_OPTIONS = {
+  PRICE: [
+    { low: "Under", high: 15 },
+    { low: 15, high: 50 },
+    { low: 50, high: 100 },
+    { low: 100, high: 200 },
+    { low: 200, high: 500 },
+  ],
+  STARS: [4, 3, 2, 1],
+};

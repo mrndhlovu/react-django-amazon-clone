@@ -6,6 +6,7 @@ import LoginPage from "./components/auth/LoginPage";
 import PasswordAssistance from "./components/auth/PasswordAssistance";
 import Register from "./components/auth/Register";
 import YourAccount from "./components/auth/YourAccount";
+import CategoryList from "./components/product/CategoryList";
 
 export default function Routes() {
   return (
@@ -14,6 +15,11 @@ export default function Routes() {
       <Route key="login" path="/login" component={LoginPage} />
       <Route key="register" path="/register" component={Register} />
       <Route key="account" path="/user-profile" component={YourAccount} />
+      <Route
+        key="category-list"
+        path="/category-list"
+        component={CategoryList}
+      />
       <Route
         key="forgotpassword"
         path="/forgotpassword"
