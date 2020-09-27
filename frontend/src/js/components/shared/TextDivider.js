@@ -26,8 +26,10 @@ const TextDivider = ({ content }) => {
   );
 };
 
+TextDivider.defaultProps = { content: "" };
+
 TextDivider.propTypes = {
-  content: PropTypes.string.isRequired,
+  content: PropTypes.string,
 };
 
 export default TextDivider;

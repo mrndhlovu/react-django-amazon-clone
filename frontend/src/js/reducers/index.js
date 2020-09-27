@@ -7,6 +7,7 @@ import registerReducer from "./registerReducer";
 import loadingReducer from "./loadingReducer";
 import accountRecoveryReducer from "./accountAssistReducer";
 import editProfileReducer from "./editProfileReducer";
+import cartReducer from "./cartReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -16,4 +17,5 @@ export default combineReducers({
   spinner: loadingReducer,
   passwordReset: accountRecoveryReducer,
   editProfile: editProfileReducer,
+  cart: cartReducer,
 });

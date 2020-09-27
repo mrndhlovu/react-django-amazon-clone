@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { getQueryParam } from "../../api/urls";
 
-const ShoppingCartCount = ({ count, dataTestId }) => {
+const ShoppingCartCount = ({ dataTestId }) => {
   const history = useHistory();
+  const { items } = useSelector((state) => state.cart);
 
   return (
     <Link
@@ -16,17 +18,16 @@ const ShoppingCartCount = ({ count, dataTestId }) => {
     >
       <ShoppingCartIcon />
       <div className="cart__count">
-        <span>{count}</span>
+        <span>{items.length}</span>
         <span>Basket</span>
       </div>
     </Link>
   );
 };
 
-ShoppingCartCount.defaultProps = { count: 0, dataTestId: "" };
+ShoppingCartCount.defaultProps = { dataTestId: "" };
 
 ShoppingCartCount.propTypes = {
-  count: PropTypes.number,
   dataTestId: PropTypes.string,
 };
 

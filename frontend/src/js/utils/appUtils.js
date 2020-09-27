@@ -30,3 +30,9 @@ export const getStars = (value) => {
   times(5 - value, () => stars.push("NONE"));
   return stars;
 };
+
+export const getSubTotal = (items) =>
+  items
+    .map((item) => item?.price)
+    .reduce((acc, current) => acc + current)
+    .toFixed(2);

@@ -8,6 +8,7 @@ import Register from "./components/auth/Register";
 import YourAccount from "./components/auth/YourAccount";
 import CategoryList from "./components/product/CategoryList";
 import ProductDetail from "./components/product/ProductDetail";
+import ShoppingBasket from "./components/product/ShoppingBasket";
 
 export default function Routes() {
   return (
@@ -20,6 +21,12 @@ export default function Routes() {
         key="product-detail"
         path="/product-detail/:id"
         component={ProductDetail}
+      />
+
+      <Route
+        key="shopping-basket"
+        path="/shopping-basket"
+        component={ShoppingBasket}
       />
       <Route
         key="category-list"

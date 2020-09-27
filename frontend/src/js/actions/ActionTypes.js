@@ -58,3 +58,8 @@ export const OPEN_ADDRESS = "OPEN_ADDRESS";
 export const OPEN_PAYMENTS = "OPEN_PAYMENTS";
 export const OPEN_LOGIN_SECURITY = "OPEN_LOGIN_SECURITY";
 export const OPEN_YOUR_ACCOUNT = "OPEN_YOUR_ACCOUNT";
+
+export const ADD_TO_CART = "ADD_TO_CART";
+export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+export const CLEAR_CART = "CLEAR_CART";
+export const ADD_TO_CART_FAIL = "ADD_TO_CART_FAIL";
