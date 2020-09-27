@@ -13,7 +13,6 @@ import Carousel from "./Carousel";
 import ProductCard from "../shared/ProductCard";
 import UICard from "../shared/UICard";
 import UISmall from "../shared/UISmall";
-import UIFooter from "../shared/UIFooter";
 
 const Container = styled.div`
   height: 100vh;
@@ -182,7 +181,6 @@ const HomePage = () => {
           products={[...FAKE_PRODUCTS, ...FAKE_PRODUCTS]}
         />
       </ProductList>
-      <UIFooter />
     </Container>
   );
 };

@@ -1,4 +1,4 @@
-/* eslint-disable no-plusplus */
+import { times } from "lodash";
 
 const groupParamsByKey = (params) =>
   [...params.entries()].reduce((acc, tuple) => {
@@ -25,10 +25,8 @@ export const getSearchParams = () => {
 export const getStars = (value) => {
   const [whole, fraction] = parseFloat(value).toString().split(".");
   const stars = [];
-
-  for (let i = 0; i < whole; i += 1) stars.push("FULL");
+  times(parseInt(whole, 10), () => stars.push("FULL"));
   if (fraction) stars.push("HALF");
-  for (let i = whole; i < (fraction ? 4 : 5); i++) stars.push("NONE");
-
+  times(5 - value, () => stars.push("NONE"));
   return stars;
 };

@@ -1,21 +1,21 @@
 .amazon__button {
-  background-color: $amazonButtonYellow;
   cursor: pointer;
   padding: 8px 15px;
-  font-weight: $bold;
-  border-radius: 4px;
-  box-shadow: $shadowPrimary;
+  font-weight: $medium;
+  border-radius: 2px;
   border: none;
-
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset;
+  background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
   width: 100%;
   margin-top: 12px;
   margin-bottom: 5px;
+  border-color: #a88734 #9c7e31 #846a29;
 
   @include hoverTransition($amazon);
 }
 
 .amazon__button.secondary {
-  background-color: $grey;
+  background: $grey;
 }
 
 .input__container {

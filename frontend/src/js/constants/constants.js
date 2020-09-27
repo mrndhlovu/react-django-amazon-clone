@@ -209,8 +209,13 @@ export const FAKE_PRODUCTS = [
     header: "Laptops",
     footerLink: "Show now",
     image: IMAGES.PRODUCTS[1],
-    rating: 5,
+    title:
+      "Crucial MX500 500 GB CT500MX500SSD1(Z)-Up to 560 MB/s (3D NAND, SATA, 2.5",
+    rating: 3.5,
     price: 99.52,
+    quantity: 4,
+    description:
+      "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. ",
     short_description:
       "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. ",
   },

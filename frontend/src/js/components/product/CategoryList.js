@@ -1,17 +1,21 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import PropTypes from "prop-types";
 import { isNumber } from "lodash";
 
-import { TextDivider, UIHeader } from "../shared";
+import {
+  CATEGORY_FILTER_OPTIONS,
+  FAKE_PRODUCTS,
+} from "../../constants/constants";
+import { DashboardProduct, TextDivider, UIHeader } from "../shared";
 import ProductRating from "../shared/ProductRating";
-import { CATEGORY_FILTER_OPTIONS } from "../../constants/constants";
 
 const Container = styled.div`
   display: flex;
   height: 94vh;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const SideBar = styled.div`
@@ -25,8 +29,43 @@ const SideBar = styled.div`
   }
 `;
 
-const ProductList = styled.div`
-  padding: 20px;
+const ListContainer = styled.div`
+  padding: 10px 20px;
+  flex-grow: 1;
+`;
+
+const CategoryProductList = styled(DashboardProduct.RatedList)`
+  padding-top: 10px;
+  height: 472px;
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(4, 16.66667%) !important;
+`;
+
+const SearchInfo = styled.div`
+  background-color: ${({ theme }) => theme.colors.white};
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: space-between;
+  padding: 9px;
+  align-items: center;
+  border-radius: 2px;
+
+  span {
+    font-size: 13px;
+    font-weight: ${({ theme }) => theme.fonts.weight.medium};
+  }
+
+  select {
+    padding: 2px;
+    min-width: 150px;
+    font-weight: ${({ theme }) => theme.fonts.weight.bold};
+  }
+`;
+
+const SearchSort = styled.div``;
+
+const ResultCount = styled.div`
   flex-grow: 1;
 `;
 
@@ -60,7 +99,9 @@ const SearchFilter = styled.div`
 `;
 
 const CategoryList = () => {
-  const { CURRENCY_SYMBOL = "€" } = useDispatch((state) => state.store);
+  const {
+    auth: { CURRENCY_SYMBOL },
+  } = useSelector((state) => state.store);
   return (
     <Container>
       <SideBar>
@@ -93,10 +134,31 @@ const CategoryList = () => {
           <FilterCheckbox name="in-stock" content="Include Out of Stock" />
         </SearchFilter>
       </SideBar>
-      <ProductList>Category List</ProductList>
+      <ListContainer>
+        <SearchInfo>
+          <ResultCount>
+            <span>1 - 24 of 200 </span>
+            <span>Books</span>
+          </ResultCount>
+          <SearchSort>
+            <SearchSelect />
+          </SearchSort>
+        </SearchInfo>
+
+        <CategoryProductList products={[...FAKE_PRODUCTS, ...FAKE_PRODUCTS]} />
+        <TextDivider />
+      </ListContainer>
     </Container>
   );
 };
+
+const SearchSelect = () => (
+  <select name="search" id="search-options">
+    <option value="featured">Featured</option>
+    <option value="low-to-high">Price: Low to High</option>
+    <option value="high-to-low">Price: High to Low</option>
+  </select>
+);
 
 const FilterCheckbox = ({ name, content }) => (
   <div>

@@ -11,6 +11,7 @@ const INITIAL_STATE = {
   data: {},
   isAuthenticated: false,
   isLoading: false,
+  CURRENCY_SYMBOL: "€",
 };
 
 const authReducer = (state = INITIAL_STATE, action = {}) => {

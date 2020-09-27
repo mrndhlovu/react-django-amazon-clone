@@ -3,6 +3,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+
 import ProductRating from "./ProductRating";
 
 const Container = styled.div`
@@ -61,16 +63,21 @@ const RatedProductCard = ({
   price,
   rating,
   short_description,
+  id,
 }) => {
   const [whole, fraction] = parseFloat(price).toString().split(".");
 
   return (
     <Container>
       <ImageContainer>
-        <img src={image} alt={short_description} />
+        <Link to={`/product-detail/${id}`}>
+          <img src={image} alt={short_description} />
+        </Link>
       </ImageContainer>
       <div>
-        <ProductDescription>{short_description}</ProductDescription>
+        <Link to={`/product-detail/${id}`}>
+          <ProductDescription>{short_description}</ProductDescription>
+        </Link>
         <ProductRating rating={rating} />
         <PriceContainer>
           <ProductPrice>{`${currency}`}</ProductPrice>

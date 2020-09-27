@@ -14,15 +14,15 @@ import {
 import { getStars } from "../../utils/appUtils";
 
 const FullStarRating = styled(StarIcon)`
-  color: ${({ theme }) => theme.colors.amazon};
+  color: ${({ theme }) => theme.colors.amazonBright};
 `;
 
 const HalfStarRating = styled(StarHalfIcon)`
-  color: ${({ theme }) => theme.colors.amazon};
+  color: ${({ theme }) => theme.colors.amazonBright};
 `;
 
 const EmptyStarRating = styled(StarBorder)`
-  color: ${({ theme }) => theme.colors.amazon};
+  color: ${({ theme }) => theme.colors.amazonBright};
 `;
 
 const StarsContainer = styled.div`

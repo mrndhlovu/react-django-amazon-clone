@@ -19,7 +19,7 @@ const DashBoardCards = styled.div`
 
 const RatedListContainer = styled(DashBoardCards)`
   display: grid;
-  grid-template-columns: repeat(4, 25%);
+  grid-template-columns: repeat(auto-fill, 20%);
   justify-items: center;
 `;
 
