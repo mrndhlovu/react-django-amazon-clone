@@ -8,6 +8,7 @@ import loadingReducer from "./loadingReducer";
 import accountRecoveryReducer from "./accountAssistReducer";
 import editProfileReducer from "./editProfileReducer";
 import cartReducer from "./cartReducer";
+import productsReducer from "./productReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -18,4 +19,5 @@ export default combineReducers({
   passwordReset: accountRecoveryReducer,
   editProfile: editProfileReducer,
   cart: cartReducer,
+  products: productsReducer,
 });

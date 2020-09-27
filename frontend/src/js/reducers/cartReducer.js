@@ -1,32 +1,44 @@
+/* eslint-disable no-confusing-arrow */
+/* eslint-disable comma-dangle */
 import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
   CLEAR_CART,
   ADD_TO_CART_FAIL,
+  UPDATE_QUANTITY,
 } from "../actions/ActionTypes";
-import { FAKE_PRODUCTS } from "../constants/constants";
-import { getSubTotal } from "../utils/appUtils";
 
 const INITIAL_STATE = {
-  items: FAKE_PRODUCTS,
+  items: [],
   CURRENCY_SYMBOL: "€",
-  error: "",
 };
 
 const cartReducer = (state = INITIAL_STATE, action = {}) => {
+  const { payload } = action;
   switch (action.type) {
     case ADD_TO_CART_FAIL:
-      return { ...state, error: action.payload };
+      return { ...state, error: payload };
     case ADD_TO_CART:
-      return { ...state, items: [...state.items, action.payload] };
+      return {
+        ...state,
+        items: [...state.items, payload],
+      };
     case REMOVE_FROM_CART:
       return {
         ...state,
-        items: state.items.filter((item) => item.id !== action.payload?.id),
+        items: state.items.filter((item) => item.id !== payload?.id),
       };
     case CLEAR_CART:
       return { ...state, items: [] };
-
+    case UPDATE_QUANTITY:
+      return {
+        ...state,
+        items: state.items.map((item) =>
+          item.id === payload.id
+            ? { ...item, quantity: payload.quantity }
+            : item
+        ),
+      };
     default:
       return state;
   }

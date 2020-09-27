@@ -2,10 +2,15 @@ import React, { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
-import { removeFromCart } from "../../actions/cartActions";
+import { times } from "lodash";
 
-import { FAKE_PRODUCTS } from "../../constants/constants";
-import { getSubTotal } from "../../utils/appUtils";
+import {
+  clearCartAction,
+  removeFromCartAction,
+  updateQuantityAction,
+} from "../../actions/CartActions";
+
+import { getCartDetails } from "../../utils/appUtils";
 import { AmazonButton, TextDivider, UIHeader, UILinkButton } from "../shared";
 
 const Container = styled.div`
@@ -34,7 +39,13 @@ const BasketContent = styled.div`
   }
 `;
 
-const SubTotalContainer = styled.div``;
+const SubTotalContainer = styled.div`
+  padding: 10px;
+
+  & > span:last-child {
+    font-weight: ${({ theme }) => theme.fonts.weight.bold};
+  }
+`;
 
 const ItemList = styled.ul`
   padding: 15px;
@@ -43,6 +54,7 @@ const ItemList = styled.ul`
 const Title = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   position: relative;
 
   & h4 {
@@ -79,21 +91,40 @@ const ImageContainer = styled.div`
   min-width: 22%;
 `;
 
-const Price = styled.div``;
+const Price = styled.div`
+  & > span:first-child {
+    font-size: 10px;
+  }
+
+  & > span:last-child {
+    font-weight: ${({ theme }) => theme.fonts.weight.bold};
+  }
+`;
 
 const ItemDescription = styled.div`
   flex-grow: 1;
 
   & > span:last-child {
-    font-size: 10px;
+    font-size: 12px;
     color: #067d62;
+  }
+
+  & select {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  & > button {
+    padding: 3px;
+    cursor: pointer;
   }
 `;
 
 const RightSideBar = styled.div`
   display: block;
   border: 1px #ddd solid;
-  background-color: #fff;
+  background-color: #f3f3f3;
   border-radius: 4px;
   width: 280px;
   height: 20%;
@@ -106,19 +137,28 @@ const ShoppingBasket = () => {
     auth: { CURRENCY_SYMBOL },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const { subTotal, cartCount } = getCartDetails(items);
+  console.log("ShoppingBasket -> items", subTotal, cartCount);
 
   const hasCartItems = items.length !== 0;
-  const hasMoreThatOne = items.length > 1;
+  const hasMoreThatOne = cartCount > 1;
 
-  const handleClick = (data) => {
-    dispatch(removeFromCart(data));
-  };
+  const handleCheckboxClick = (data) => dispatch(removeFromCartAction(data));
+
+  const handleDeselectAll = () => dispatch(clearCartAction());
+
+  const handleChangeQuantity = (qty, item) =>
+    dispatch(updateQuantityAction({ ...item, quantity: qty }));
 
   return (
     <Container>
       <BasketContent>
         <UIHeader as="h2" content="Shopping Basket" />
-        <UILinkButton content="Deselect all items" />
+
+        <UILinkButton
+          content="Deselect all items"
+          onClick={() => handleDeselectAll()}
+        />
         <TextDivider />
         <ItemList>
           {items.map((item) => (
@@ -128,7 +168,7 @@ const ShoppingBasket = () => {
                   <input
                     type="checkbox"
                     defaultChecked={item?.price !== undefined}
-                    onChange={() => handleClick({ id: item?.id })}
+                    onChange={() => handleCheckboxClick({ id: item?.id })}
                   />
                 </div>
                 <ImageContainer>
@@ -140,12 +180,32 @@ const ShoppingBasket = () => {
                     <Price>
                       <span>Price</span>
                       <br />
-                      <span>{`${CURRENCY_SYMBOL} ${item?.price}`}</span>
+                      <span>
+                        {`${CURRENCY_SYMBOL}${(
+                          item?.price * item.quantity
+                        ).toFixed(2)}`}
+                      </span>
                     </Price>
                   </Title>
                   <span>
-                    {item?.quantity > 0 ? "In stock" : "Out of stock"}
+                    {item?.available > 0 ? "In stock" : "Out of stock"}
                   </span>
+                  <br />
+                  <button type="button">
+                    <span>Qty: </span>
+                    <select
+                      onChange={(e) =>
+                        handleChangeQuantity(e.target.value, item)
+                      }
+                      name="available"
+                      id="available"
+                      value={item?.quantity}
+                    >
+                      {times(item?.available, (index) => (
+                        <option value={index + 1}>{index + 1}</option>
+                      ))}
+                    </select>
+                  </button>
                 </ItemDescription>
               </Item>
               <TextDivider />
@@ -155,12 +215,20 @@ const ShoppingBasket = () => {
       </BasketContent>
       <RightSideBar>
         <SubTotalContainer>
-          {hasCartItems && <span>Subtotal</span>}
-          <span>
-            {` (${items?.length} ${hasMoreThatOne ? "Items" : "Item"})`}
-          </span>
+          {hasCartItems && (
+            <>
+              <span>Subtotal</span>
+              <span>
+                {` (${cartCount} ${hasMoreThatOne ? "Items" : "Item"})`}
+              </span>
+            </>
+          )}
           <br />
-          <span>{`${CURRENCY_SYMBOL}${getSubTotal(items)}`}</span>
+          <span>
+            {hasCartItems
+              ? `${CURRENCY_SYMBOL}${subTotal}`
+              : "Your shopping basket is empty"}
+          </span>
         </SubTotalContainer>
         <AmazonButton buttonText="Proceed to Checkout" />
       </RightSideBar>

@@ -50,11 +50,11 @@ const ProductRating = ({ rating, handleClick }) => {
   );
 };
 
-ProductRating.defaultProps = { rating: 0 };
+ProductRating.defaultProps = { rating: 0, handleClick: () => {} };
 
 ProductRating.propTypes = {
   rating: PropTypes.number,
-  handleClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func,
 };
 
 export default ProductRating;

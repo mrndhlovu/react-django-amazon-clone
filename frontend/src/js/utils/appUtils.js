@@ -1,4 +1,6 @@
-import { times } from "lodash";
+/* eslint-disable indent */
+
+import { isEmpty, times } from "lodash";
 
 const groupParamsByKey = (params) =>
   [...params.entries()].reduce((acc, tuple) => {
@@ -31,8 +33,18 @@ export const getStars = (value) => {
   return stars;
 };
 
-export const getSubTotal = (items) =>
-  items
-    .map((item) => item?.price)
-    .reduce((acc, current) => acc + current)
-    .toFixed(2);
+export const getCartDetails = (items) => {
+  return isEmpty(items)
+    ? { subTotal: 0, cartCount: 0 }
+    : items
+        .map((item) => ({
+          subTotal: item?.price * item.quantity,
+          cartCount: item.quantity,
+        }))
+        .reduce((accumulator, { subTotal, cartCount = 0 }) => ({
+          ...accumulator,
+          subTotal: parseFloat(accumulator.subTotal) + parseFloat(subTotal),
+          cartCount:
+            parseInt(accumulator.cartCount, 10) + parseInt(cartCount, 10),
+        }));
+};

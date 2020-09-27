@@ -1,11 +1,17 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { times } from "lodash";
+import { v4 as uuid } from "uuid";
+import { useParams } from "react-router-dom";
 
-import { FAKE_PRODUCTS } from "../../constants/constants";
 import { AmazonButton, UIHeader } from "../shared";
 import ProductRating from "../shared/ProductRating";
+import {
+  addToCartAction,
+  removeFromCartAction,
+} from "../../actions/CartActions";
+import { getProductDetailAction } from "../../actions/ProductActions";
 
 const Container = styled.div`
   display: flex;
@@ -81,42 +87,76 @@ const RemoveFromCartButton = styled(AmazonButton)``;
 
 const Image = styled.img``;
 
-const ProductDetail = ({ product = FAKE_PRODUCTS[0] }) => {
+const ProductDetail = () => {
+  const { id } = useParams();
   const {
     auth: { CURRENCY_SYMBOL },
+    products: { detail },
     cart,
   } = useSelector((state) => state);
-  const isInCart = cart?.items.includes(product);
+  const dispatch = useDispatch();
+  const [quantity, setQuantity] = useState(1);
+
+  const isInCart = cart?.items.includes(detail);
+
+  const handleChange = (qty) => setQuantity(qty);
+
+  const handleAddToCart = (product) => dispatch(addToCartAction(product));
+
+  const handleRemoveFromCart = () => dispatch(removeFromCartAction({ id }));
+
+  useEffect(() => {
+    dispatch(getProductDetailAction({ id }));
+  }, []);
 
   return (
     <Container>
       <ImageContainer>
-        <Image src={product?.image} />
+        <Image src={detail?.image} />
       </ImageContainer>
       <DescriptionContainer>
-        <UIHeader as="h4" content={product?.title} />
-        <ProductRating rating={product?.rating} />
-        <Description>{product?.description}</Description>
+        <UIHeader as="h4" content={detail?.title} />
+        <ProductRating rating={detail?.rating} />
+        <Description>{detail?.description}</Description>
       </DescriptionContainer>
       <RightSideBar>
-        <span>{`${CURRENCY_SYMBOL}${product?.price}`}</span>
+        <span>{`${CURRENCY_SYMBOL}${detail?.price}`}</span>
         <Availability>
           <UIHeader
             as="h4"
-            content={product?.quantity > 0 ? "In stock." : "Out of stock."}
+            content={detail?.available > 0 ? "In stock." : "Out of stock."}
           />
           <QuantitySelector>
             <span>Quantity</span>
-            <select name="quantity" id="quantity">
-              {times(product?.quantity, (index) => (
-                <option value={index + 1}>{index + 1}</option>
+            <select
+              name="available"
+              id="available"
+              value={quantity}
+              onChange={(e) => handleChange(e.target.value)}
+            >
+              {times(detail?.available, (index) => (
+                <option key={uuid()} value={index + 1}>
+                  {index + 1}
+                </option>
               ))}
             </select>
           </QuantitySelector>
         </Availability>
-        <AmazonButton buttonText="Add to Basket" />
+        <AmazonButton
+          buttonText="Add to Basket"
+          handleClick={() =>
+            handleAddToCart({
+              ...detail,
+              quantity,
+            })
+          }
+        />
         {!isInCart && (
-          <RemoveFromCartButton secondary buttonText="Remove from Basket" />
+          <RemoveFromCartButton
+            secondary
+            buttonText="Remove from Basket"
+            handleClick={() => handleRemoveFromCart()}
+          />
         )}
       </RightSideBar>
     </Container>
