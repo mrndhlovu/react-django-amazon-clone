@@ -13,9 +13,11 @@ import {
   TextDivider,
   UIHeader,
 } from "../shared";
-import { requestFilteredProductList } from "../../api/product.requests";
+import { requestProductList } from "../../api/product.requests";
 import ProductRating from "../shared/ProductRating";
 import UILoadingSpinner from "../shared/UILoadingSpinner";
+import { useFetch } from "../../utils/hookUtils";
+import { resetForm } from "../../utils/appUtils";
 
 const Container = styled.div`
   display: flex;
@@ -123,14 +125,20 @@ const CustomPriceRangeFilter = styled.div`
   }
 `;
 
+const FILTER_PARAMS_INITIAL_STATE = {
+  price: "",
+  rating: "",
+  stock: "",
+};
+
 const CategoryList = () => {
   const {
     auth: { CURRENCY_SYMBOL },
   } = useSelector((state) => state);
   const { search } = useLocation();
-  const [searchParams, setSearchParams] = useState(search);
-  const [isLoading, setIsLoading] = useState(true);
-  const [products, setProducts] = useState(undefined);
+  const [filterParams, setFilterParams] = useState(search);
+  const [products, isLoading] = useFetch(requestProductList, filterParams);
+  const [filter, setFilter] = useState(FILTER_PARAMS_INITIAL_STATE);
   const [activePriceFilter, setActivePriceFilter] = useState(undefined);
   const [inStock, setInStock] = useState(true);
   const [customPriceFilter, setCustomPriceFilter] = useState({
@@ -138,52 +146,52 @@ const CategoryList = () => {
     high: 0,
   });
 
-  const handleFilterParams = (data) => {
-    const [param] = data.split("-");
-    const sortParam = `price=${param}_price`;
-    setSearchParams(`${search}&${sortParam}`);
+  const handleSortParams = (data) => {
+    const [sortValue] = data.split("-");
+    if (sortValue === "all") return;
+    const sortParam = `ordering=${sortValue === "low" ? "price" : "-price"}`;
+
+    setFilterParams(`${search}&${sortParam}`);
   };
 
   const handlePriceFilter = (price, clickIndex) => {
     setActivePriceFilter(!price ? -1 : clickIndex);
     if (!price) {
-      setCustomPriceFilter({
-        low: 0,
-        high: 0,
-      });
-      return setSearchParams(`${search}`);
+      resetForm(["price-low", "price-high"]);
+      return setFilter({ ...filter, price: "" });
     }
 
-    const sortParam = `low_price=${
-      isNumber(price.low) ? price.low : 0
-    }&high_price=${price.high}`;
-
-    setSearchParams(`${search}&${sortParam}`);
+    setFilter({
+      ...filter,
+      price: `&low_price=${isNumber(price.low) ? price.low : 0}&high_price=${
+        price.high
+      }`,
+    });
   };
 
   const handleStarFilter = (rating) =>
-    setSearchParams(`${search}&rating=${rating}`);
+    setFilter({ ...filter, rating: `&rating=${rating}` });
 
   const handleOutOfStockFilter = () => {
+    setFilter({
+      ...filter,
+      stock: `${!inStock ? "" : "&in_stock=True&in_stock=False"}`,
+    });
+
     setInStock(!inStock);
-    setSearchParams(`${search}&in_stock=${!inStock ? "True" : "False"}`);
-    if (!inStock) handlePriceFilter();
   };
 
   useEffect(() => {
-    const getProducts = async () => {
-      await requestFilteredProductList(searchParams)
-        .then((response) => {
-          setProducts(response.data);
-          setIsLoading(false);
-        })
-        .catch(() => {
-          setIsLoading(false);
-        });
+    const buildFilterParam = () => {
+      const newFilterParams = Object.values(filter)
+        .map((value) => value && value)
+        .join("");
+
+      setFilterParams(`${search}${newFilterParams}`);
     };
 
-    getProducts();
-  }, [searchParams]);
+    buildFilterParam();
+  }, [filter]);
 
   return (
     <Container>
@@ -216,21 +224,23 @@ const CategoryList = () => {
           <CustomPriceRangeFilter>
             <input
               type="number"
+              id="price-low"
               placeholder={`${CURRENCY_SYMBOL} Min`}
               onChange={(e) =>
                 setCustomPriceFilter({
                   ...customPriceFilter,
-                  low: parseInt(e.target.value, 10),
+                  low: e.target.value,
                 })
               }
             />
             <input
               type="number"
+              id="price-high"
               placeholder={`${CURRENCY_SYMBOL} Max`}
               onChange={(e) =>
                 setCustomPriceFilter({
                   ...customPriceFilter,
-                  high: parseInt(e.target.value, 10),
+                  high: e.target.value,
                 })
               }
             />
@@ -273,7 +283,7 @@ const CategoryList = () => {
             <span>Books</span>
           </ResultCount>
           <SearchSort>
-            <SearchSelect onChange={handleFilterParams} />
+            <SearchSelect onChange={handleSortParams} />
           </SearchSort>
         </SearchInfo>
 
@@ -294,7 +304,7 @@ const SearchSelect = ({ onChange }) => (
     name="search"
     id="search-options"
   >
-    <option value="featured">Featured</option>
+    <option value="all">Sort by:</option>
     <option value="low-to-high">Price: Low to High</option>
     <option value="high-to-low">Price: High to Low</option>
   </select>

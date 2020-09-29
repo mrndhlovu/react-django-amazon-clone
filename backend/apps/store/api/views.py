@@ -34,7 +34,7 @@ class ProductListAPIView(ListAPIView):
     pagination_class = PageNumberPagination
     filter_backends = (filters.DjangoFilterBackend,
                        SearchFilter, OrderingFilter,)
-    ordering_fields = ('price', 'category', )
+    ordering_fields = ('-price', 'price', 'category', )
     search_fields = ('name', 'description', )
     filterset_class = ProductFilter
 

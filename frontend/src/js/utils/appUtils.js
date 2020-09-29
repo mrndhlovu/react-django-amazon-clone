@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 /* eslint-disable indent */
 
 import { isEmpty, times } from "lodash";
@@ -47,4 +48,12 @@ export const getCartDetails = (items) => {
           cartCount:
             parseInt(accumulator.cartCount, 10) + parseInt(cartCount, 10),
         }));
+};
+
+export const resetForm = (data) => {
+  if (Array.isArray(data)) {
+    data.forEach((id) => (document.getElementById(id).value = ""));
+    return;
+  }
+  document.getElementById(data).value = "";
 };
