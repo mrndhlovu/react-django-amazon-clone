@@ -9,18 +9,38 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.generics import UpdateAPIView, GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters import rest_framework as filters
 
 from ..models import Product
 from .serializers import ProductListSerializer, ProductDetailSerializer
 
 
-class ProductListAPIView(GenericAPIView):
+class ProductFilter(filters.FilterSet):
+    low_price = filters.NumberFilter(field_name="price", lookup_expr='gte')
+    high_price = filters.NumberFilter(field_name="price", lookup_expr='lte')
+
+    class Meta:
+        model = Product
+        fields = ['category', 'in_stock', 'low_price',
+                  'high_price', 'description', 'rating', 'name', 'featured']
+
+
+class ProductListAPIView(ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductListSerializer
     permission_classes = (permissions.AllowAny,)
+    pagination_class = PageNumberPagination
+    filter_backends = (filters.DjangoFilterBackend,
+                       SearchFilter, OrderingFilter,)
+    ordering_fields = ('price', 'category', )
+    search_fields = ('name', 'description', )
+    filterset_class = ProductFilter
 
-    def get(self, request):
-
-        products = Product.objects.all().values()
-        return JsonResponse({'list': list(products)})
+    def list(self, request):
+        queryset = self.filter_queryset(self.get_queryset())
+        return Response(queryset.values())
 
 
 class ProductDetailAPIView(RetrieveAPIView):

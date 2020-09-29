@@ -8,11 +8,14 @@ import PropTypes from "prop-types";
 import { Avatar } from "@material-ui/core";
 
 import { IMAGES, FAKE_PRODUCTS } from "../../constants/constants";
-import { UIHeader, UILinkButton, DashboardProduct } from "../shared";
+import { requestProductList } from "../../api/product.requests";
+import { UIHeader, UILinkButton, DashboardProduct, UIFooter } from "../shared";
+import { useFetch } from "../../utils/hookUtils";
 import Carousel from "./Carousel";
 import ProductCard from "../shared/ProductCard";
 import UICard from "../shared/UICard";
 import UISmall from "../shared/UISmall";
+import { ProductContext } from "../../utils/contextUtils";
 
 const Container = styled.div`
   height: 100vh;
@@ -100,88 +103,97 @@ const HomePage = () => {
     auth: { isAuthenticated, data },
   } = useSelector((state) => state);
 
-  return (
-    <Container>
-      <Hero>
-        <Carousel />
-        <FeaturedList>
-          <UICard>
-            <UICard.Header
-              avatar={
-                <AvatarContainer>
-                  <Avatar>{data?.image}</Avatar>
-                  <div>
-                    <UIHeader
-                      as="h3"
-                      content={`Hi, ${
-                        isAuthenticated
-                          ? data?.full_name.split(" ")[0]
-                          : "Guest"
-                      }`}
-                    />
-                    {isAuthenticated && (
-                      <UISmall content="Customer since 2019" />
-                    )}
-                  </div>
-                </AvatarContainer>
-              }
-            />
+  const [products] = useFetch(requestProductList);
 
-            <UIHeader as="h5" content="Top links for you." />
-            <CardContent>
-              <TopLink
-                header="Orders"
-                redirectTo="/orders"
-                image={IMAGES.PRODUCTS[0]}
+  const context = {
+    products,
+  };
+
+  return (
+    <ProductContext.Provider value={context}>
+      <Container>
+        <Hero>
+          <Carousel />
+          <FeaturedList>
+            <UICard>
+              <UICard.Header
+                avatar={
+                  <AvatarContainer>
+                    <Avatar>{data?.image}</Avatar>
+                    <div>
+                      <UIHeader
+                        as="h3"
+                        content={`Hi, ${
+                          isAuthenticated
+                            ? data?.full_name.split(" ")[0]
+                            : "Guest"
+                        }`}
+                      />
+                      {isAuthenticated && (
+                        <UISmall content="Customer since 2019" />
+                      )}
+                    </div>
+                  </AvatarContainer>
+                }
               />
-              <TopLink
-                header="Books"
-                redirectTo="/orders"
-                image={IMAGES.PRODUCTS[0]}
+
+              <UIHeader as="h5" content="Top links for you." />
+              <CardContent>
+                <TopLink
+                  header="Orders"
+                  redirectTo="/orders"
+                  image={IMAGES.PRODUCTS[0]}
+                />
+                <TopLink
+                  header="Books"
+                  redirectTo="/orders"
+                  image={IMAGES.PRODUCTS[0]}
+                />
+                <TopLink
+                  header="Electronics"
+                  redirectTo="/orders"
+                  image={IMAGES.PRODUCTS[0]}
+                />
+                <TopLink
+                  header="Computers"
+                  redirectTo="/orders"
+                  image={IMAGES.PRODUCTS[0]}
+                />
+              </CardContent>
+            </UICard>
+            <UICard>
+              <UICard.Header
+                avatar={<UIHeader as="h3" content="Recently viewed" />}
               />
-              <TopLink
-                header="Electronics"
-                redirectTo="/orders"
-                image={IMAGES.PRODUCTS[0]}
+              <ProductCard image={IMAGES.PRODUCTS[1]} />
+              <UICard.Action>
+                <UILinkButton content="Show more" />
+              </UICard.Action>
+            </UICard>
+            <UICard>
+              <UICard.Header
+                avatar={<UIHeader as="h3" content="Deal of the day" />}
               />
-              <TopLink
-                header="Computers"
-                redirectTo="/orders"
-                image={IMAGES.PRODUCTS[0]}
-              />
-            </CardContent>
-          </UICard>
-          <UICard>
-            <UICard.Header
-              avatar={<UIHeader as="h3" content="Recently viewed" />}
-            />
-            <ProductCard image={IMAGES.PRODUCTS[1]} />
-            <UICard.Action>
-              <UILinkButton content="Show more" />
-            </UICard.Action>
-          </UICard>
-          <UICard>
-            <UICard.Header
-              avatar={<UIHeader as="h3" content="Deal of the day" />}
-            />
-            <ProductCard image={IMAGES.PRODUCTS[1]} />
-            <UICard.Action>
-              <UILinkButton content="Show more deals" />
-            </UICard.Action>
-          </UICard>
-        </FeaturedList>
-      </Hero>
-      <ProductList>
-        <DashboardProduct.List products={FAKE_PRODUCTS} />
-        <DashboardProduct.RatedList
-          products={[...FAKE_PRODUCTS, ...FAKE_PRODUCTS]}
-        />
-        <DashboardProduct.Books books={IMAGES.BOOKS} />
-        <DashboardProduct.RatedList
-          products={[...FAKE_PRODUCTS, ...FAKE_PRODUCTS]}
-        />
-      </ProductList>
-    </Container>
+              <ProductCard image={IMAGES.PRODUCTS[1]} />
+              <UICard.Action>
+                <UILinkButton content="Show more deals" />
+              </UICard.Action>
+            </UICard>
+          </FeaturedList>
+        </Hero>
+        <ProductList>
+          <DashboardProduct.List products={FAKE_PRODUCTS} />
+          <DashboardProduct.RatedList
+            products={[...FAKE_PRODUCTS, ...FAKE_PRODUCTS]}
+          />
+          <DashboardProduct.Books books={IMAGES.BOOKS} />
+          <DashboardProduct.RatedList
+            products={[...FAKE_PRODUCTS, ...FAKE_PRODUCTS]}
+          />
+        </ProductList>
+        <UIFooter />
+      </Container>
+    </ProductContext.Provider>
   );
 };
 

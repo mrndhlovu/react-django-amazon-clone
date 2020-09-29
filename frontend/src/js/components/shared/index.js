@@ -8,6 +8,7 @@ import UIForm from "./UIForm";
 import UIHeader from "./UIHeader";
 import UILinkButton from "./UILinkButton";
 import DashboardProduct from "./DashboardProduct";
+import UIFooter from "./UIFooter";
 
 export {
   AmazonButton,
@@ -20,4 +21,5 @@ export {
   UIHeader,
   UILinkButton,
   DashboardProduct,
+  UIFooter,
 };

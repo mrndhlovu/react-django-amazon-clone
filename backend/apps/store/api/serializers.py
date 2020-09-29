@@ -6,12 +6,15 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
 
+from ..models import Product
+
 
 User = get_user_model()
 
 
 class ProductListSerializer(serializers.Serializer):
     class Meta:
+        model = Product
         fields = '__all__'
 
 

@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-expressions */
 import { isArray } from "lodash";
-import localStorage from "../utils/localstorage.service";
+import localStorage from "./localstorage.service";
 
 export const baseURL = "http://localhost:8000";
 
 export const AUTH_EP = "/v1/api/auth";
+export const PRODUCTS_EP = "/v1/api/products";
 export const AUTH_PARAMS = {
   baseURL,
   headers: {

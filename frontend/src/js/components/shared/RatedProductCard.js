@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import ProductRating from "./ProductRating";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
@@ -15,6 +16,10 @@ const Container = styled.div`
   justify-content: space-around;
   width: 285px;
   padding: 15px;
+
+  a {
+    text-decoration: none;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -57,30 +62,26 @@ const ProductDescription = styled.p`
   padding-bottom: 8px;
 `;
 
-const RatedProductCard = ({
-  currency,
-  image,
-  price,
-  rating,
-  short_description,
-  id,
-}) => {
+const RatedProductCard = ({ image, price, rating, description, id }) => {
+  const {
+    auth: { CURRENCY_SYMBOL },
+  } = useSelector((state) => state);
   const [whole, fraction] = parseFloat(price).toString().split(".");
 
   return (
     <Container>
       <ImageContainer>
         <Link to={`/product-detail/${id}`}>
-          <img src={image} alt={short_description} />
+          <img src={image} alt={description} />
         </Link>
       </ImageContainer>
       <div>
         <Link to={`/product-detail/${id}`}>
-          <ProductDescription>{short_description}</ProductDescription>
+          <ProductDescription>{description}</ProductDescription>
         </Link>
         <ProductRating rating={rating} />
         <PriceContainer>
-          <ProductPrice>{`${currency}`}</ProductPrice>
+          <ProductPrice>{`${CURRENCY_SYMBOL}`}</ProductPrice>
           <ProductPrice>{`${whole}`}</ProductPrice>
           <ProductPrice>{`${fraction}`}</ProductPrice>
         </PriceContainer>
@@ -90,18 +91,17 @@ const RatedProductCard = ({
 };
 
 RatedProductCard.defaultProps = {
-  short_description: "",
+  description: "",
   image: "",
   price: 0,
   rating: 0,
-  currency: "€",
 };
 
 RatedProductCard.propTypes = {
   image: PropTypes.string,
   price: PropTypes.number,
-  short_description: PropTypes.string,
-  currency: PropTypes.string,
+  description: PropTypes.string,
+  id: PropTypes.number.isRequired,
   rating: PropTypes.number,
 };
 

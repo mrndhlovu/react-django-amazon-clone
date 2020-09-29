@@ -10,7 +10,7 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('v1/api/', include([
         path('auth/', include('apps.accounts.api.urls',  namespace='accounts')),
-        path('products/', include('apps.store.api.urls',  namespace='store')),
+        path('products', include('apps.store.api.urls',  namespace='store')),
 
     ])),
     path('api-auth/', include('rest_framework.urls')),

@@ -215,6 +215,7 @@ export const FAKE_PRODUCTS = [
     price: 99.52,
     available: 4,
     id: 0,
+    category: "digital",
     description:
       "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. ",
     short_description:
@@ -228,6 +229,7 @@ export const FAKE_PRODUCTS = [
     price: 5.89,
     available: 4,
     id: 1,
+    category: "digital",
     title:
       "Crucial MX500 500 GB CT500MX500SSD1(Z)-Up to 560 MB/s (3D NAND, SATA, 2.5",
 
@@ -242,6 +244,8 @@ export const FAKE_PRODUCTS = [
     price: 4.88,
     id: 2,
     available: 4,
+    category: "beauty",
+
     title:
       "Crucial MX500 500 GB CT500MX500SSD1(Z)-Up to 560 MB/s (3D NAND, SATA, 2.5",
 

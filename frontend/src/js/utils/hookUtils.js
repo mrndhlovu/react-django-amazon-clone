@@ -1,11 +1,12 @@
 import { useState, useEffect, useContext } from "react";
 
-import { MainContext, AuthContext } from "./contextUtils";
+import { MainContext, AuthContext, ProductContext } from "./contextUtils";
 
 export const useMainContext = () => useContext(MainContext);
 export const useAuth = () => useContext(AuthContext);
+export const useProductContext = () => useContext(ProductContext);
 
-export const useFetch = (endPoint, options = {}) => {
+export const useFetch = (endPoint, options) => {
   const [data, setData] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);

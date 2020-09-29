@@ -9,7 +9,6 @@ from .views import (
 app_name = 'store'
 
 urlpatterns = [
-    path('all/', ProductListAPIView.as_view(), name='all-products'),
+    path('', ProductListAPIView.as_view(), name='list'),
     path('<pk>/', ProductDetailAPIView.as_view(), name='product_detail'),
-    path('featured/', ProductFeaturedAPIView.as_view(), name='featured'),
 ]

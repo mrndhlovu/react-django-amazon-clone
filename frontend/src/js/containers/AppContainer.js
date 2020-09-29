@@ -6,7 +6,6 @@ import { MainContext } from "../utils/contextUtils";
 import { getUserAction } from "../actions/AuthActions";
 import UILoadingSpinner from "../components/shared/UILoadingSpinner";
 import Header from "../components/header/Header";
-import UIFooter from "../components/shared/UIFooter";
 
 const AppContainer = ({ children }) => {
   const dispatch = useDispatch();
@@ -34,7 +33,6 @@ const AppContainer = ({ children }) => {
       <div className="app__container" data-testid="app-container">
         {children}
       </div>
-      <UIFooter />
     </MainContext.Provider>
   );
 };

@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import PropTypes from "prop-types";
 import { isNumber } from "lodash";
+import { useLocation } from "react-router-dom";
 
+import { CATEGORY_FILTER_OPTIONS } from "../../constants/constants";
 import {
-  CATEGORY_FILTER_OPTIONS,
-  FAKE_PRODUCTS,
-} from "../../constants/constants";
-import { DashboardProduct, TextDivider, UIHeader } from "../shared";
+  AmazonButton,
+  DashboardProduct,
+  TextDivider,
+  UIHeader,
+} from "../shared";
+import { requestFilteredProductList } from "../../api/product.requests";
 import ProductRating from "../shared/ProductRating";
+import UILoadingSpinner from "../shared/UILoadingSpinner";
 
 const Container = styled.div`
   display: flex;
@@ -98,10 +103,88 @@ const SearchFilter = styled.div`
   }
 `;
 
+const AvgRating = styled.div``;
+
+const CustomPriceRangeFilter = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: fit-content;
+
+  button {
+    margin: 0;
+    width: fit-content;
+    cursor: pointer;
+  }
+
+  input {
+    width: 70px;
+    padding: 5px;
+    margin-right: 5px;
+  }
+`;
+
 const CategoryList = () => {
   const {
     auth: { CURRENCY_SYMBOL },
-  } = useSelector((state) => state.store);
+  } = useSelector((state) => state);
+  const { search } = useLocation();
+  const [searchParams, setSearchParams] = useState(search);
+  const [isLoading, setIsLoading] = useState(true);
+  const [products, setProducts] = useState(undefined);
+  const [activePriceFilter, setActivePriceFilter] = useState(undefined);
+  const [inStock, setInStock] = useState(true);
+  const [customPriceFilter, setCustomPriceFilter] = useState({
+    low: 0,
+    high: 0,
+  });
+
+  const handleFilterParams = (data) => {
+    const [param] = data.split("-");
+    const sortParam = `price=${param}_price`;
+    setSearchParams(`${search}&${sortParam}`);
+  };
+
+  const handlePriceFilter = (price, clickIndex) => {
+    setActivePriceFilter(!price ? -1 : clickIndex);
+    if (!price) {
+      setCustomPriceFilter({
+        low: 0,
+        high: 0,
+      });
+      return setSearchParams(`${search}`);
+    }
+
+    const sortParam = `low_price=${
+      isNumber(price.low) ? price.low : 0
+    }&high_price=${price.high}`;
+
+    setSearchParams(`${search}&${sortParam}`);
+  };
+
+  const handleStarFilter = (rating) =>
+    setSearchParams(`${search}&rating=${rating}`);
+
+  const handleOutOfStockFilter = () => {
+    setInStock(!inStock);
+    setSearchParams(`${search}&in_stock=${!inStock ? "True" : "False"}`);
+    if (!inStock) handlePriceFilter();
+  };
+
+  useEffect(() => {
+    const getProducts = async () => {
+      await requestFilteredProductList(searchParams)
+        .then((response) => {
+          setProducts(response.data);
+          setIsLoading(false);
+        })
+        .catch(() => {
+          setIsLoading(false);
+        });
+    };
+
+    getProducts();
+  }, [searchParams]);
+
   return (
     <Container>
       <SideBar>
@@ -109,29 +192,78 @@ const CategoryList = () => {
         <TextDivider />
         <SearchFilter>
           <UIHeader as="h6" content="Price" />
-          {CATEGORY_FILTER_OPTIONS.PRICE.map((price) => (
+          <FilterCheckbox
+            key={uuid()}
+            onChange={() => handlePriceFilter()}
+            value="All"
+            checked={activePriceFilter === -1}
+            name="all"
+            content="All"
+          />
+          {CATEGORY_FILTER_OPTIONS.PRICE.map((price, index) => (
             <FilterCheckbox
-              name={`under-${price?.low}-${price.high}`}
+              key={uuid()}
+              onChange={() => handlePriceFilter(price, index)}
+              value={index}
+              checked={activePriceFilter === index}
+              name={`range-${price?.low}-${price.high}`}
               content={`${isNumber(price?.low) ? CURRENCY_SYMBOL : ""} ${
                 price.low
               } - ${CURRENCY_SYMBOL} ${price.high}`}
             />
           ))}
+
+          <CustomPriceRangeFilter>
+            <input
+              type="number"
+              placeholder={`${CURRENCY_SYMBOL} Min`}
+              onChange={(e) =>
+                setCustomPriceFilter({
+                  ...customPriceFilter,
+                  low: parseInt(e.target.value, 10),
+                })
+              }
+            />
+            <input
+              type="number"
+              placeholder={`${CURRENCY_SYMBOL} Max`}
+              onChange={(e) =>
+                setCustomPriceFilter({
+                  ...customPriceFilter,
+                  high: parseInt(e.target.value, 10),
+                })
+              }
+            />
+            <AmazonButton
+              secondary
+              buttonText="Go"
+              handleClick={() => handlePriceFilter(customPriceFilter)}
+            />
+          </CustomPriceRangeFilter>
         </SearchFilter>
         <SearchFilter>
           <UIHeader as="h6" content="Avg. Customer Review" />
 
-          {CATEGORY_FILTER_OPTIONS.STARS.map((rating) => (
-            <div>
-              <ProductRating key={uuid()} rating={rating} />
+          {CATEGORY_FILTER_OPTIONS.STARS.map((rating, index) => (
+            <AvgRating
+              key={uuid()}
+              onClick={() => handleStarFilter(5 - (index + 1))}
+            >
+              <ProductRating rating={rating} />
               <span>& Up</span>
-            </div>
+            </AvgRating>
           ))}
         </SearchFilter>
 
         <SearchFilter>
           <UIHeader as="h6" content="Availability" />
-          <FilterCheckbox name="in-stock" content="Include Out of Stock" />
+          <FilterCheckbox
+            name="in-stock"
+            content="Include Out of Stock"
+            checked={!inStock}
+            onChange={handleOutOfStockFilter}
+            type="checkbox"
+          />
         </SearchFilter>
       </SideBar>
       <ListContainer>
@@ -141,35 +273,62 @@ const CategoryList = () => {
             <span>Books</span>
           </ResultCount>
           <SearchSort>
-            <SearchSelect />
+            <SearchSelect onChange={handleFilterParams} />
           </SearchSort>
         </SearchInfo>
 
-        <CategoryProductList products={[...FAKE_PRODUCTS, ...FAKE_PRODUCTS]} />
+        {isLoading ? (
+          <UILoadingSpinner />
+        ) : (
+          <CategoryProductList products={products} />
+        )}
         <TextDivider />
       </ListContainer>
     </Container>
   );
 };
 
-const SearchSelect = () => (
-  <select name="search" id="search-options">
+const SearchSelect = ({ onChange }) => (
+  <select
+    onChange={(e) => onChange(e.target.value)}
+    name="search"
+    id="search-options"
+  >
     <option value="featured">Featured</option>
     <option value="low-to-high">Price: Low to High</option>
     <option value="high-to-low">Price: High to Low</option>
   </select>
 );
 
-const FilterCheckbox = ({ name, content }) => (
+const FilterCheckbox = ({ name, content, onChange, value, checked, type }) => (
   <div>
-    <input type="checkbox" name={name} value={content} />
+    <input
+      onChange={onChange}
+      value={value}
+      checked={checked}
+      type={type}
+      name={name}
+    />
     <label htmlFor={name}>{content}</label>
   </div>
 );
 
 FilterCheckbox.propTypes = {
   name: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  checked: PropTypes.bool.isRequired,
   content: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  type: PropTypes.string,
+};
+
+FilterCheckbox.defaultProps = {
+  type: "radio",
+  value: "",
+};
+
+SearchSelect.propTypes = {
+  onChange: PropTypes.func.isRequired,
 };
 
 export default CategoryList;

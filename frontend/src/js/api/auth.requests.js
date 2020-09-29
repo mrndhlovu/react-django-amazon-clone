@@ -1,6 +1,6 @@
 /* eslint-disable no-return-await */
 import axios from "axios";
-import { PARAMS, AUTH_EP, AUTH_PARAMS, baseURL } from "./urls";
+import { PARAMS, AUTH_EP, AUTH_PARAMS, baseURL } from "../utils/urlUtils";
 
 const authAxiosInstance = axios.create({ ...AUTH_PARAMS });
 const axiosInstance = axios.create({ ...PARAMS });

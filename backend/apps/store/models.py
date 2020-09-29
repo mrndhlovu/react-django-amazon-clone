@@ -21,18 +21,6 @@ def upload_image_path(instance, filename):
     return f'products/{newfilename}/{final_name}'
 
 
-class ProductManager(models.Manager):
-
-    def featured(self):
-        return self.get_queryset().filter(featured=True)
-
-    def get_by_id(self, id):
-        qs = self.get_queryset().filter(id=id)
-        if qs.count() == 1:
-            return {'item': list(qs.values())}
-        return None
-
-
 class Customer (models.Model):
     address = models.CharField(max_length=250)
     city = models.CharField(max_length=100)
@@ -60,7 +48,7 @@ class Product (models.Model):
         ('mis', 'Miscellaneous'),
         ('books', 'Books'),
         ('diy', 'DIY'),
-        ('dig', 'Digital'),
+        ('digital', 'Digital'),
         ('beauty', 'Beauty'),
     ]
 
@@ -68,12 +56,13 @@ class Product (models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=20, default=0.00)
     rating = models.SmallIntegerField(
         choices=PRODUCT_RATINGS, default=0,  null=True)
-    category = models.CharField(max_length=6, choices=CATEGORIES, null=True)
+    category = models.CharField(max_length=13, choices=CATEGORIES, null=True)
     description = models.TextField(null=True)
+    short_desc = models.TextField(null=True)
     featured = models.BooleanField(default=False)
-    image = models.ImageField(null=True, blank=True,
-                              upload_to=upload_image_path)
-    objects = ProductManager()
+    in_stock = models.BooleanField(default=True)
+    inventory_count = models.IntegerField(blank=True, null=True)
+    image = models.CharField(max_length=250, null=True)
 
     def __str__(self):
         return self.name

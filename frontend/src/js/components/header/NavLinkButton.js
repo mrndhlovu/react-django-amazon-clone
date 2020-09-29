@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { NavLink, useHistory } from "react-router-dom";
 
 import { ArrowDropDown as ArrowDropDownIcon } from "@material-ui/icons";
-import { getQueryParam } from "../../api/urls";
+import { getQueryParam } from "../../utils/urlUtils";
 
 const NavLinkButton = ({
   buttonText,
