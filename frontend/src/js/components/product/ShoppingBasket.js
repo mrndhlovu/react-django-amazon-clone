@@ -138,7 +138,6 @@ const ShoppingBasket = () => {
   } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { subTotal, cartCount } = getCartDetails(items);
-  console.log("ShoppingBasket -> items", subTotal, cartCount);
 
   const hasCartItems = items.length !== 0;
   const hasMoreThatOne = cartCount > 1;
@@ -188,7 +187,7 @@ const ShoppingBasket = () => {
                     </Price>
                   </Title>
                   <span>
-                    {item?.available > 0 ? "In stock" : "Out of stock"}
+                    {item?.inventory_count > 0 ? "In stock" : "Out of stock"}
                   </span>
                   <br />
                   <button type="button">

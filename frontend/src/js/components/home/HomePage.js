@@ -1,21 +1,21 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { Avatar } from "@material-ui/core";
 
-import { IMAGES, FAKE_PRODUCTS } from "../../constants/constants";
-import { requestProductList } from "../../api/product.requests";
+import { getProductList } from "../../actions/ProductActions";
+import { IMAGES } from "../../constants/constants";
+import { ProductContext } from "../../utils/contextUtils";
 import { UIHeader, UILinkButton, DashboardProduct, UIFooter } from "../shared";
-import { useFetch } from "../../utils/hookUtils";
 import Carousel from "./Carousel";
 import ProductCard from "../shared/ProductCard";
 import UICard from "../shared/UICard";
 import UISmall from "../shared/UISmall";
-import { ProductContext } from "../../utils/contextUtils";
+import { VIEWED_RECENT } from "../../utils/localStorageUtils";
 
 const Container = styled.div`
   height: 100vh;
@@ -85,14 +85,14 @@ const ProductList = styled.div`
 `;
 
 const TopLinkContainer = styled.div`
-  ${({ theme }) => theme.helpers.useFlex("column", "space-around")};
+  ${({ theme }) => theme.helpers.useFlex("column", "space-evenly")};
   position: relative;
   max-width: 150px;
   height: 100%;
 
   img {
-    width: 100%;
-    height: 100px;
+    width: auto;
+    height: 70px;
     mix-blend-mode: multiply;
     cursor: pointer;
   }
@@ -101,12 +101,24 @@ const TopLinkContainer = styled.div`
 const HomePage = () => {
   const {
     auth: { isAuthenticated, data },
+    products: { list },
   } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
-  const [products] = useFetch(requestProductList);
+  const BOOKS = list.filter((item) => item.category === "books");
+
+  const VIEWED_RECENT_ITEM = list.find(
+    (item) => item.id === (VIEWED_RECENT ? VIEWED_RECENT[0] : null) && item
+  );
+
+  const DEAL_ITEM = list.find((item) => item.top_sell && item);
+
+  useEffect(() => {
+    dispatch(getProductList());
+  }, []);
 
   const context = {
-    products,
+    products: list,
   };
 
   return (
@@ -142,54 +154,90 @@ const HomePage = () => {
                 <TopLink
                   header="Orders"
                   redirectTo="/orders"
-                  image={IMAGES.PRODUCTS[0]}
+                  image={IMAGES.TOP_LINK.link1}
                 />
                 <TopLink
                   header="Books"
-                  redirectTo="/orders"
-                  image={IMAGES.PRODUCTS[0]}
+                  redirectTo="/category-list?category=books"
+                  image={IMAGES.TOP_LINK.link2}
                 />
                 <TopLink
                   header="Electronics"
-                  redirectTo="/orders"
-                  image={IMAGES.PRODUCTS[0]}
+                  redirectTo="/category-list?category=tvs"
+                  image={IMAGES.TOP_LINK.link3}
                 />
                 <TopLink
                   header="Computers"
-                  redirectTo="/orders"
-                  image={IMAGES.PRODUCTS[0]}
+                  redirectTo="/category-list?category=pc-tech"
+                  image={IMAGES.TOP_LINK.link4}
                 />
               </CardContent>
             </UICard>
             <UICard>
               <UICard.Header
-                avatar={<UIHeader as="h3" content="Recently viewed" />}
+                avatar={
+                  <UIHeader
+                    as="h3"
+                    content={
+                      VIEWED_RECENT_ITEM ? "Recently viewed" : "Discover"
+                    }
+                  />
+                }
               />
-              <ProductCard image={IMAGES.PRODUCTS[1]} />
+              <ProductCard
+                image={
+                  VIEWED_RECENT_ITEM
+                    ? VIEWED_RECENT_ITEM?.image
+                    : BOOKS && BOOKS[0]?.image
+                }
+              />
               <UICard.Action>
-                <UILinkButton content="Show more" />
+                <Link
+                  to={
+                    VIEWED_RECENT_ITEM
+                      ? "/view-history"
+                      : "/category-list?category=books"
+                  }
+                >
+                  <UILinkButton content="Show more" />
+                </Link>
               </UICard.Action>
             </UICard>
             <UICard>
               <UICard.Header
                 avatar={<UIHeader as="h3" content="Deal of the day" />}
               />
-              <ProductCard image={IMAGES.PRODUCTS[1]} />
+              <ProductCard image={DEAL_ITEM?.image} />
               <UICard.Action>
-                <UILinkButton content="Show more deals" />
+                <Link to={`product-detail/${DEAL_ITEM?.id}/`}>
+                  <UILinkButton content="Show more deals" />
+                </Link>
               </UICard.Action>
             </UICard>
           </FeaturedList>
         </Hero>
         <ProductList>
-          <DashboardProduct.List products={FAKE_PRODUCTS} />
-          <DashboardProduct.RatedList
-            products={[...FAKE_PRODUCTS, ...FAKE_PRODUCTS]}
-          />
-          <DashboardProduct.Books books={IMAGES.BOOKS} />
-          <DashboardProduct.RatedList
-            products={[...FAKE_PRODUCTS, ...FAKE_PRODUCTS]}
-          />
+          <DashboardProduct>
+            <DashboardProduct.Featured
+              category="tvs"
+              header="TVs"
+              footerLink="Show now"
+            />
+
+            <DashboardProduct.Featured
+              category="books"
+              header="Books"
+              footerLink="See the range"
+            />
+
+            <DashboardProduct.Featured
+              category="gym"
+              header="Health and Fitness"
+              footerLink="See more"
+            />
+          </DashboardProduct>
+          <DashboardProduct.Books books={BOOKS} />
+          <DashboardProduct.RatedList products={list} />
         </ProductList>
         <UIFooter />
       </Container>

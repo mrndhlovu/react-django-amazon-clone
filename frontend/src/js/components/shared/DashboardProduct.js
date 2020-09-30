@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { v4 as uuid } from "uuid";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import ProductCard from "./ProductCard";
 import RatedProductCard from "./RatedProductCard";
@@ -20,11 +21,12 @@ const DashBoardCards = styled.div`
 const RatedListContainer = styled(DashBoardCards)`
   display: grid;
   grid-template-columns: repeat(auto-fill, 20%);
-  justify-items: center;
+  justify-content: space-around;
 `;
 
 const BooksContainer = styled(DashBoardCards)`
   flex-direction: column;
+  padding: 15px;
 
   h3 {
     padding-bottom: 14px;
@@ -33,37 +35,43 @@ const BooksContainer = styled(DashBoardCards)`
 
   div {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
   }
 `;
 
 const BookImage = styled.img`
   cursor: pointer;
+  width: auto;
+  height: 200px;
+  padding: 10px;
 `;
 
 const DashboardProduct = ({ children }) => (
   <DashBoardCards>{children}</DashBoardCards>
 );
 
-DashboardProduct.List = ({ products }) => {
+const Featured = ({ category, header, footerLink }) => {
+  const {
+    products: { list },
+  } = useSelector((state) => state);
+  const FEATURED_ITEM = list.find(
+    (item) => item.category === category && item.featured && item
+  );
+
   return (
-    <DashboardProduct>
-      {products.map((product) => (
-        <UICard key={uuid()}>
-          <UICard.Header
-            avatar={<UIHeader as="h3" content={product?.header} />}
-          />
-          <ProductCard image={product?.image} />
-          <UICard.Action>
-            <Link to={`/category-list?category=${product?.category} `}>
-              <UILinkButton content={product?.footerLink} />
-            </Link>
-          </UICard.Action>
-        </UICard>
-      ))}
-    </DashboardProduct>
+    <UICard>
+      <UICard.Header avatar={<UIHeader as="h3" content={header} />} />
+      <ProductCard image={FEATURED_ITEM?.image} />
+      <UICard.Action>
+        <Link to={`/category-list?category=${category} `}>
+          <UILinkButton content={footerLink} />
+        </Link>
+      </UICard.Action>
+    </UICard>
   );
 };
+
+DashboardProduct.Featured = Featured;
 
 DashboardProduct.RatedList = ({ products }) => (
   <RatedListContainer>
@@ -78,7 +86,9 @@ DashboardProduct.Books = ({ books }) => (
     <UIHeader as="h3" content="Books from you" />
     <div>
       {books.map((book) => (
-        <BookImage src={book} key={uuid()} />
+        <Link key={uuid()} to={`/product-detail/${book.id}/`}>
+          <BookImage src={book.image} />
+        </Link>
       ))}
     </div>
   </BooksContainer>
@@ -88,8 +98,10 @@ DashboardProduct.Books.defaultProps = {
   books: [],
 };
 
-DashboardProduct.List.defaultProps = {
-  products: [],
+Featured.defaultProps = {
+  category: "",
+  header: "",
+  footerLink: "",
 };
 
 DashboardProduct.RatedList.defaultProps = {
@@ -100,8 +112,10 @@ DashboardProduct.Books.propTypes = {
   books: PropTypes.arrayOf(PropTypes.string),
 };
 
-DashboardProduct.List.propTypes = {
-  products: PropTypes.arrayOf(PropTypes.shape({})),
+Featured.propTypes = {
+  category: PropTypes.string,
+  header: PropTypes.string,
+  footerLink: PropTypes.string,
 };
 
 DashboardProduct.RatedList.propTypes = {

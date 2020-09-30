@@ -10,5 +10,5 @@ app_name = 'store'
 
 urlpatterns = [
     path('', ProductListAPIView.as_view(), name='list'),
-    path('<pk>/', ProductDetailAPIView.as_view(), name='product_detail'),
+    path('<id>/', ProductDetailAPIView.as_view(), name='product_detail'),
 ]

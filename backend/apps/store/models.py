@@ -33,6 +33,15 @@ class Customer (models.Model):
         return self.customer.email
 
 
+class ProductManager(models.Manager):
+
+    def get_by_id(self, id):
+        qs = self.get_queryset().filter(id=id)
+        if qs.count() == 1:
+            return list(qs.values())
+        return None
+
+
 class Product (models.Model):
     PRODUCT_RATINGS = [
         (0, '0'),
@@ -50,6 +59,11 @@ class Product (models.Model):
         ('diy', 'DIY'),
         ('digital', 'Digital'),
         ('beauty', 'Beauty'),
+        ('games', 'Video Games'),
+        ('software', 'Software'),
+        ('pc-tech', 'Computers & Tech'),
+        ('tvs', 'TVs'),
+        ('gym', 'Gym'),
     ]
 
     name = models.CharField(max_length=250)
@@ -60,9 +74,12 @@ class Product (models.Model):
     description = models.TextField(null=True)
     short_desc = models.TextField(null=True)
     featured = models.BooleanField(default=False)
+    top_sell = models.BooleanField(default=False)
     in_stock = models.BooleanField(default=True)
     inventory_count = models.IntegerField(blank=True, null=True)
     image = models.CharField(max_length=250, null=True)
+
+    objects = ProductManager()
 
     def __str__(self):
         return self.name

@@ -2,8 +2,11 @@ import {
   PRODUCT_DETAIL_ERROR,
   PRODUCT_DETAIL_SUCCESS,
   GET_PRODUCT_DETAIL,
+  GET_PRODUCTS_LIST,
+  PRODUCTS_LIST_SUCCESS,
+  PRODUCTS_LIST_ERROR,
 } from "../actions/ActionTypes";
-import { FAKE_PRODUCTS } from "../constants/constants";
+import { VIEWED_RECENT } from "../utils/localStorageUtils";
 
 const INITIAL_STATE = {
   list: [],
@@ -15,15 +18,32 @@ const productsReducer = (state = INITIAL_STATE, action = {}) => {
   const { payload } = action;
   switch (action.type) {
     case GET_PRODUCT_DETAIL:
-      return { ...state, detail: FAKE_PRODUCTS[payload.id] };
+      return { ...state, isLoading: true };
     case PRODUCT_DETAIL_SUCCESS:
+      if (!VIEWED_RECENT.includes(payload.id)) {
+        VIEWED_RECENT.unshift(payload.id);
+        localStorage.setItem(
+          "VIEWED_RECENT",
+          JSON.stringify(VIEWED_RECENT.slice(1, 5))
+        );
+      }
+
       return {
         ...state,
-        items: [...state.items, payload],
+        detail: payload,
+        isLoading: false,
       };
     case PRODUCT_DETAIL_ERROR:
-      return { ...state };
+      return { ...state, isLoading: false };
 
+    case GET_PRODUCTS_LIST:
+      return { ...state, isLoading: true };
+
+    case PRODUCTS_LIST_SUCCESS:
+      return { ...state, list: payload, isLoading: false };
+
+    case PRODUCTS_LIST_ERROR:
+      return { ...state, isLoading: false };
     default:
       return state;
   }

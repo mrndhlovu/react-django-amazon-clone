@@ -1,11 +1,10 @@
 import * as yup from "yup";
 
 import HeroImage from "../../assets/images/hero/AONT_S1_GWBleedingHero_FT_COVIDUPDATE_XSite_1500X600_PV_en-GB._CB406302419_.jpg";
-import ToplinkImage from "../../assets/images/products/orders._AC_SR120,80_.jpeg";
-import ProductImage from "../../assets/images/products/41ZF+ARVoSL._AC_SL260_.jpg";
-import ProductImage1 from "../../assets/images/products/XCM_CUTTLE_1254139_1313820_UK_3293516_186x116_en_GB._SY116_CB407687161_.jpg";
-import ProductImage2 from "../../assets/images/products/51DhDfarGbL._AC_SY200_.jpg";
+import OrdersImage from "../../assets/images/products/orders._AC_SR120,80_.jpeg";
 import BookImage from "../../assets/images/products/41zLj7a+gIL._AC_SY200_.jpg";
+import LaptopImage from "../../assets/images/products/340831031._AC_SR120,80_CB485971952_.jpeg";
+import AlexaImage from "../../assets/images/products/560798._AC_SR120,80_CB450338528_.jpeg";
 
 export const _SEARCH_CATEGORIES = [
   "Books",
@@ -164,6 +163,12 @@ export const PASSWORD_ASSISTANCE_STAGES = {
 };
 
 export const IMAGES = {
+  TOP_LINK: {
+    link1: OrdersImage,
+    link2: BookImage,
+    link3: AlexaImage,
+    link4: LaptopImage,
+  },
   CAROUSEL: [
     HeroImage,
     // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/AONT_S1_GWBleedingHero_FT_COVIDUPDATE_XSite_1500X600_PV_en-GB._CB406302419_.jpg",
@@ -173,16 +178,13 @@ export const IMAGES = {
     // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/new_ft_hero_van._CB430308860_.jpg",
   ],
   PRODUCTS: [
-    ToplinkImage,
-    ProductImage,
-    ProductImage1,
-    ProductImage2,
+    OrdersImage,
+
     // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/products/XCM_CUTTLE_1230943_1217242_UK_3156565_379x304_en_GB._SY304_CB428790125_.jpg",
     // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/products/41gBAria4JL._AC_US218_.jpg",
     // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/products/51DhDfarGbL._AC_SY200_.jpg",
     // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/products/51xx9NCutcL._AC_SL1000_.jpg",
   ],
-  BOOKS: [BookImage, BookImage, BookImage, BookImage, BookImage, BookImage],
 };
 
 export const MANAGE_ACCOUNT_SECTIONS = {

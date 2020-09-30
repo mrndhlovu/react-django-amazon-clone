@@ -106,7 +106,7 @@ const ProductDetail = () => {
   const handleRemoveFromCart = () => dispatch(removeFromCartAction({ id }));
 
   useEffect(() => {
-    dispatch(getProductDetailAction({ id }));
+    dispatch(getProductDetailAction(id));
   }, []);
 
   return (

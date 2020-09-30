@@ -41,11 +41,7 @@ import {
   requestPasswordResetEmailVerification,
   requestUpdatePassword,
 } from "../api/auth.requests";
-import {
-  fireAction,
-  fireActionWithAlert,
-  showAlertAction,
-} from "./action.helpers";
+import { fireAction, fireActionWithAlert } from "./action.helpers";
 import storageService from "../utils/localstorage.service";
 
 export const getUserAction = () => {

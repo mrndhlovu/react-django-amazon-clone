@@ -45,14 +45,14 @@ class ProductListAPIView(ListAPIView):
 
 class ProductDetailAPIView(RetrieveAPIView):
     permission_classes = (permissions.AllowAny,)
+    serializer_class = ProductDetailSerializer
 
-    def get(self):
+    def get(self, request, id=None, format=None):
         request = self.request
-        pk = self.kwargs.get('pk')
-        instance = Product.objects.get_by_id(pk)
-        serializer = self.serializer_class(data=instance)
-        if serializer.is_valid():
-            return Response(serializer.data)
+        id = self.kwargs.get('id')
+        product = Product.objects.get_by_id(id)
+        if product:
+            return Response(product)
         else:
             data = {'message': 'Product does not exist'}
             return Response(data, status=status.HTTP_404_NOT_FOUND)

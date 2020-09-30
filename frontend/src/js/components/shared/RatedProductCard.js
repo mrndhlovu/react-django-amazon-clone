@@ -4,15 +4,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import ProductRating from "./ProductRating";
-import { useSelector } from "react-redux";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   display: flex;
   flex-direction: column;
-  height: 450px;
+  height: 400px;
   justify-content: space-around;
   width: 285px;
   padding: 15px;
@@ -22,15 +22,16 @@ const Container = styled.div`
   }
 `;
 
-const ImageContainer = styled.div`
+const ImageContainer = styled(Link)`
   ${({ theme }) => theme.helpers.useFlex()};
   width: 100%;
   height: 150px;
   cursor: pointer;
+  padding: 15px;
 
   img {
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: 140px;
   }
 `;
 
@@ -60,6 +61,7 @@ const ProductDescription = styled.p`
   font-size: 15px;
   cursor: pointer;
   padding-bottom: 8px;
+  padding-top: 10px;
 `;
 
 const RatedProductCard = ({ image, price, rating, description, id }) => {
@@ -70,13 +72,12 @@ const RatedProductCard = ({ image, price, rating, description, id }) => {
 
   return (
     <Container>
-      <ImageContainer>
-        <Link to={`/product-detail/${id}`}>
-          <img src={image} alt={description} />
-        </Link>
+      <ImageContainer to={`/product-detail/${id}`}>
+        <img src={image} alt={description} />
       </ImageContainer>
+
       <div>
-        <Link to={`/product-detail/${id}`}>
+        <Link to={`/product-detail/${id}/`}>
           <ProductDescription>{description}</ProductDescription>
         </Link>
         <ProductRating rating={rating} />

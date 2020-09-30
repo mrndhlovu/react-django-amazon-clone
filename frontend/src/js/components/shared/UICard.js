@@ -15,6 +15,7 @@ const Container = styled(Card)`
   width: 100%;
   margin: 10px;
   border-radius: 2px !important;
+  position: relative;
 `;
 
 const ContainerMedia = styled(CardMedia)`

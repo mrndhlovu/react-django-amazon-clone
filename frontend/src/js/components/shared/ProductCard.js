@@ -4,13 +4,13 @@ import styled from "styled-components";
 
 const Container = styled.div`
   ${({ theme }) => theme.helpers.useFlex()};
-  padding: 0 25%;
-  height: 77%;
+  height: 308px;
+  width: 100%;
 `;
 
 const Image = styled.img`
-  width: 100%;
-  height: auto;
+  width: auto;
+  height: 200px;
 `;
 
 const ProductCard = ({ image }) => {
