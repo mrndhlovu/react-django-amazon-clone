@@ -266,3 +266,5 @@ export const CATEGORY_FILTER_OPTIONS = {
   ],
   STARS: [4, 3, 2, 1],
 };
+
+export const CHECKOUT_STAGES = ["ADDRESS", "PAY", "DISPATCH"];

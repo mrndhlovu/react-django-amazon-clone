@@ -11,6 +11,7 @@ import {
 } from "../../actions/CartActions";
 import { AmazonButton, TextDivider, UIHeader, UILinkButton } from "../shared";
 import ProtectedComponentWrapper from "../auth/ProtectedComponentWrapper";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   height: 100vh;
@@ -249,7 +250,11 @@ const ShoppingBasket = () => {
                 : "Your shopping basket is empty"}
             </span>
           </SubTotalContainer>
-          {hasCartItems && <AmazonButton buttonText="Proceed to Checkout" />}
+          {hasCartItems && (
+            <Link to="/checkout">
+              <AmazonButton buttonText="Proceed to Checkout" />
+            </Link>
+          )}
         </RightSideBar>
       </Container>
     </ProtectedComponentWrapper>

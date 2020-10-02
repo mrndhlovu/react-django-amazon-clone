@@ -9,6 +9,7 @@ import YourAccount from "./components/auth/YourAccount";
 import CategoryList from "./components/product/CategoryList";
 import ProductDetail from "./components/product/ProductDetail";
 import ShoppingBasket from "./components/product/ShoppingBasket";
+import Checkout from "./components/product/Checkout";
 
 export default function Routes() {
   return (
@@ -22,6 +23,8 @@ export default function Routes() {
         path="/product-detail/:id"
         component={ProductDetail}
       />
+
+      <Route key="checkout" path="/checkout" component={Checkout} />
 
       <Route
         key="shopping-basket"
