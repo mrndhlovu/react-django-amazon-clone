@@ -11,6 +11,7 @@ urlpatterns = [
     path('v1/api/', include([
         path('auth/', include('apps.accounts.api.urls',  namespace='accounts')),
         path('products/', include('apps.store.api.urls',  namespace='store')),
+        path('orders/', include('apps.orders.api.urls',  namespace='orders')),
 
     ])),
     path('api-auth/', include('rest_framework.urls')),

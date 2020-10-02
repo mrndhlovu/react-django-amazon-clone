@@ -9,6 +9,7 @@ import UIHeader from "./UIHeader";
 import UILinkButton from "./UILinkButton";
 import DashboardProduct from "./DashboardProduct";
 import UIFooter from "./UIFooter";
+import UILoadingSpinner from "./UILoadingSpinner";
 
 export {
   AmazonButton,
@@ -22,4 +23,5 @@ export {
   UILinkButton,
   DashboardProduct,
   UIFooter,
+  UILoadingSpinner,
 };

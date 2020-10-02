@@ -55,11 +55,13 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'rest_framework',
     'django_filters',
+    'corsheaders',
+    'dbbackup',
 
     'apps.accounts',
     'apps.store',
+    'apps.orders',
 
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -121,6 +123,10 @@ else:
         #     'HOST': 'localhost'
         # }
     }
+
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, 'backup')}
 
 
 REST_FRAMEWORK = {

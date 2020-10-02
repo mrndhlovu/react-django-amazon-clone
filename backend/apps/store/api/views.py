@@ -14,7 +14,10 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters import rest_framework as filters
 
 from ..models import Product
-from .serializers import ProductListSerializer, ProductDetailSerializer
+from .serializers import (
+    ProductListSerializer,
+    ProductDetailSerializer,
+)
 
 
 class ProductFilter(filters.FilterSet):
@@ -53,18 +56,6 @@ class ProductDetailAPIView(RetrieveAPIView):
         product = Product.objects.get_by_id(id)
         if product:
             return Response(product)
-        else:
-            data = {'message': 'Product does not exist'}
-            return Response(data, status=status.HTTP_404_NOT_FOUND)
-
-
-class ProductFeaturedAPIView(GenericAPIView):
-    permission_classes = (permissions.AllowAny,)
-
-    def get(self):
-        query_set = Product.objects.featured()
-        if query_set:
-            return Response(query_set)
         else:
             data = {'message': 'Product does not exist'}
             return Response(data, status=status.HTTP_404_NOT_FOUND)

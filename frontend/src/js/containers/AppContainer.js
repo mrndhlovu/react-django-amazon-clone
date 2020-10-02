@@ -6,11 +6,13 @@ import { MainContext } from "../utils/contextUtils";
 import { getUserAction } from "../actions/AuthActions";
 import UILoadingSpinner from "../components/shared/UILoadingSpinner";
 import Header from "../components/header/Header";
+import { getProductList } from "../actions/ProductActions";
 
 const AppContainer = ({ children }) => {
   const dispatch = useDispatch();
   const {
     spinner: { isLoading },
+    auth: { isAuthenticated },
   } = useSelector((state) => state);
 
   const openSideBarHandler = () => {};
@@ -25,6 +27,10 @@ const AppContainer = ({ children }) => {
   useEffect(() => {
     dispatch(getUserAction());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated) dispatch(getProductList());
+  }, [isAuthenticated]);
 
   return (
     <MainContext.Provider value={context}>

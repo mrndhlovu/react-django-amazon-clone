@@ -16,11 +16,11 @@ import {
   DropdownButton,
   AmazonLogo,
 } from "../shared";
-import { useMainContext, useFormInput } from "../../utils/hookUtils";
 
+import { logoutAction } from "../../actions/AuthActions";
+import { useMainContext, useFormInput } from "../../utils/hookUtils";
 import MenuList from "./MenuList";
 import NavLinkButton from "./NavLinkButton";
-import { logoutAction } from "../../actions/AuthActions";
 
 const Navigation = () => {
   const { openSideBarHandler } = useMainContext();

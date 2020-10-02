@@ -1,3 +1,4 @@
+/* eslint-disable nonblock-statement-body-position */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -5,17 +6,19 @@ import { times } from "lodash";
 import { v4 as uuid } from "uuid";
 import { useParams } from "react-router-dom";
 
-import { AmazonButton, UIHeader } from "../shared";
+import { AmazonButton, UIHeader, UILoadingSpinner } from "../shared";
 import ProductRating from "../shared/ProductRating";
 import {
   addToCartAction,
   removeFromCartAction,
+  updateQuantityAction,
 } from "../../actions/CartActions";
 import { getProductDetailAction } from "../../actions/ProductActions";
 
 const Container = styled.div`
-  display: flex;
-  justify-content: space-evenly;
+  display: grid;
+  justify-content: space-between;
+  grid-template-columns: 1fr 2fr 1fr;
   padding: 28px 22%;
   height: 100%;
   width: 100%;
@@ -28,7 +31,6 @@ const ImageContainer = styled.div`
 
 const DescriptionContainer = styled.div`
   align-items: center;
-  flex-grow: 1;
   padding: 20px;
 
   p {
@@ -42,9 +44,9 @@ const RightSideBar = styled.div`
   border: 1px #ddd solid;
   background-color: #fff;
   border-radius: 4px;
-  width: 280px;
   height: 60%;
   padding: 10px;
+  min-width: 240px;
 
   & > span {
     color: #b12704;
@@ -85,29 +87,42 @@ const Description = styled.p``;
 
 const RemoveFromCartButton = styled(AmazonButton)``;
 
-const Image = styled.img``;
+const Image = styled.img`
+  width: 350px;
+  height: auto;
+`;
 
 const ProductDetail = () => {
   const { id } = useParams();
   const {
     auth: { CURRENCY_SYMBOL },
     products: { detail },
-    cart,
+    cart: { BASKET },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
 
-  const isInCart = cart?.items.includes(detail);
+  const itemInCart = BASKET?.items.find(
+    (item) => item.product === parseInt(id, 10)
+  );
+  const isInCart = itemInCart !== undefined;
 
-  const handleChange = (qty) => setQuantity(qty);
+  const handleChange = (qty) => {
+    if (itemInCart)
+      dispatch(updateQuantityAction({ ...detail, quantity: qty }));
+    setQuantity(qty);
+  };
 
   const handleAddToCart = (product) => dispatch(addToCartAction(product));
 
-  const handleRemoveFromCart = () => dispatch(removeFromCartAction({ id }));
+  const handleRemoveFromCart = () =>
+    dispatch(removeFromCartAction({ productId: parseInt(id, 10) }));
 
   useEffect(() => {
     dispatch(getProductDetailAction(id));
   }, []);
+
+  if (!detail?.id) return <UILoadingSpinner />;
 
   return (
     <Container>
@@ -115,7 +130,7 @@ const ProductDetail = () => {
         <Image src={detail?.image} />
       </ImageContainer>
       <DescriptionContainer>
-        <UIHeader as="h4" content={detail?.title} />
+        <UIHeader as="h4" content={detail?.name} />
         <ProductRating rating={detail?.rating} />
         <Description>{detail?.description}</Description>
       </DescriptionContainer>
@@ -124,17 +139,19 @@ const ProductDetail = () => {
         <Availability>
           <UIHeader
             as="h4"
-            content={detail?.available > 0 ? "In stock." : "Out of stock."}
+            content={
+              detail?.inventory_count > 0 ? "In stock." : "Out of stock."
+            }
           />
           <QuantitySelector>
             <span>Quantity</span>
             <select
               name="available"
               id="available"
-              value={quantity}
+              value={itemInCart?.quantity || quantity}
               onChange={(e) => handleChange(e.target.value)}
             >
-              {times(detail?.available, (index) => (
+              {times(detail?.inventory_count, (index) => (
                 <option key={uuid()} value={index + 1}>
                   {index + 1}
                 </option>
@@ -143,7 +160,8 @@ const ProductDetail = () => {
           </QuantitySelector>
         </Availability>
         <AmazonButton
-          buttonText="Add to Basket"
+          disabled={isInCart}
+          buttonText={itemInCart ? "Is in shopping Basket" : "Add to Basket"}
           handleClick={() =>
             handleAddToCart({
               ...detail,
@@ -151,7 +169,7 @@ const ProductDetail = () => {
             })
           }
         />
-        {!isInCart && (
+        {itemInCart && (
           <RemoveFromCartButton
             secondary
             buttonText="Remove from Basket"

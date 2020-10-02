@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { getCartDetails } from "../../utils/appUtils";
+import { getShoppingBasketAction } from "../../actions/CartActions";
 
 const ShoppingCartCount = ({ dataTestId }) => {
-  const { items } = useSelector((state) => state.cart);
-  const { cartCount } = getCartDetails(items);
+  const {
+    cart: { BASKET },
+    auth: { isAuthenticated },
+  } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const cartCount = isAuthenticated && BASKET?.item_count;
+
+  useEffect(() => {
+    const getShoppingBasket = () => {
+      setTimeout(() => {
+        dispatch(getShoppingBasketAction());
+      }, 500);
+    };
+
+    if (!BASKET && isAuthenticated) getShoppingBasket();
+  }, [BASKET, isAuthenticated]);
 
   return (
     <Link

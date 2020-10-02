@@ -1,21 +1,19 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { Avatar } from "@material-ui/core";
 
-import { getProductList } from "../../actions/ProductActions";
 import { IMAGES } from "../../constants/constants";
-import { ProductContext } from "../../utils/contextUtils";
 import { UIHeader, UILinkButton, DashboardProduct, UIFooter } from "../shared";
+import { VIEWED_RECENT } from "../../utils/localStorageUtils";
 import Carousel from "./Carousel";
 import ProductCard from "../shared/ProductCard";
 import UICard from "../shared/UICard";
 import UISmall from "../shared/UISmall";
-import { VIEWED_RECENT } from "../../utils/localStorageUtils";
 
 const Container = styled.div`
   height: 100vh;
@@ -103,7 +101,6 @@ const HomePage = () => {
     auth: { isAuthenticated, data },
     products: { list },
   } = useSelector((state) => state);
-  const dispatch = useDispatch();
 
   const BOOKS = list.filter((item) => item.category === "books");
 
@@ -113,16 +110,8 @@ const HomePage = () => {
 
   const DEAL_ITEM = list.find((item) => item.top_sell && item);
 
-  useEffect(() => {
-    dispatch(getProductList());
-  }, []);
-
-  const context = {
-    products: list,
-  };
-
   return (
-    <ProductContext.Provider value={context}>
+    <>
       <Container>
         <Hero>
           <Carousel />
@@ -241,7 +230,7 @@ const HomePage = () => {
         </ProductList>
         <UIFooter />
       </Container>
-    </ProductContext.Provider>
+    </>
   );
 };
 

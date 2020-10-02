@@ -9,9 +9,8 @@ import {
   removeFromCartAction,
   updateQuantityAction,
 } from "../../actions/CartActions";
-
-import { getCartDetails } from "../../utils/appUtils";
 import { AmazonButton, TextDivider, UIHeader, UILinkButton } from "../shared";
+import ProtectedComponentWrapper from "../auth/ProtectedComponentWrapper";
 
 const Container = styled.div`
   height: 100vh;
@@ -47,10 +46,6 @@ const SubTotalContainer = styled.div`
   }
 `;
 
-const ItemList = styled.ul`
-  padding: 15px;
-`;
-
 const Title = styled.div`
   display: flex;
   justify-content: space-between;
@@ -65,10 +60,17 @@ const Title = styled.div`
   }
 `;
 
-const Item = styled.li`
-  display: flex;
-  height: 110;
+const ItemList = styled.ul`
   padding: 15px;
+`;
+const Item = styled.li`
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 0fr 0fr 1fr;
+
+  & > div:last-child {
+    padding-left: 3%;
+  }
 
   & > div:first-child {
     display: flex;
@@ -88,7 +90,11 @@ const Item = styled.li`
 
 const ImageContainer = styled.div`
   display: flex;
-  min-width: 22%;
+
+  img {
+    height: 145px;
+    width: auto;
+  }
 `;
 
 const Price = styled.div`
@@ -133,105 +139,120 @@ const RightSideBar = styled.div`
 
 const ShoppingBasket = () => {
   const {
-    cart: { items },
+    cart: { BASKET },
     auth: { CURRENCY_SYMBOL },
+    products: { list },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
-  const { subTotal, cartCount } = getCartDetails(items);
 
-  const hasCartItems = items.length !== 0;
-  const hasMoreThatOne = cartCount > 1;
+  const CARD_IDS = BASKET?.items.map((item) => item.product) || [];
+  const CART_ITEMS = list.filter((item) => CARD_IDS.includes(item.id));
 
-  const handleCheckboxClick = (data) => dispatch(removeFromCartAction(data));
+  const hasCartItems = CART_ITEMS.length !== 0;
+  const hasMoreThatOne = BASKET?.item_count > 1;
+
+  const handleCheckboxClick = (productId) =>
+    dispatch(removeFromCartAction({ productId }));
 
   const handleDeselectAll = () => dispatch(clearCartAction());
 
-  const handleChangeQuantity = (qty, item) =>
-    dispatch(updateQuantityAction({ ...item, quantity: qty }));
+  const handleChangeQuantity = (qty, id) =>
+    dispatch(updateQuantityAction({ quantity: qty, id }));
 
   return (
-    <Container>
-      <BasketContent>
-        <UIHeader as="h2" content="Shopping Basket" />
+    <ProtectedComponentWrapper>
+      <Container>
+        <BasketContent>
+          <UIHeader as="h2" content="Shopping Basket" />
 
-        <UILinkButton
-          content="Deselect all items"
-          onClick={() => handleDeselectAll()}
-        />
-        <TextDivider />
-        <ItemList>
-          {items.map((item) => (
-            <Fragment key={uuid()}>
-              <Item>
-                <div>
-                  <input
-                    type="checkbox"
-                    defaultChecked={item?.price !== undefined}
-                    onChange={() => handleCheckboxClick({ id: item?.id })}
-                  />
-                </div>
-                <ImageContainer>
-                  <img src={item?.image} alt="" />
-                </ImageContainer>
-                <ItemDescription>
-                  <Title>
-                    <UIHeader as="h4" content={item?.title} />
-                    <Price>
-                      <span>Price</span>
-                      <br />
-                      <span>
-                        {`${CURRENCY_SYMBOL}${(
-                          item?.price * item.quantity
-                        ).toFixed(2)}`}
-                      </span>
-                    </Price>
-                  </Title>
-                  <span>
-                    {item?.inventory_count > 0 ? "In stock" : "Out of stock"}
-                  </span>
-                  <br />
-                  <button type="button">
-                    <span>Qty: </span>
-                    <select
-                      onChange={(e) =>
-                        handleChangeQuantity(e.target.value, item)
-                      }
-                      name="available"
-                      id="available"
-                      value={item?.quantity}
-                    >
-                      {times(item?.available, (index) => (
-                        <option value={index + 1}>{index + 1}</option>
-                      ))}
-                    </select>
-                  </button>
-                </ItemDescription>
-              </Item>
-              <TextDivider />
-            </Fragment>
-          ))}
-        </ItemList>
-      </BasketContent>
-      <RightSideBar>
-        <SubTotalContainer>
-          {hasCartItems && (
-            <>
-              <span>Subtotal</span>
-              <span>
-                {` (${cartCount} ${hasMoreThatOne ? "Items" : "Item"})`}
-              </span>
-            </>
-          )}
-          <br />
-          <span>
-            {hasCartItems
-              ? `${CURRENCY_SYMBOL}${subTotal}`
-              : "Your shopping basket is empty"}
-          </span>
-        </SubTotalContainer>
-        <AmazonButton buttonText="Proceed to Checkout" />
-      </RightSideBar>
-    </Container>
+          <UILinkButton
+            content="Deselect all items"
+            onClick={() => handleDeselectAll()}
+          />
+          <TextDivider />
+          <ItemList>
+            {CART_ITEMS.map((item) => (
+              <Fragment key={uuid()}>
+                <Item>
+                  <div>
+                    <input
+                      type="checkbox"
+                      defaultChecked={item?.id}
+                      onChange={() => handleCheckboxClick(item?.id)}
+                    />
+                  </div>
+                  <ImageContainer>
+                    <img src={item?.image} alt="" />
+                  </ImageContainer>
+                  <ItemDescription>
+                    <Title>
+                      <UIHeader as="h4" content={item?.title} />
+                      <Price>
+                        <span>Price</span>
+                        <br />
+                        <span>
+                          {`${CURRENCY_SYMBOL}${(
+                            item?.price *
+                            BASKET?.items.find(
+                              (cartItem) => cartItem.product === item.id
+                            ).quantity
+                          ).toFixed(2)}`}
+                        </span>
+                      </Price>
+                    </Title>
+                    <span>
+                      {item?.inventory_count > 0 ? "In stock" : "Out of stock"}
+                    </span>
+                    <br />
+                    <button type="button">
+                      <span>Qty: </span>
+                      <select
+                        onChange={(e) =>
+                          handleChangeQuantity(e.target.value, item.id)
+                        }
+                        name="available"
+                        id="available"
+                        value={
+                          BASKET?.items.find(
+                            (cartItem) => cartItem.product === item.id
+                          ).quantity
+                        }
+                      >
+                        {times(item?.inventory_count, (index) => (
+                          <option value={index + 1}>{index + 1}</option>
+                        ))}
+                      </select>
+                    </button>
+                  </ItemDescription>
+                </Item>
+                <TextDivider />
+              </Fragment>
+            ))}
+          </ItemList>
+        </BasketContent>
+        <RightSideBar>
+          <SubTotalContainer>
+            {hasCartItems && (
+              <>
+                <span>Subtotal</span>
+                <span>
+                  {` (${BASKET?.item_count} ${
+                    hasMoreThatOne ? "Items" : "Item"
+                  })`}
+                </span>
+              </>
+            )}
+            <br />
+            <span>
+              {hasCartItems
+                ? `${CURRENCY_SYMBOL}${BASKET?.sub_total}`
+                : "Your shopping basket is empty"}
+            </span>
+          </SubTotalContainer>
+          {hasCartItems && <AmazonButton buttonText="Proceed to Checkout" />}
+        </RightSideBar>
+      </Container>
+    </ProtectedComponentWrapper>
   );
 };
 

@@ -2,9 +2,6 @@ import random
 import os
 
 from django.db import models
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
 
 
 def get_file_name_ext(filename):
@@ -19,18 +16,6 @@ def upload_image_path(instance, filename):
     name, ext = get_file_name_ext(filename)
     final_name = f'{newfilename}{ext}'
     return f'products/{newfilename}/{final_name}'
-
-
-class Customer (models.Model):
-    address = models.CharField(max_length=250)
-    city = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=15)
-    created = models.DateTimeField(auto_now_add=True)
-    customer = models.OneToOneField(User, on_delete=models.CASCADE)
-    postal_code = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.customer.email
 
 
 class ProductManager(models.Manager):
@@ -86,44 +71,3 @@ class Product (models.Model):
 
     def __unicode__(self):
         return self.name
-
-
-class Order (models.Model):
-    customer = models.ForeignKey(
-        Customer, on_delete=models.SET_NULL, blank=True, null=True)
-    order_date = models.DateTimeField(auto_now_add=True)
-    complete = models.BooleanField(default=False, blank=False)
-    transaction_id = models.BooleanField(max_length=200, null=True)
-
-    def __str__(self):
-        return str(self.id)
-
-
-class OrderItem (models.Model):
-    product = models.ForeignKey(
-        Product, on_delete=models.SET_NULL, blank=True, null=True)
-    order = models.ForeignKey(
-        Order, on_delete=models.SET_NULL, blank=True, null=True)
-    quantity = models.IntegerField(default=0, blank=True, null=True)
-    date_added = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.product.name
-
-
-class ShippingAddress (models.Model):
-    customer = models.ForeignKey(
-        Customer, on_delete=models.SET_NULL, blank=True, null=True)
-    order = models.ForeignKey(
-        Order, on_delete=models.SET_NULL, blank=True, null=True)
-    quantity = models.IntegerField(default=0, blank=True, null=True)
-    date_added = models.DateTimeField(auto_now_add=True)
-    address = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-
-    zip_code = models.CharField(max_length=100)
-    date_added = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.address

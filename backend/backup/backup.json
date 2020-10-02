@@ -1,0 +1,257 @@
+[
+  {
+    "model": "store.product",
+    "pk": 1,
+    "fields": {
+      "name": "Sony - ES SXRD 3D-Ready 4K Home Theater Projector - Black",
+      "price": "27999.98",
+      "rating": 4,
+      "category": "tvs",
+      "description": "Compatible with select Nikon cameras; VR (Vibration Reduction) image stabilization; ED (Extra-Low Dispersion) glass; SWM (Silent Wave Motor); 1.25x teleconverter",
+      "short_desc": "Compatible with select Nikon cameras; VR (Vibration Reduction) image stabilization;",
+      "featured": false,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 10,
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/2698/2698105_sa.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 2,
+    "fields": {
+      "name": "zNitro - Screen Protector for Samsung Galaxy S6 edge",
+      "price": "29.99",
+      "rating": 3,
+      "category": "digital",
+      "description": "Compatible with Samsung Galaxy S6 edge; scratch-resistant design",
+      "short_desc": "Compatible with Samsung Galaxy S6 edge; scratch-resistant design",
+      "featured": true,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 25,
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/5220/5220839_rc.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 3,
+    "fields": {
+      "name": "007 Legends - PRE-OWNED - Nintendo Wii U",
+      "price": "9.99",
+      "rating": 2,
+      "category": "digital",
+      "description": "Relive classic James Bond movies in an all-new way",
+      "short_desc": "Relive classic James Bond movies in an all-new way",
+      "featured": true,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/7276/7276217_sa.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 4,
+    "fields": {
+      "name": "Structures For 2 Pianos I & II - CD",
+      "price": "24.99",
+      "rating": 5,
+      "category": "mis",
+      "description": "Structures For 2 Pianos I & II",
+      "short_desc": "Structures For 2 Pianos I & II",
+      "featured": true,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 5,
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/nonsku/default_music_l.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 5,
+    "fields": {
+      "name": "The Amazing Spider-Man 2 [Includes Digital Copy] [UltraViolet] (DVD)",
+      "price": "9.99",
+      "rating": 2,
+      "category": "mis",
+      "description": "The Amazing Spiderman 2",
+      "short_desc": "The Amazing Spiderman 2",
+      "featured": true,
+      "top_sell": false,
+      "in_stock": false,
+      "inventory_count": 5,
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/5413/5413091_sa.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 6,
+    "fields": {
+      "name": "Samsung - 48\\\" Class (47.6\\\" Diag.) - LED - 1080p - Smart - HDTV - Black",
+      "price": "599.99",
+      "rating": 4,
+      "category": "tvs",
+      "description": "1080p resolutionMotion Rate 60Smart TV, Samsung Smart Hub, Web browser included",
+      "short_desc": "1080p resolutionMotion Rate 60Smart TV, Samsung Smart Hub, Web browser included",
+      "featured": true,
+      "top_sell": false,
+      "in_stock": false,
+      "inventory_count": 0,
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/4513/4513700_sa.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 7,
+    "fields": {
+      "name": "LG - 49\\\" Class (48.5\\\" Diag.) - LED - 2160p - Smart - 4K Ultra HDTV - Black",
+      "price": "499.99",
+      "rating": 5,
+      "category": "tvs",
+      "description": "2160p resolutionTruMotion 120Smart TV",
+      "short_desc": "2160p resolutionTruMotion 120Smart TV",
+      "featured": false,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 5,
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/4517/4517000_sa.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 8,
+    "fields": {
+      "name": "Complete I Ching: 10th Anniversary Edition",
+      "price": "12.99",
+      "rating": 4,
+      "category": "books",
+      "description": "Complete I Ching: 10th Anniversary Edition: The Definitive Translation by Taoist Master Alfred Huang Paperback – Illustrated, 1 Nov. 2010",
+      "short_desc": "Complete I Ching: 10th Anniversary Edition: The Definitive Translation by Taoist Master Alfred Huang Paperback – Illustrated, 1 Nov. 2010",
+      "featured": false,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 500,
+      "image": "https://images-na.ssl-images-amazon.com/images/I/51x7B+fnhaL._SY344_BO1,204,203,200_.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 9,
+    "fields": {
+      "name": "I Ching or Book of Changes",
+      "price": "12.65",
+      "rating": 4,
+      "category": "books",
+      "description": "Ancient Chinese wisdom to inspire and enlighten (Arkana) Paperback – 29 Jun. 1989",
+      "short_desc": "Ancient Chinese wisdom to inspire and enlighten (Arkana) Paperback – 29 Jun. 1989",
+      "featured": true,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 20,
+      "image": "https://m.media-amazon.com/images/I/31MbM5N3syL._AC_SL260_.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 10,
+    "fields": {
+      "name": "Taoism",
+      "price": "12.45",
+      "rating": 4,
+      "category": "books",
+      "description": "Taoism: An Essential Guide Paperback – Illustrated, 28 Mar. 2011",
+      "short_desc": "Taoism: An Essential Guide Paperback – Illustrated, 28 Mar. 2011",
+      "featured": true,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 5,
+      "image": "https://images-na.ssl-images-amazon.com/images/I/51KQE+7hDeL._SY344_BO1,204,203,200_.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 11,
+    "fields": {
+      "name": "Blender Bottle Pro Series Tritan | Protein Shaker Cup| Diet Shaker| Water Bottle | with Blender Ball",
+      "price": "13.99",
+      "rating": 0,
+      "category": "gym",
+      "description": "Blender Bottle Pro Series Tritan | Protein Shaker Cup| Diet Shaker| Water Bottle | with Blender Ball",
+      "short_desc": "Blender Bottle Pro Series Tritan | Protein Shaker Cup| Diet Shaker| Water Bottle | with Blender Ball",
+      "featured": true,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "image": "https://m.media-amazon.com/images/I/61ckc5rbCNL._AC_UY218_.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 12,
+    "fields": {
+      "name": "Dryrobe Dryrap Surf Sports Beach Gym Towel - Hands Free Changing Towel - Men's One Size",
+      "price": "15.55",
+      "rating": 0,
+      "category": "gym",
+      "description": "Dryrobe Dryrap Surf Sports Beach Gym Towel - Hands Free Changing Towel - Men's One Size",
+      "short_desc": "Dryrobe Dryrap Surf Sports Beach Gym Towel - Hands Free Changing Towel - Men's One Size",
+      "featured": false,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "image": "https://m.media-amazon.com/images/I/91grGuz3JxL._AC_UY218_.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 13,
+    "fields": {
+      "name": "Jumper Laptop 13.3 inch with Microsoft Office 365 FHD Computer 4GB 64GB Windows 10 , USB 3.0, Dual Band Wifi, support 128GB micro SD and 1TB SSD expansion",
+      "price": "233.99",
+      "rating": 4,
+      "category": "pc-tech",
+      "description": "Jumper Laptop 13.3 inch with Microsoft Office 365 FHD Computer 4GB 64GB Windows 10 , USB 3.0, Dual Band Wifi, support 128GB micro SD and 1TB SSD expansion",
+      "short_desc": "Jumper Laptop 13.3 inch with Microsoft Office 365 FHD Computer 4GB 64GB Windows 10 , USB 3.0, Dual Band Wifi, support 128GB micro SD and 1TB SSD expansion",
+      "featured": true,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 5,
+      "image": "https://images-eu.ssl-images-amazon.com/images/I/41xL5xuS2xL._AC_US200_.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 14,
+    "fields": {
+      "name": "HP Pavilion 15-cw1004na 15.6 Inch Full HD Touch-screen Laptop, AMD Ryzen",
+      "price": "489.99",
+      "rating": 4,
+      "category": "pc-tech",
+      "description": "HP Pavilion 15-cw1004na 15.6 Inch Full HD Touch-screen Laptop, AMD Ryzen",
+      "short_desc": "HP Pavilion 15-cw1004na 15.6 Inch Full HD Touch-screen Laptop, AMD Ryzen",
+      "featured": false,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 5,
+      "image": "https://m.media-amazon.com/images/I/81T0s1vnHsL._AC._SR360,460.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 15,
+    "fields": {
+      "name": "HUAWEI MateBook 13 2020 - Ultra Laptop with 2K FullView Screen - 10th",
+      "price": "797.00",
+      "rating": 3,
+      "category": "pc-tech",
+      "description": "HUAWEI MateBook 13 2020 - Ultra Laptop with 2K FullView Screen - 10th",
+      "short_desc": "HUAWEI MateBook 13 2020 - Ultra Laptop with 2K FullView Screen - 10th",
+      "featured": false,
+      "top_sell": true,
+      "in_stock": true,
+      "inventory_count": 5,
+      "image": "https://m.media-amazon.com/images/I/61a4oLEP17L._AC._SR360,460.jpg"
+    }
+  }
+]

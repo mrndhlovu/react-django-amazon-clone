@@ -1,43 +1,83 @@
-/* eslint-disable no-confusing-arrow */
-/* eslint-disable comma-dangle */
 import {
   ADD_TO_CART,
+  ADD_TO_CART_ERROR,
+  ADD_TO_CART_SUCCESS,
   REMOVE_FROM_CART,
+  REMOVE_FROM_CART_SUCCESS,
+  REMOVE_FROM_CART_ERROR,
+  UPDATE_CART,
+  UPDATE_CART_SUCCESS,
+  UPDATE_CART_ERROR,
+  GET_CART,
+  GET_CART_SUCCESS,
+  GET_CART_ERROR,
   CLEAR_CART,
-  ADD_TO_CART_FAIL,
-  UPDATE_QUANTITY,
+  CLEAR_CART_SUCCESS,
+  CLEAR_CART_ERROR,
 } from "../actions/ActionTypes";
 
 const INITIAL_STATE = {
-  items: [],
+  BASKET: undefined,
   CURRENCY_SYMBOL: "€",
+  isLoading: false,
 };
 
 const cartReducer = (state = INITIAL_STATE, action = {}) => {
   const { payload } = action;
   switch (action.type) {
-    case ADD_TO_CART_FAIL:
-      return { ...state, error: payload };
+    case ADD_TO_CART_ERROR:
+      return { ...state, isLoading: false };
     case ADD_TO_CART:
+      return { ...state, isLoading: true };
+    case ADD_TO_CART_SUCCESS:
       return {
         ...state,
-        items: [...state.items, payload],
+        BASKET: payload,
+        isLoading: false,
       };
+
+    case GET_CART_ERROR:
+      return { ...state, isLoading: false };
+    case GET_CART:
+      return { ...state, isLoading: true };
+    case GET_CART_SUCCESS:
+      return {
+        ...state,
+        BASKET: payload,
+        isLoading: false,
+      };
+
     case REMOVE_FROM_CART:
+      return { ...state, isLoading: true };
+
+    case REMOVE_FROM_CART_SUCCESS:
       return {
         ...state,
-        items: state.items.filter((item) => item.id !== payload?.id),
+        isLoading: false,
+        BASKET: payload,
       };
+
+    case REMOVE_FROM_CART_ERROR:
+      return { ...state, isLoading: true };
+
     case CLEAR_CART:
-      return { ...state, items: [] };
-    case UPDATE_QUANTITY:
+      return { ...state, isLoading: true };
+
+    case CLEAR_CART_ERROR:
+      return { ...state, isLoading: false };
+
+    case CLEAR_CART_SUCCESS:
+      return { ...state, BASKET: undefined };
+
+    case UPDATE_CART:
+      return { ...state, isLoading: true };
+    case UPDATE_CART_ERROR:
+      return { ...state, isLoading: false };
+    case UPDATE_CART_SUCCESS:
       return {
         ...state,
-        items: state.items.map((item) =>
-          item.id === payload.id
-            ? { ...item, quantity: payload.quantity }
-            : item
-        ),
+        isLoading: false,
+        BASKET: payload,
       };
     default:
       return state;
