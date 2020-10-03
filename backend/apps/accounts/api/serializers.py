@@ -9,6 +9,8 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from rest_framework.fields import CurrentUserDefault
 
+from ...orders.api.serializers import CustomerSerializer
+
 User = get_user_model()
 
 
@@ -98,9 +100,11 @@ class LoginSerializer(serializers.Serializer):
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
+    customer = CustomerSerializer()
+
     class Meta:
         model = User
-        fields = ['full_name', 'email', 'confirmed']
+        fields = ['full_name', 'email', 'confirmed', 'customer', ]
 
 
 class ResetPasswordEmailRequestSerializer(serializers.Serializer):

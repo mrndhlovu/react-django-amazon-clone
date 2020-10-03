@@ -25,3 +25,6 @@ export const requestCreateCustomerOrder = () =>
 
 export const requestShoppingBasketDetails = (data) =>
   authAxiosInstance.get(`${ORDERS_EP}/get-shopping-basket`, data);
+
+export const requestCustomerProfileUpdate = async (data) =>
+  await authAxiosInstance.put(`${ORDERS_EP}/update-customer`, data);

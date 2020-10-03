@@ -1,8 +1,9 @@
 import React, { Fragment } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import { v4 as uuid } from "uuid";
+import { Link } from "react-router-dom";
 import { times } from "lodash";
+import { useDispatch, useSelector } from "react-redux";
+import { v4 as uuid } from "uuid";
+import styled from "styled-components";
 
 import {
   clearCartAction,
@@ -11,7 +12,6 @@ import {
 } from "../../actions/CartActions";
 import { AmazonButton, TextDivider, UIHeader, UILinkButton } from "../shared";
 import ProtectedComponentWrapper from "../auth/ProtectedComponentWrapper";
-import { Link } from "react-router-dom";
 
 const Container = styled.div`
   height: 100vh;

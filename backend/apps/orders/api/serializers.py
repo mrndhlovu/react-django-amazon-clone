@@ -29,3 +29,23 @@ class OrderItemSerializer (serializers.ModelSerializer):
     class Meta:
         model = OrderItem
         exclude = ['id', 'date_added', 'order']
+
+
+class CustomerSerializer (serializers.Serializer):
+    address = serializers.CharField(min_length=2)
+    city = serializers.CharField(min_length=2)
+    country = serializers.CharField(min_length=2)
+    county = serializers.CharField(min_length=2)
+    phone_number = serializers.CharField()
+    postcode = serializers.CharField(min_length=2)
+
+    class Meta:
+        model = Customer
+        fields = '__all__'
+
+    def update(self, instance, validated_data):
+        customer_data = validated_data
+        for attr, value in customer_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance

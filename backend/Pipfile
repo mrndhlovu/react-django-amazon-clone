@@ -14,6 +14,7 @@ djangorestframework-simplejwt = "*"
 django-cors-headers = "*"
 Pillow = "*"
 django-filter = "*"
+stripe = "*"
 
 [dev-packages]
 

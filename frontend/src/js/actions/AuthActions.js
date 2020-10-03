@@ -28,6 +28,9 @@ import {
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_ERROR,
   OPEN_YOUR_ACCOUNT,
+  UPDATE_ADDRESS,
+  UPDATE_ADDRESS_SUCCESS,
+  UPDATE_ADDRESS_ERROR,
 } from "./ActionTypes";
 import {
   requestCurrentUser,
@@ -41,6 +44,8 @@ import {
   requestPasswordResetEmailVerification,
   requestUpdatePassword,
 } from "../api/auth.requests";
+import { requestCustomerProfileUpdate } from "../api/product.requests";
+
 import { fireAction, fireActionWithAlert } from "./action.helpers";
 import storageService from "../utils/localstorage.service";
 
@@ -191,6 +196,22 @@ export const updateUserAction = (data) => {
       .catch((error) => {
         dispatch(
           fireActionWithAlert(UPDATE_PROFILE_ERROR, error?.response?.data)
+        );
+      });
+  };
+};
+
+export const updateAddressAction = (data) => {
+  return (dispatch) => {
+    dispatch(fireAction(UPDATE_ADDRESS));
+    requestCustomerProfileUpdate(data)
+      .then((response) => {
+        dispatch(fireAction(UPDATE_ADDRESS_SUCCESS));
+        dispatch(fireAction(AUTH_USER_SUCCESS, response?.data));
+      })
+      .catch((error) => {
+        dispatch(
+          fireActionWithAlert(UPDATE_ADDRESS_ERROR, error?.response?.data)
         );
       });
   };

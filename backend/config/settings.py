@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'django_filters',
     'corsheaders',
     'dbbackup',
+    'stripe',
 
     'apps.accounts',
     'apps.store',

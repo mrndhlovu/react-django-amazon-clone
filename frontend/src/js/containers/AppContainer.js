@@ -2,16 +2,14 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 
-import { MainContext } from "../utils/contextUtils";
-import { getUserAction } from "../actions/AuthActions";
-import UILoadingSpinner from "../components/shared/UILoadingSpinner";
-import Header from "../components/header/Header";
 import { getProductList } from "../actions/ProductActions";
+import { getUserAction } from "../actions/AuthActions";
+import { MainContext } from "../utils/contextUtils";
+import Header from "../components/header/Header";
 
 const AppContainer = ({ children }) => {
   const dispatch = useDispatch();
   const {
-    spinner: { isLoading },
     auth: { isAuthenticated },
   } = useSelector((state) => state);
 
@@ -34,7 +32,6 @@ const AppContainer = ({ children }) => {
 
   return (
     <MainContext.Provider value={context}>
-      {isLoading && <UILoadingSpinner />}
       <Header />
       <div className="app__container" data-testid="app-container">
         {children}

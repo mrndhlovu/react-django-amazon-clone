@@ -1,23 +1,23 @@
 import { combineReducers } from "redux";
 
-import authReducer from "./authReducer";
-import alertReducer from "./alertReducer";
-import loginReducer from "./loginReducer";
-import registerReducer from "./registerReducer";
-import loadingReducer from "./loadingReducer";
-import accountRecoveryReducer from "./accountAssistReducer";
-import editProfileReducer from "./editProfileReducer";
-import cartReducer from "./cartReducer";
-import productsReducer from "./productReducer";
+import auth from "./authReducer";
+import alert from "./alertReducer";
+import login from "./loginReducer";
+import register from "./registerReducer";
+import passwordReset from "./accountAssistReducer";
+import editProfile from "./editProfileReducer";
+import cart from "./cartReducer";
+import products from "./productReducer";
+import checkout from "./checkoutReducer";
 
 export default combineReducers({
-  auth: authReducer,
-  alert: alertReducer,
-  login: loginReducer,
-  register: registerReducer,
-  spinner: loadingReducer,
-  passwordReset: accountRecoveryReducer,
-  editProfile: editProfileReducer,
-  cart: cartReducer,
-  products: productsReducer,
+  auth,
+  alert,
+  login,
+  register,
+  passwordReset,
+  editProfile,
+  cart,
+  products,
+  checkout,
 });

@@ -91,3 +91,7 @@ export const getShoppingBasketAction = () => {
       });
   };
 };
+
+export const nextCheckoutStageAction = (action) => {
+  return (dispatch) => dispatch(fireAction(action));
+};

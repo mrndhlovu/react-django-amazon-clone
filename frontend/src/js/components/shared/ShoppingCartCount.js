@@ -18,7 +18,7 @@ const ShoppingCartCount = ({ dataTestId }) => {
     const getShoppingBasket = () => {
       setTimeout(() => {
         dispatch(getShoppingBasketAction());
-      }, 500);
+      }, 1200);
     };
 
     if (!BASKET && isAuthenticated) getShoppingBasket();

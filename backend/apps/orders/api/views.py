@@ -1,12 +1,18 @@
 
-from rest_framework.generics import GenericAPIView, RetrieveAPIView
+from rest_framework.generics import GenericAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
 from ...store.models import Product
 from ..models import Order, OrderItem, Customer
-from .serializers import AddToCartSerializer, CreateOrderSerializer, OrdersSerializer, OrderItemSerializer
+from .serializers import (
+    AddToCartSerializer,
+    CreateOrderSerializer,
+    OrdersSerializer,
+    OrderItemSerializer,
+    CustomerSerializer
+)
 
 import json
 import decimal
@@ -79,9 +85,9 @@ class AddToCartAPIView(GenericAPIView):
             productId = request.data['productId']
             quantity = request.data['quantity']
             product = Product.objects.get(id=productId)
-
             customer, created = Customer.objects.get_or_create(
                 customer=request.user)
+            print(customer)
             order, created = Order.objects.get_or_create(
                 customer=customer, complete=False)
             orderItem, created = OrderItem.objects.get_or_create(
@@ -159,3 +165,26 @@ class ClearCartAPIView(GenericAPIView):
         else:
             data = {'message': 'Shopping basket cleared.'}
             return Response(status=status.HTTP_200_OK)
+
+
+class UpdateCustomerAPIView(UpdateAPIView):
+    model = Customer
+    serializer_class = CustomerSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def put(self, request):
+
+        try:
+            customer = Customer.objects.get(customer=request.user)
+            serializer = self.serializer_class(customer, data=request.data)
+        except Customer.DoesNotExist:
+            data = {'message': 'Customer not found.'}
+            return Response(status=status.HTTP_404_NOT_FOUND, data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            data = {'success': True, 'customer': serializer.data}
+            return Response(data=data)
+        else:
+            context = serializer.errors
+            return Response(context, status=status.HTTP_400_BAD_REQUEST)
