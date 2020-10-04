@@ -1223,3 +1223,6 @@ export const COUNTRIES = [
     code: "ZW",
   },
 ];
+
+export const CHECKOUT_MESSAGE =
+  "Tick the 'Use as default' to skip this step on your next purchase.";

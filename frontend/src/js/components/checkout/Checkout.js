@@ -14,7 +14,10 @@ import CheckoutAddress from "./CheckoutAddress";
 import PaymentMethod from "./PaymentMethod";
 import OrderConfirmation from "./OrderConfirmation";
 import { nextCheckoutStageAction } from "../../actions/CartActions";
-import { SELECT_CHECKOUT_ADDRESS } from "../../actions/ActionTypes";
+import {
+  CONFIRM_PAYMENT,
+  SELECT_CHECKOUT_ADDRESS,
+} from "../../actions/ActionTypes";
 
 const Container = styled.div`
   height: 100%;
@@ -94,18 +97,18 @@ const Content = styled.div`
 
 const Checkout = () => {
   const {
-    auth: {
-      address,
-      data: { full_name },
-    },
+    auth: { data },
     checkout: { STAGE },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!address.city)
+    if (!data?.address)
       dispatch(nextCheckoutStageAction(SELECT_CHECKOUT_ADDRESS));
-  }, [address]);
+
+    if (data?.address?.is_shipping_address && data?.paymethod)
+      dispatch(nextCheckoutStageAction(CONFIRM_PAYMENT));
+  }, [data?.address]);
 
   return (
     <ProtectedComponentWrapper>
@@ -118,7 +121,7 @@ const Checkout = () => {
 
           <UIHeader as="h1" content={STAGE.header} />
           {STAGE.key === "address" && (
-            <CheckoutAddress address={address} name={full_name} />
+            <CheckoutAddress address={data?.address} name={data?.full_name} />
           )}
 
           {STAGE.key === "pay" && <PaymentMethod />}

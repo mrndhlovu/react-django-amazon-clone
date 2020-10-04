@@ -51,7 +51,7 @@ const CheckoutAddress = ({ address, name }) => {
 
   const [formData, setFormData] = useState("Ireland");
 
-  const handleAddAddress = (data) => {
+  const handleAddAddress = (data, callback) => {
     const addressData = `${data.addressLine1}, ${data.addressLine2}`;
 
     delete data.addressLine1;
@@ -60,6 +60,7 @@ const CheckoutAddress = ({ address, name }) => {
     dispatch(
       updateAddressAction({ ...data, address: addressData, country: formData })
     );
+    if (callback) callback();
   };
 
   const handleDeliverToAddress = () =>
@@ -67,19 +68,21 @@ const CheckoutAddress = ({ address, name }) => {
 
   return (
     <AddressContent>
-      <Address>
-        <UIHeader as="h5" content={name} />
-        {Object.values(address).map((line) => (
-          <AddressLine key={uuid()}>
-            <UISmall content={line} />
-          </AddressLine>
-        ))}
+      {address && (
+        <Address>
+          <UIHeader as="h5" content={name} />
+          {Object.values(address).map((line) => (
+            <AddressLine key={uuid()}>
+              <UISmall content={line} />
+            </AddressLine>
+          ))}
 
-        <AmazonButton
-          handleClick={handleDeliverToAddress}
-          buttonText="Deliver to this address"
-        />
-      </Address>
+          <AmazonButton
+            handleClick={handleDeliverToAddress}
+            buttonText="Deliver to this address"
+          />
+        </Address>
+      )}
       <AddAddress>
         <UIHeader as="h3" content="Add a new address" />
 

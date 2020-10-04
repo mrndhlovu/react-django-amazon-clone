@@ -1,6 +1,12 @@
 /* eslint-disable no-return-await */
 import axios from "axios";
-import { PARAMS, PRODUCTS_EP, ORDERS_EP, AUTH_PARAMS } from "../utils/urlUtils";
+import {
+  PARAMS,
+  PRODUCTS_EP,
+  ORDERS_EP,
+  AUTH_PARAMS,
+  ADDRESS_EP,
+} from "../utils/urlUtils";
 
 const authAxiosInstance = axios.create({ ...AUTH_PARAMS });
 const axiosInstance = axios.create({ ...PARAMS });
@@ -27,4 +33,4 @@ export const requestShoppingBasketDetails = (data) =>
   authAxiosInstance.get(`${ORDERS_EP}/get-shopping-basket`, data);
 
 export const requestCustomerProfileUpdate = async (data) =>
-  await authAxiosInstance.put(`${ORDERS_EP}/update-customer`, data);
+  await authAxiosInstance.post(`${ADDRESS_EP}/update-address`, data);

@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 import styled from "styled-components";
 import { times } from "lodash";
 import { v4 as uuid } from "uuid";
@@ -100,7 +99,6 @@ const PaymentMethod = () => {
           </SelectorsContainer>
 
           <UIForm
-            va
             initialState={{ name: "", card_number: "" }}
             validationSchema={PAYMENT_CARD_VALIDATION}
             submitHandler={handleAddCard}

@@ -14,14 +14,9 @@ VALUE_ADDED_TAX = 19.0
 
 
 class Customer (models.Model):
-    address = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    country = models.CharField(max_length=100, null=True)
-    county = models.CharField(max_length=100, null=True)
     phone_number = models.CharField(max_length=15)
     created = models.DateTimeField(auto_now_add=True)
     customer = models.OneToOneField(User, on_delete=models.CASCADE)
-    postcode = models.CharField(max_length=20)
 
     def __str__(self):
         return self.customer.email

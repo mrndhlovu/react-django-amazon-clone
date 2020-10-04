@@ -9,7 +9,6 @@ import {
 
 const INITIAL_STATE = {
   data: {},
-  address: {},
   isAuthenticated: false,
   isLoading: false,
   CURRENCY_SYMBOL: "€",
@@ -24,10 +23,13 @@ const authReducer = (state = INITIAL_STATE, action = {}) => {
     case AUTH_USER_SUCCESS:
       return {
         ...state,
-        data: { ...state.data, ...action.payload },
+        data: {
+          ...state.data,
+          ...action.payload,
+          address: action.payload?.address,
+        },
         isLoading: false,
         isAuthenticated: true,
-        address: action.payload.customer,
       };
     case LOGOUT_ERROR:
       return { ...state, isLoading: false };

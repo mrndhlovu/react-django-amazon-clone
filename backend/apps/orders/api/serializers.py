@@ -32,12 +32,7 @@ class OrderItemSerializer (serializers.ModelSerializer):
 
 
 class CustomerSerializer (serializers.Serializer):
-    address = serializers.CharField(min_length=2)
-    city = serializers.CharField(min_length=2)
-    country = serializers.CharField(min_length=2)
-    county = serializers.CharField(min_length=2)
     phone_number = serializers.CharField()
-    postcode = serializers.CharField(min_length=2)
 
     class Meta:
         model = Customer

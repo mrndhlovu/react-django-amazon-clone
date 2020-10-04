@@ -7,6 +7,8 @@ export const baseURL = "http://localhost:8000";
 export const AUTH_EP = "/v1/api/auth";
 export const PRODUCTS_EP = "/v1/api/products";
 export const ORDERS_EP = "/v1/api/orders";
+export const ADDRESS_EP = "/v1/api/address";
+
 export const AUTH_PARAMS = {
   baseURL,
   headers: {

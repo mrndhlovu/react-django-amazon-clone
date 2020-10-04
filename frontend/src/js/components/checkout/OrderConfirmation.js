@@ -1,11 +1,16 @@
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable react/jsx-closing-tag-location */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { AmazonButton, TextDivider, UIHeader } from "../shared";
 import UISmall from "../shared/UISmall";
 import UIAlert from "../shared/UIAlert";
+import { CHECKOUT_MESSAGE } from "../../constants/constants";
+import { updateAddressAction } from "../../actions/AuthActions";
 
 const Container = styled.div`
   display: grid;
@@ -59,26 +64,63 @@ const Address = styled.div`
   width: 25%;
 `;
 
+const Checkbox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  span {
+    font-size: 13px;
+    padding-left: 5px;
+    font-weight: ${({ theme }) => theme.fonts.weight.bold};
+  }
+`;
+
 const OrderConfirmation = () => {
   const {
     cart: { BASKET, CURRENCY = "EUR" },
-    auth: { data, address },
+    auth: { data },
   } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  const handleSetDefault = () => {
+    dispatch(
+      updateAddressAction({
+        ...data?.address,
+        is_shipping_address: !data?.address.is_shipping_address,
+      })
+    );
+  };
 
   return (
     <Container>
       <Content>
-        <UIAlert message="Want to save time on your next order and go directly to this step when checking out?" />
+        {!data?.address?.is_shipping_address && (
+          <UIAlert message={CHECKOUT_MESSAGE} />
+        )}
         <ShipAddress>
           <Address>
             <UIHeader as="h5" content="Delivery Address" />
             <UISmall content={data.full_name} />
-            {Object.values(address).map((line) => (
+            {Object.values(data.address || {}).map((line) => (
               <div key={uuid()}>
                 <UISmall content={line} />
               </div>
             ))}
           </Address>
+          <Checkbox>
+            <input
+              onChange={() => handleSetDefault()}
+              type="checkbox"
+              name="address"
+              defaultChecked={data?.address.is_shipping_address}
+            />
+            <span>{`${
+              data?.address.is_shipping_address
+                ? "Remove as default."
+                : "Use as Default."
+            }`}</span>
+          </Checkbox>
         </ShipAddress>
       </Content>
       <Sidebar>

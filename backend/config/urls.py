@@ -12,6 +12,7 @@ urlpatterns = [
         path('auth/', include('apps.accounts.api.urls',  namespace='accounts')),
         path('products/', include('apps.store.api.urls',  namespace='store')),
         path('orders/', include('apps.orders.api.urls',  namespace='orders')),
+        path('address/', include('apps.addresses.api.urls',  namespace='addresses')),
 
     ])),
     path('api-auth/', include('rest_framework.urls')),
