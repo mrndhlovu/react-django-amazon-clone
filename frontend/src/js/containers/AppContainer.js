@@ -28,7 +28,7 @@ const AppContainer = ({ children }) => {
 
   useEffect(() => {
     if (isAuthenticated) dispatch(getProductList());
-  }, [isAuthenticated]);
+  }, [isAuthenticated, dispatch]);
 
   return (
     <MainContext.Provider value={context}>

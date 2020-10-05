@@ -191,7 +191,7 @@ const CategoryList = () => {
     };
 
     buildFilterParam();
-  }, [filter]);
+  }, [filter, search]);
 
   return (
     <Container>

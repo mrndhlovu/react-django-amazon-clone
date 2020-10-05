@@ -1,3 +1,4 @@
+from django.conf import settings
 
 from rest_framework.generics import GenericAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -16,6 +17,10 @@ from .serializers import (
 
 import json
 import decimal
+import stripe
+
+
+stripe.api_key = settings.STRIPE_API_KEY
 
 
 def get_cart_data(order, order_items):
@@ -33,6 +38,59 @@ def get_cart_data(order, order_items):
     return order
 
 
+class StripePaymentIntentAPIView(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        try:
+            data = request.data
+            customer = Customer.objects.get(customer=request.user)
+            order = Order.objects.get(customer=customer)
+
+            intent = stripe.PaymentIntent.create(
+                amount=int(order.total*100),
+                currency='eur'
+            )
+            customer_cards = stripe.Customer.list_sources(
+                customer.stripe_customer_id,
+                object="card",
+                limit=3,
+            )
+
+            data = {
+                'clientSecret': intent['client_secret'], 'cards': customer_cards['data']}
+            return Response(data)
+        except Exception as e:
+            data = {'message': str(e)}
+            return Response(data,  status=status.HTTP_404_NOT_FOUND)
+
+
+class StripeCheckoutOrderAPIView(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        try:
+            customer = Customer.objects.get(customer=request.user)
+
+            stripe.Customer.create_source(
+                customer.stripe_customer_id,
+                source=request.data['token']
+            )
+            customer_cards = stripe.Customer.list_sources(
+                customer.stripe_customer_id,
+                object="card",
+            )
+
+            order = Order.objects.get(customer=customer)
+            order.complete = True
+            order.save()
+
+            return Response(customer_cards['data'])
+        except Exception as e:
+            data = {'message': str(e)}
+            return Response(data,  status=status.HTTP_404_NOT_FOUND)
+
+
 class CreateOrderAPIView(RetrieveAPIView):
     serializer_class = CreateOrderSerializer
     permission_classes = (IsAuthenticated,)
@@ -41,6 +99,7 @@ class CreateOrderAPIView(RetrieveAPIView):
     def get(self, request):
         customer, created = Customer.objects.get_or_create(
             customer=request.user)
+        stripe_customer = stripe.Customer.retrieve(email=request.user.email)
         order = Order.objects.get_or_create(customer=customer)
         serializer = self.serializer_class(order)
 
@@ -85,9 +144,8 @@ class AddToCartAPIView(GenericAPIView):
             productId = request.data['productId']
             quantity = request.data['quantity']
             product = Product.objects.get(id=productId)
-            customer, created = Customer.objects.get_or_create(
-                customer=request.user)
-            print(customer)
+            customer = Customer.objects.get(customer=request.user)
+
             order, created = Order.objects.get_or_create(
                 customer=customer, complete=False)
             orderItem, created = OrderItem.objects.get_or_create(
@@ -95,8 +153,7 @@ class AddToCartAPIView(GenericAPIView):
             orderItem.quantity = quantity
             orderItem.save()
 
-            order_items = OrderItem.objects.filter(
-                order=order, order__id=order.id)
+            order_items = OrderItem.objects.filter(order=order)
             serializedOrderItems = OrderItemSerializer(order_items, many=True)
             order_items = json.loads(json.dumps(serializedOrderItems.data))
 
@@ -122,7 +179,7 @@ class RemoveFromCartAPIView(GenericAPIView):
             productId = request.data['productId']
             product = Product.objects.get(id=productId)
             customer = Customer.objects.get(customer=request.user)
-            order = Order.objects.get(customer=customer)
+            order = Order.objects.get(customer=customer, complete=False)
             orderItem = OrderItem.objects.get(
                 order=order, order__id=order.id, product=product)
             orderItem.delete()
@@ -152,7 +209,7 @@ class ClearCartAPIView(GenericAPIView):
     def get(self, request):
         try:
             customer = Customer.objects.get(customer=request.user)
-            order = Order.objects.get(customer=customer)
+            order = Order.objects.get(customer=customer, complete=False)
             order_items = OrderItem.objects.filter(order=order)
 
             for item in order_items:

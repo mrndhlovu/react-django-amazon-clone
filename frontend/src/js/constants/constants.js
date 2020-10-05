@@ -245,8 +245,8 @@ export const CATEGORY_FILTER_OPTIONS = {
 
 export const CHECKOUT_STAGES = {
   ADDRESS: { header: "Select a delivery address", key: "address" },
-  PAY: { header: "Select a payment method", key: "pay" },
-  CONFIRM: { header: "Confirm your order", key: "confirm" },
+  CONFIRM: { header: "Confirm address and order", key: "confirm" },
+  PAY: { header: "Complete your order.", key: "complete" },
 };
 
 export const COUNTRIES = [

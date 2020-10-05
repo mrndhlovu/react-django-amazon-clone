@@ -22,7 +22,7 @@ const ShoppingCartCount = ({ dataTestId }) => {
     };
 
     if (!BASKET && isAuthenticated) getShoppingBasket();
-  }, [BASKET, isAuthenticated]);
+  }, [BASKET, isAuthenticated, dispatch]);
 
   return (
     <Link

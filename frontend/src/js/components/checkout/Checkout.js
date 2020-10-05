@@ -11,11 +11,11 @@ import { useDispatch, useSelector } from "react-redux";
 import ProtectedComponentWrapper from "../auth/ProtectedComponentWrapper";
 import { AmazonLogo, UIHeader } from "../shared";
 import CheckoutAddress from "./CheckoutAddress";
-import PaymentMethod from "./PaymentMethod";
+import CompletePayment from "./CompletePayment";
 import OrderConfirmation from "./OrderConfirmation";
 import { nextCheckoutStageAction } from "../../actions/CartActions";
 import {
-  CONFIRM_PAYMENT,
+  CONFIRM_ORDER,
   SELECT_CHECKOUT_ADDRESS,
 } from "../../actions/ActionTypes";
 
@@ -98,17 +98,17 @@ const Content = styled.div`
 const Checkout = () => {
   const {
     auth: { data },
-    checkout: { STAGE },
+    checkout: { STAGE, CUSTOMER_CARDS },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!data?.address)
+    if (!data?.address?.city)
       dispatch(nextCheckoutStageAction(SELECT_CHECKOUT_ADDRESS));
 
-    if (data?.address?.is_shipping_address && data?.paymethod)
-      dispatch(nextCheckoutStageAction(CONFIRM_PAYMENT));
-  }, [data?.address]);
+    if (data?.address?.is_shipping_address && CUSTOMER_CARDS)
+      dispatch(nextCheckoutStageAction(CONFIRM_ORDER));
+  }, [data.address, dispatch, CUSTOMER_CARDS]);
 
   return (
     <ProtectedComponentWrapper>
@@ -123,9 +123,8 @@ const Checkout = () => {
           {STAGE.key === "address" && (
             <CheckoutAddress address={data?.address} name={data?.full_name} />
           )}
-
-          {STAGE.key === "pay" && <PaymentMethod />}
           {STAGE.key === "confirm" && <OrderConfirmation />}
+          {STAGE.key === "complete" && <CompletePayment />}
         </Content>
       </Container>
     </ProtectedComponentWrapper>
@@ -133,7 +132,7 @@ const Checkout = () => {
 };
 
 const CheckoutProgression = ({ active }) => {
-  const PROGRESSION_STAGES = ["ADDRESS", "PAY", "CONFIRM"];
+  const PROGRESSION_STAGES = ["ADDRESS", "CONFIRM", "COMPLETE"];
 
   return (
     <ProgressionContainer active={active}>

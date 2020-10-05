@@ -14,6 +14,12 @@ import {
   GET_CART,
   GET_CART_SUCCESS,
   GET_CART_ERROR,
+  PAYMENT_INTENT_SUCCESS,
+  PAYMENT_INTENT_ERROR,
+  PAYMENT_INTENT,
+  COMPLETE_ORDER,
+  COMPLETE_ORDER_SUCCESS,
+  COMPLETE_ORDER_ERROR,
 } from "./ActionTypes";
 import { fireAction } from "./action.helpers";
 import {
@@ -21,6 +27,8 @@ import {
   requestClearCart,
   requestRemoveFromCart,
   requestShoppingBasketDetails,
+  requestPaymentIntent,
+  requestCheckoutOrder,
 } from "../api/product.requests";
 
 export const addToCartAction = (data) => {
@@ -94,4 +102,30 @@ export const getShoppingBasketAction = () => {
 
 export const nextCheckoutStageAction = (action) => {
   return (dispatch) => dispatch(fireAction(action));
+};
+
+export const paymentIntentAction = () => {
+  return (dispatch) => {
+    dispatch(fireAction(PAYMENT_INTENT));
+    requestPaymentIntent()
+      .then((response) =>
+        dispatch(fireAction(PAYMENT_INTENT_SUCCESS, response.data))
+      )
+      .catch((error) => {
+        dispatch(fireAction(PAYMENT_INTENT_ERROR, error.response.data));
+      });
+  };
+};
+
+export const completeOrderAction = (data) => {
+  return (dispatch) => {
+    dispatch(fireAction(COMPLETE_ORDER));
+    requestCheckoutOrder(data)
+      .then((response) =>
+        dispatch(fireAction(COMPLETE_ORDER_SUCCESS, response?.data))
+      )
+      .catch((error) =>
+        dispatch(fireAction(COMPLETE_ORDER_ERROR, error.response?.data))
+      );
+  };
 };

@@ -34,3 +34,9 @@ export const requestShoppingBasketDetails = (data) =>
 
 export const requestCustomerProfileUpdate = async (data) =>
   await authAxiosInstance.post(`${ADDRESS_EP}/update-address`, data);
+
+export const requestPaymentIntent = async (data) =>
+  await authAxiosInstance.get(`${ORDERS_EP}/payment-intent`, data);
+
+export const requestCheckoutOrder = async (data) =>
+  await authAxiosInstance.post(`${ORDERS_EP}/checkout-order`, data);

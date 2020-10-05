@@ -31,6 +31,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['SECRET_KEY']
+JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY']
+STRIPE_API_KEY = os.environ['STRIPE_API_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = DEVELOPMENT
@@ -220,8 +222,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 FILE_UPLOAD_PERMISSIONS = 0o640
 
-JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY']
-
 
 CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:3000',
@@ -230,3 +230,5 @@ CORS_ORIGIN_WHITELIST = (
 
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51HYVtzEtxjzs9HVgddjmJ7zoVAVKSaZkBnT4uet9yFvfNPB3v7X66TxZJWhEOHFQfCBoHqyQXkqvLK0xHWrLV7nU00T2OrmUtZ'

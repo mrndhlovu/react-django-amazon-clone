@@ -6,11 +6,16 @@ import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 
+import { useStripe } from "@stripe/react-stripe-js";
+
 import { AmazonButton, TextDivider, UIHeader } from "../shared";
 import UISmall from "../shared/UISmall";
 import UIAlert from "../shared/UIAlert";
 import { CHECKOUT_MESSAGE } from "../../constants/constants";
 import { updateAddressAction } from "../../actions/AuthActions";
+import { isString } from "lodash";
+import { nextCheckoutStageAction } from "../../actions/CartActions";
+import { CHECKOUT_PAYMENT } from "../../actions/ActionTypes";
 
 const Container = styled.div`
   display: grid;
@@ -21,7 +26,7 @@ const ShipAddress = styled.div`
   border: 1px #ddd solid;
   border-radius: 4px;
   padding: 10px;
-  height: fit-content;
+  height: 100%;
 `;
 
 const Sidebar = styled.div`
@@ -83,6 +88,9 @@ const OrderConfirmation = () => {
   } = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  const handleContinueToPay = () =>
+    dispatch(nextCheckoutStageAction(CHECKOUT_PAYMENT));
+
   const handleSetDefault = () => {
     dispatch(
       updateAddressAction({
@@ -102,21 +110,24 @@ const OrderConfirmation = () => {
           <Address>
             <UIHeader as="h5" content="Delivery Address" />
             <UISmall content={data.full_name} />
-            {Object.values(data.address || {}).map((line) => (
-              <div key={uuid()}>
-                <UISmall content={line} />
-              </div>
-            ))}
+            {Object.values(data.address || {}).map(
+              (line) =>
+                isString(line) && (
+                  <div key={uuid()}>
+                    <UISmall content={line} />
+                  </div>
+                )
+            )}
           </Address>
           <Checkbox>
             <input
               onChange={() => handleSetDefault()}
               type="checkbox"
               name="address"
-              defaultChecked={data?.address.is_shipping_address}
+              defaultChecked={data?.address?.is_shipping_address}
             />
             <span>{`${
-              data?.address.is_shipping_address
+              data?.address?.is_shipping_address
                 ? "Remove as default."
                 : "Use as Default."
             }`}</span>
@@ -124,7 +135,10 @@ const OrderConfirmation = () => {
         </ShipAddress>
       </Content>
       <Sidebar>
-        <AmazonButton buttonText={`Pay in ${CURRENCY}`} />
+        <AmazonButton
+          buttonText="Continue to pay"
+          handleClick={handleContinueToPay}
+        />
         <Summary>
           <UIHeader as="h6" content="Order Summary" />
           <SummaryItem>

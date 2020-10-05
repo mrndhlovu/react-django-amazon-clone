@@ -6,13 +6,19 @@ from .views import (
     RemoveFromCartAPIView,
     ShoppingBasketOrdersListAPIView,
     ClearCartAPIView,
-    UpdateCustomerAPIView
+    UpdateCustomerAPIView,
+    StripePaymentIntentAPIView,
+    StripeCheckoutOrderAPIView,
 )
 
 app_name = 'orders'
 
 urlpatterns = [
     path('add-to-cart', AddToCartAPIView.as_view(), name='add_to_cart'),
+    path('payment-intent', StripePaymentIntentAPIView.as_view(),
+         name='payment-intent'),
+    path('checkout-order', StripeCheckoutOrderAPIView.as_view(),
+         name='create-card'),
     path('clear-cart', ClearCartAPIView.as_view(), name='clear_cart'),
     path('update-customer', UpdateCustomerAPIView.as_view(), name='update_customer'),
     path('get-shopping-basket', ShoppingBasketOrdersListAPIView.as_view(),

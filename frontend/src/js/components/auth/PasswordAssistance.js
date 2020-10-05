@@ -43,7 +43,7 @@ const PasswordAssistance = () => {
   const dispatch = useDispatch();
 
   const {
-    passwordReset: { RECOVERY_STAGE, data, isLoading, resetSuccess },
+    passwordReset: { RECOVERY_STAGE, data, resetSuccess },
   } = useSelector((state) => state);
 
   const [userData, setUserData] = useState({});

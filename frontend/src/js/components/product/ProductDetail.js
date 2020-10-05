@@ -120,7 +120,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     dispatch(getProductDetailAction(id));
-  }, []);
+  }, [dispatch, id]);
 
   if (!detail?.id) return <UILoadingSpinner />;
 

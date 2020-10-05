@@ -101,7 +101,6 @@ const HomePage = () => {
     auth: { isAuthenticated, data },
     products: { list },
   } = useSelector((state) => state);
-
   const BOOKS = list.filter((item) => item.category === "books");
 
   const VIEWED_RECENT_ITEM = list.find(

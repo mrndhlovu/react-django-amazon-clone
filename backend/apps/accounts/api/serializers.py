@@ -10,6 +10,7 @@ from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from rest_framework.fields import CurrentUserDefault
 
 from ...addresses.api.serializers import AddressSerializer
+from ...orders.api.serializers import CustomerSerializer
 
 User = get_user_model()
 
@@ -101,10 +102,12 @@ class LoginSerializer(serializers.Serializer):
 
 class UserDetailSerializer(serializers.ModelSerializer):
     address = AddressSerializer(allow_null=True)
+    detail = CustomerSerializer(source='customer')
 
     class Meta:
         model = User
-        fields = ['full_name', 'email', 'confirmed', 'address', ]
+        fields = ['full_name', 'email', 'confirmed',
+                  'address', 'detail']
 
 
 class ResetPasswordEmailRequestSerializer(serializers.Serializer):

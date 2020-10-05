@@ -4,10 +4,11 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
+import { isString } from "lodash";
 
 import { ADDRESS_SCHEMA, COUNTRIES } from "../../constants/constants";
 import { AmazonButton, UIForm, UIHeader } from "../shared";
-import { CHECKOUT_PAYMENT } from "../../actions/ActionTypes";
+import { CHECKOUT_PAYMENT, CONFIRM_ORDER } from "../../actions/ActionTypes";
 import { nextCheckoutStageAction } from "../../actions/CartActions";
 import { updateAddressAction } from "../../actions/AuthActions";
 import UISelector from "../shared/UISelector";
@@ -47,6 +48,7 @@ const AddAddress = styled.div`
 `;
 
 const CheckoutAddress = ({ address, name }) => {
+  console.log("CheckoutAddress -> address", address);
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState("Ireland");
@@ -58,24 +60,32 @@ const CheckoutAddress = ({ address, name }) => {
     delete data.addressLine2;
 
     dispatch(
-      updateAddressAction({ ...data, address: addressData, country: formData })
+      updateAddressAction({
+        ...data,
+        address: addressData,
+        country: formData,
+        is_shipping_address: false,
+      })
     );
     if (callback) callback();
   };
 
   const handleDeliverToAddress = () =>
-    dispatch(nextCheckoutStageAction(CHECKOUT_PAYMENT));
+    dispatch(nextCheckoutStageAction(CONFIRM_ORDER));
 
   return (
     <AddressContent>
       {address && (
         <Address>
           <UIHeader as="h5" content={name} />
-          {Object.values(address).map((line) => (
-            <AddressLine key={uuid()}>
-              <UISmall content={line} />
-            </AddressLine>
-          ))}
+          {Object.values(address).map(
+            (line) =>
+              isString(line) && (
+                <AddressLine key={uuid()}>
+                  <UISmall content={line} />
+                </AddressLine>
+              )
+          )}
 
           <AmazonButton
             handleClick={handleDeliverToAddress}

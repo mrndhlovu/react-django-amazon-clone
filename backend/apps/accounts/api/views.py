@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils.encoding import smart_str, force_str, DjangoUnicodeDecodeError, smart_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.http import JsonResponse
-import json
+from django.conf import settings
 
 from rest_framework import status, permissions
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
@@ -19,7 +19,8 @@ from rest_framework.generics import (
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
+import stripe
+import json
 
 from ..backends import Util
 from .serializers import(
@@ -33,7 +34,12 @@ from .serializers import(
     UserDetailSerializer,
 )
 
+from ...orders.models import Customer
+
+
 User = get_user_model()
+
+stripe.api_key = settings.STRIPE_API_KEY
 
 
 def validate_email(email):
@@ -140,6 +146,10 @@ class RegistrationAPIView(CreateAPIView):
             serializer = self.serializer_class(data=request.data)
             if serializer.is_valid():
                 user = serializer.save()
+                stripe_customer = stripe.Customer.create(email=user.email)
+                customer, created = Customer.objects.get_or_create(
+                    customer=user, stripe_customer_id=stripe_customer['id'])
+
                 email_body = {
                     'body': 'To authenticate your email, please the One Time Password below',
                     'reverse': 'accounts:password-reset-verify',

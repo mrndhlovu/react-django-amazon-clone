@@ -10,6 +10,31 @@ class CreateOrderSerializer (serializers.Serializer):
         fields = '__all__'
 
 
+class OrdersSerializer (serializers.ModelSerializer):
+    complete = serializers.BooleanField()
+    timestamp = serializers.DateField()
+    item_count = serializers.IntegerField()
+    shipping = serializers.DecimalField(decimal_places=2, max_digits=20)
+    sub_total = serializers.DecimalField(decimal_places=2, max_digits=20)
+    total = serializers.DecimalField(decimal_places=2, max_digits=20)
+
+    class Meta:
+        model = Order
+        fields = ['complete', 'item_count', 'sub_total',
+                  'timestamp', 'total', 'shipping']
+
+
+class OrderItemSerializer (serializers.ModelSerializer):
+    product_name = serializers.CharField(source='product.name')
+    product_image = serializers.CharField(source='product.image')
+    inventory_count = serializers.CharField(source='product.inventory_count')
+    rating = serializers.CharField(source='product.rating')
+
+    class Meta:
+        model = OrderItem
+        exclude = ['id', 'date_added', 'order']
+
+
 class AddToCartSerializer (serializers.Serializer):
 
     class Meta:
@@ -17,22 +42,9 @@ class AddToCartSerializer (serializers.Serializer):
         fields = '__all__'
 
 
-class OrdersSerializer (serializers.ModelSerializer):
-
-    class Meta:
-        model = Order
-        exclude = ['customer', 'id', 'transaction_id', 'timestamp']
-
-
-class OrderItemSerializer (serializers.ModelSerializer):
-
-    class Meta:
-        model = OrderItem
-        exclude = ['id', 'date_added', 'order']
-
-
 class CustomerSerializer (serializers.Serializer):
     phone_number = serializers.CharField()
+    stripe_customer_id = serializers.CharField()
 
     class Meta:
         model = Customer

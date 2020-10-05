@@ -45,7 +45,7 @@ const LoginAndSecurity = ({ ACTIVE_SECTION }) => {
 
   useEffect(() => {
     if (!isAuthenticated) dispatch(editProfileAction(OPEN_YOUR_ACCOUNT));
-  }, [isAuthenticated]);
+  }, [isAuthenticated, dispatch]);
 
   return (
     <ProtectedComponentWrapper>
