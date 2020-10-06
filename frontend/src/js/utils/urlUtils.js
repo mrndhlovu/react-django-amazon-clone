@@ -2,7 +2,10 @@
 import { isArray } from "lodash";
 import localStorage from "./localstorage.service";
 
-export const baseURL = "http://localhost:8000";
+export const baseURL =
+  process.env.NODE_ENV === "production"
+    ? "https://amazon-clone.ndhlovu.com"
+    : "http://localhost:8000";
 
 export const AUTH_EP = "/v1/api/auth";
 export const PRODUCTS_EP = "/v1/api/products";
