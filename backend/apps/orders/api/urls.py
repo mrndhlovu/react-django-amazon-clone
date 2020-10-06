@@ -9,6 +9,7 @@ from .views import (
     UpdateCustomerAPIView,
     StripePaymentIntentAPIView,
     StripeCheckoutOrderAPIView,
+    CompleteOrdersListAPIView,
 )
 
 app_name = 'orders'
@@ -20,6 +21,8 @@ urlpatterns = [
     path('checkout-order', StripeCheckoutOrderAPIView.as_view(),
          name='create-card'),
     path('clear-cart', ClearCartAPIView.as_view(), name='clear_cart'),
+    path('get-completed-orders', CompleteOrdersListAPIView.as_view(),
+         name='get-completed-orders'),
     path('update-customer', UpdateCustomerAPIView.as_view(), name='update_customer'),
     path('get-shopping-basket', ShoppingBasketOrdersListAPIView.as_view(),
          name='get_shopping_basket'),

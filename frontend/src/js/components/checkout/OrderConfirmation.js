@@ -5,17 +5,15 @@ import React from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
-
-import { useStripe } from "@stripe/react-stripe-js";
+import { isString } from "lodash";
 
 import { AmazonButton, TextDivider, UIHeader } from "../shared";
-import UISmall from "../shared/UISmall";
-import UIAlert from "../shared/UIAlert";
 import { CHECKOUT_MESSAGE } from "../../constants/constants";
-import { updateAddressAction } from "../../actions/AuthActions";
-import { isString } from "lodash";
-import { nextCheckoutStageAction } from "../../actions/CartActions";
 import { CHECKOUT_PAYMENT } from "../../actions/ActionTypes";
+import { nextCheckoutStageAction } from "../../actions/CartActions";
+import { updateAddressAction } from "../../actions/AuthActions";
+import UIAlert from "../shared/UIAlert";
+import UISmall from "../shared/UISmall";
 
 const Container = styled.div`
   display: grid;

@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable nonblock-statement-body-position */
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -27,7 +28,7 @@ import { MANAGE_ACCOUNT_SECTIONS } from "../../constants/constants";
 const OptionsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 50%);
-  padding: 10px;
+  padding: 10px 0;
 `;
 
 const YourAccount = () => {
@@ -43,9 +44,13 @@ const YourAccount = () => {
     PAYMENTS,
   } = MANAGE_ACCOUNT_SECTIONS;
 
-  const handleClickOption = (option) => {
-    return dispatch(editProfileAction(option));
-  };
+  const handleClickOption = (option) => dispatch(editProfileAction(option));
+
+  useEffect(() => {
+    if (ORDERS.HEADER === ACTIVE_SECTION.HEADER) {
+      dispatch(editProfileAction(OPEN_ORDERS));
+    }
+  }, [ACTIVE_SECTION, dispatch, ORDERS]);
 
   return (
     <UIContentWrapper
@@ -59,14 +64,14 @@ const YourAccount = () => {
             header="Your Orders"
             icon={() => <LocalShippingIcon size="large" />}
             onClick={() => handleClickOption(OPEN_ORDERS)}
-            linkTo="/user-profile?flowId=orders"
+            pageId="orders"
           />
           <OptionCard
             content="Track return, or buy things again."
             header="Login & Security"
             icon={() => <LockOpenIcon />}
             onClick={() => handleClickOption(OPEN_LOGIN_SECURITY)}
-            linkTo="/user-profile?flowId=login-&-security"
+            pageId="login-&-security"
           />
 
           <OptionCard
@@ -74,14 +79,14 @@ const YourAccount = () => {
             header="Your Address"
             icon={() => <RoomIcon />}
             onClick={() => handleClickOption(OPEN_ADDRESS)}
-            linkTo="/user-profile?flowId=address"
+            pageId="address"
           />
           <OptionCard
             content="Track return, or buy things again."
             header="Your payments"
             icon={() => <PaymentIcon />}
             onClick={() => handleClickOption(OPEN_PAYMENTS)}
-            linkTo="/user-profile?flowId=payments"
+            pageId="payments"
           />
         </OptionsContainer>
       )}

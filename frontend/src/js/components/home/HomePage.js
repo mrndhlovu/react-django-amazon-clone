@@ -141,7 +141,7 @@ const HomePage = () => {
               <CardContent>
                 <TopLink
                   header="Orders"
-                  redirectTo="/orders"
+                  redirectTo="/user-profile?flowId=orders"
                   image={IMAGES.TOP_LINK.link1}
                 />
                 <TopLink

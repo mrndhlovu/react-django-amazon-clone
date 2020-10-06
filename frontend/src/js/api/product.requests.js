@@ -29,8 +29,11 @@ export const requestClearCart = () =>
 export const requestCreateCustomerOrder = () =>
   authAxiosInstance.get(`${ORDERS_EP}/create`);
 
-export const requestShoppingBasketDetails = (data) =>
-  authAxiosInstance.get(`${ORDERS_EP}/get-shopping-basket`, data);
+export const requestShoppingBasketDetails = () =>
+  authAxiosInstance.get(`${ORDERS_EP}/get-shopping-basket`);
+
+export const requestCompletedOrders = () =>
+  authAxiosInstance.get(`${ORDERS_EP}/get-completed-orders`);
 
 export const requestCustomerProfileUpdate = async (data) =>
   await authAxiosInstance.post(`${ADDRESS_EP}/update-address`, data);

@@ -14,10 +14,14 @@ import {
   CLEAR_CART,
   CLEAR_CART_SUCCESS,
   CLEAR_CART_ERROR,
+  GET_COMPLETED_ORDERS,
+  COMPLETED_ORDERS_SUCCESS,
+  COMPLETED_ORDERS_ERROR,
 } from "../actions/ActionTypes";
 
 const INITIAL_STATE = {
   BASKET: undefined,
+  COMPLETED_ORDERS: undefined,
   CURRENCY_SYMBOL: "€",
   isLoading: false,
 };
@@ -33,6 +37,17 @@ const cartReducer = (state = INITIAL_STATE, action = {}) => {
       return {
         ...state,
         BASKET: payload,
+        isLoading: false,
+      };
+
+    case COMPLETED_ORDERS_ERROR:
+      return { ...state, isLoading: false };
+    case GET_COMPLETED_ORDERS:
+      return { ...state, isLoading: true };
+    case COMPLETED_ORDERS_SUCCESS:
+      return {
+        ...state,
+        COMPLETED_ORDERS: payload,
         isLoading: false,
       };
 

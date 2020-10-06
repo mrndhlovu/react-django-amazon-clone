@@ -34,6 +34,8 @@ class Order (models.Model):
     sub_total = models.DecimalField(
         default=0.00, decimal_places=2, max_digits=20)
     total = models.DecimalField(default=0.00, decimal_places=2, max_digits=20)
+    stripe_complete_id = models.CharField(
+        max_length=255, blank=True, null=True)
     shipping = models.DecimalField(
         default=5.99, decimal_places=2, max_digits=20)
     taxes = 1 - 1 / (1 + VALUE_ADDED_TAX / 100)

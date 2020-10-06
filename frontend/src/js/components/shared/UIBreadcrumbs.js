@@ -32,8 +32,8 @@ const LinkContainer = styled(Link)`
 const Container = styled.div`
   padding: 10px 0;
   position: absolute;
-  top: 4%;
-  left: 8%;
+  top: 1%;
+  left: 1;
   display: flex;
 `;
 

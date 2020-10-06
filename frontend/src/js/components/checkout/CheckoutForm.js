@@ -81,8 +81,13 @@ const CheckoutForm = () => {
           },
         },
       })
-      .then(() => {
-        dispatch(completeOrderAction({ token: "tok_mastercard" }));
+      .then((res) => {
+        dispatch(
+          completeOrderAction({
+            token: "tok_mastercard",
+            stripe_complete_id: res.paymentIntent.id,
+          })
+        );
       })
       .catch((err) => setErrMessage(`Payment failed ${err?.message}`));
   };

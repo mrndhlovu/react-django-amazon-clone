@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework.generics import GenericAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -45,7 +46,7 @@ class StripePaymentIntentAPIView(GenericAPIView):
         try:
             data = request.data
             customer = Customer.objects.get(customer=request.user)
-            order = Order.objects.get(customer=customer)
+            order = Order.objects.get(customer=customer, complete=False)
 
             intent = stripe.PaymentIntent.create(
                 amount=int(order.total*100),
@@ -70,7 +71,13 @@ class StripeCheckoutOrderAPIView(GenericAPIView):
 
     def post(self, request):
         try:
+            stripe_complete_id = request.data['stripe_complete_id']
             customer = Customer.objects.get(customer=request.user)
+
+            order = Order.objects.get(customer=customer, complete=False)
+            order.complete = True
+            order.stripe_complete_id = stripe_complete_id
+            order.save()
 
             stripe.Customer.create_source(
                 customer.stripe_customer_id,
@@ -80,10 +87,6 @@ class StripeCheckoutOrderAPIView(GenericAPIView):
                 customer.stripe_customer_id,
                 object="card",
             )
-
-            order = Order.objects.get(customer=customer)
-            order.complete = True
-            order.save()
 
             return Response(customer_cards['data'])
         except Exception as e:
@@ -118,19 +121,45 @@ class ShoppingBasketOrdersListAPIView(RetrieveAPIView):
     def get(self, request):
         try:
             customer = Customer.objects.get(customer=request.user, )
-            order = Order.objects.get(customer=customer, complete=False)
-            order_items = OrderItem.objects.filter(
-                order=order, order__id=order.id)
-            serializedOrderItems = OrderItemSerializer(order_items, many=True)
+            order = Order.objects.filter(
+                customer=customer, complete=False)
+            order_items = OrderItem.objects.filter(order=order)
+            serializedOrderItems = OrderItemSerializer(
+                order_items, many=True)
             order_items = json.loads(json.dumps(serializedOrderItems.data))
         except:
-            data = {'message': 'Shopping basket does not exist'}
-            return Response(data, status=status.HTTP_404_NOT_FOUND)
-
+            data = {'items': []}
+            return Response(data, status=status.HTTP_200_OK)
         updated_order = get_cart_data(order, order_items)
         serializer = self.serializer_class(updated_order)
         data = serializer.data
         data['items'] = order_items
+        return Response(data)
+
+
+class CompleteOrdersListAPIView(RetrieveAPIView):
+    serializer_class = OrdersSerializer
+    permission_classes = (IsAuthenticated,)
+    model = Order
+
+    def get(self, request):
+        try:
+            data = []
+            customer = Customer.objects.get(customer=request.user, )
+            orders = Order.objects.filter(customer=customer, complete=True)
+            for order in orders:
+                order_items = OrderItem.objects.filter(order=order)
+                serializedOrderItems = OrderItemSerializer(
+                    order_items, many=True)
+                order_items = json.loads(json.dumps(serializedOrderItems.data))
+                updated_order = get_cart_data(order, order_items)
+                serializer = self.serializer_class(updated_order)
+                updated_serializer = serializer.data
+                updated_serializer['items'] = order_items
+                data.append(updated_serializer)
+
+        except:
+            return Response(data, status=status.HTTP_200_OK)
         return Response(data)
 
 

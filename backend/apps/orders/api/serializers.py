@@ -17,17 +17,19 @@ class OrdersSerializer (serializers.ModelSerializer):
     shipping = serializers.DecimalField(decimal_places=2, max_digits=20)
     sub_total = serializers.DecimalField(decimal_places=2, max_digits=20)
     total = serializers.DecimalField(decimal_places=2, max_digits=20)
+    stripe_complete_id = serializers.CharField()
 
     class Meta:
         model = Order
         fields = ['complete', 'item_count', 'sub_total',
-                  'timestamp', 'total', 'shipping']
+                  'timestamp', 'total', 'shipping', 'stripe_complete_id']
 
 
 class OrderItemSerializer (serializers.ModelSerializer):
     product_name = serializers.CharField(source='product.name')
     product_image = serializers.CharField(source='product.image')
     inventory_count = serializers.CharField(source='product.inventory_count')
+    short_desc = serializers.CharField(source='product.short_desc')
     rating = serializers.CharField(source='product.rating')
 
     class Meta:

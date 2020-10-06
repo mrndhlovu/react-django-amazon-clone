@@ -45,9 +45,9 @@ const ContextWrapper = styled.div`
 `;
 
 const OptionCard = forwardRef(
-  ({ icon: Icon, header, content, onClick, linkTo }, ref) => {
+  ({ icon: Icon, header, content, onClick, pageId }, ref) => {
     return (
-      <Card to={linkTo} onClick={onClick}>
+      <Card to={`/user-profile?flowId=${pageId}`} onClick={onClick}>
         <IconContainer>
           <Icon />
         </IconContainer>
@@ -69,7 +69,7 @@ OptionCard.propTypes = {
   onClick: PropTypes.func.isRequired,
   header: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  linkTo: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired,
 };
 
 export default OptionCard;

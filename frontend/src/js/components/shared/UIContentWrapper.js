@@ -5,12 +5,11 @@ import PropTypes from "prop-types";
 import UIHeader from "./UIHeader";
 
 const Container = styled.div`
-  padding: 5% 7%;
+  padding: 3% 20%;
   height: 100%;
-  background-color: ${({ theme }) => theme.colors.white};
+  position: relative;
 
   & > h1 {
-    padding-left: 10px;
     font-weight: ${({ theme }) => theme.fonts.weight.medium};
   }
 `;

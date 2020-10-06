@@ -1,15 +1,11 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-
 import { useDispatch, useSelector } from "react-redux";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useHistory } from "react-router-dom";
 
-import { AmazonButton } from "../shared";
-import UISmall from "../shared/UISmall";
-import { nextCheckoutStageAction } from "../../actions/CartActions";
-import { CONFIRM_ORDER } from "../../actions/ActionTypes";
+import { getShoppingBasketAction } from "../../actions/CartActions";
 import CheckoutForm from "./CheckoutForm";
 
 const Container = styled.div`
@@ -24,18 +20,17 @@ const promise = loadStripe(
 
 const CompletePayment = () => {
   const {
-    auth: { data },
-    cart: { CURRENCY = "EUR" },
-    checkout: { processing, orderComplete },
+    checkout: { orderComplete },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
     if (orderComplete) {
-      history.replace("/orders");
+      dispatch(getShoppingBasketAction());
+      history.replace("/user-profile?flowId=orders");
     }
-  }, [orderComplete]);
+  }, [orderComplete, dispatch, history]);
 
   return (
     <Container>

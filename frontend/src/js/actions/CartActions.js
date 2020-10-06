@@ -20,6 +20,9 @@ import {
   COMPLETE_ORDER,
   COMPLETE_ORDER_SUCCESS,
   COMPLETE_ORDER_ERROR,
+  GET_COMPLETED_ORDERS,
+  COMPLETED_ORDERS_SUCCESS,
+  COMPLETED_ORDERS_ERROR,
 } from "./ActionTypes";
 import { fireAction } from "./action.helpers";
 import {
@@ -29,6 +32,7 @@ import {
   requestShoppingBasketDetails,
   requestPaymentIntent,
   requestCheckoutOrder,
+  requestCompletedOrders,
 } from "../api/product.requests";
 
 export const addToCartAction = (data) => {
@@ -96,6 +100,19 @@ export const getShoppingBasketAction = () => {
       .then((response) => dispatch(fireAction(GET_CART_SUCCESS, response.data)))
       .catch(() => {
         dispatch(fireAction(GET_CART_ERROR));
+      });
+  };
+};
+
+export const getCompletedOrdersAction = () => {
+  return (dispatch) => {
+    dispatch(fireAction(GET_COMPLETED_ORDERS));
+    requestCompletedOrders()
+      .then((response) =>
+        dispatch(fireAction(COMPLETED_ORDERS_SUCCESS, response.data))
+      )
+      .catch((error) => {
+        dispatch(fireAction(COMPLETED_ORDERS_ERROR, error.response.data));
       });
   };
 };
