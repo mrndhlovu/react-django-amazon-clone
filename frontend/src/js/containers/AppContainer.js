@@ -1,17 +1,22 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 import { getProductList } from "../actions/ProductActions";
 import { getUserAction } from "../actions/AuthActions";
+import { getShoppingBasketAction } from "../actions/CartActions";
 import { MainContext } from "../utils/contextUtils";
 import Header from "../components/header/Header";
 
 const AppContainer = ({ children }) => {
-  const dispatch = useDispatch();
   const {
     auth: { isAuthenticated },
   } = useSelector((state) => state);
+  const { search } = useLocation();
+  const token = localStorage.getItem("access");
+
+  const dispatch = useDispatch();
 
   const openSideBarHandler = () => {};
 
@@ -27,8 +32,14 @@ const AppContainer = ({ children }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isAuthenticated) dispatch(getProductList());
-  }, [isAuthenticated, dispatch]);
+    if (!search) dispatch(getProductList());
+  }, [dispatch, search]);
+
+  useEffect(() => {
+    if (isAuthenticated && token) {
+      dispatch(getShoppingBasketAction());
+    }
+  }, [isAuthenticated, dispatch, token]);
 
   return (
     <MainContext.Provider value={context}>

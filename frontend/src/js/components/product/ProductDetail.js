@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { times } from "lodash";
 import { v4 as uuid } from "uuid";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import { AmazonButton, UIHeader, UILoadingSpinner } from "../shared";
 import ProductRating from "../shared/ProductRating";
@@ -95,11 +95,12 @@ const Image = styled.img`
 const ProductDetail = () => {
   const { id } = useParams();
   const {
-    auth: { CURRENCY_SYMBOL },
+    auth: { CURRENCY_SYMBOL, isAuthenticated },
     products: { detail },
     cart: { BASKET },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const history = useHistory();
   const [quantity, setQuantity] = useState(1);
 
   const itemInCart = BASKET?.items.find(
@@ -113,7 +114,12 @@ const ProductDetail = () => {
     setQuantity(qty);
   };
 
-  const handleAddToCart = (product) => dispatch(addToCartAction(product));
+  const handleAddToCart = (product) => {
+    if (!isAuthenticated) {
+      return history.push("/login");
+    }
+    dispatch(addToCartAction(product));
+  };
 
   const handleRemoveFromCart = () =>
     dispatch(removeFromCartAction({ productId: parseInt(id, 10) }));

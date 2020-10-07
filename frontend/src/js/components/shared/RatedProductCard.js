@@ -84,7 +84,7 @@ const RatedProductCard = ({ image, price, rating, description, id }) => {
         <PriceContainer>
           <ProductPrice>{`${CURRENCY_SYMBOL}`}</ProductPrice>
           <ProductPrice>{`${whole}`}</ProductPrice>
-          <ProductPrice>{`${fraction}`}</ProductPrice>
+          <ProductPrice>{`${fraction || "00"}`}</ProductPrice>
         </PriceContainer>
       </div>
     </Container>

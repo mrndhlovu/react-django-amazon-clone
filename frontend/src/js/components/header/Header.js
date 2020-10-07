@@ -9,7 +9,10 @@ import "./_header.scss";
 import { Menu as MenuIcon, Search as SearchIcon } from "@material-ui/icons";
 import { Button, Divider } from "@material-ui/core";
 
-import { _ACCOUNT_OPTIONS } from "../../constants/constants";
+import {
+  PRODUCT_CATEGORIES,
+  _ACCOUNT_OPTIONS,
+} from "../../constants/constants";
 import {
   AmazonButton,
   ShoppingCartCount,
@@ -27,17 +30,20 @@ const Navigation = () => {
   const {
     auth: { isAuthenticated, data },
   } = useSelector((state) => state);
-
-  const [, handleChange] = useFormInput();
-  const history = useHistory();
-  const [activeCategory, setActiveCategory] = useState("All");
   const dispatch = useDispatch();
 
-  const selectedCategoryHandler = (category) => {
-    setActiveCategory(category === "All Departments" ? "All" : category);
-  };
+  const [{ search }, handleChange] = useFormInput();
+  const history = useHistory();
+  const [activeCategory, setActiveCategory] = useState("All");
 
-  const handleSearch = () => {};
+  const handleSearch = (category) => {
+    setActiveCategory(category === "All Departments" ? "All" : category);
+    if (search) {
+      return history.push(`/product-list?search=${search.toLowerCase()}`);
+    }
+
+    history.replace(`/product-list?category=${category.toLowerCase()}`);
+  };
 
   return (
     <nav data-testid="app-header" className="nav__bar__container">
@@ -76,13 +82,13 @@ const Navigation = () => {
                 >
                   <MenuList
                     list={["All Departments"]}
-                    handleClick={selectedCategoryHandler}
+                    handleClick={handleSearch}
                     link={false}
                   />
 
                   <MenuList
-                    list={["Books", "Beauty", "Computers", "Electronics"]}
-                    handleClick={selectedCategoryHandler}
+                    list={PRODUCT_CATEGORIES}
+                    handleClick={handleSearch}
                     link={false}
                   />
                 </ul>
@@ -97,7 +103,7 @@ const Navigation = () => {
             />
           </div>
           <div className="nav__search__right">
-            <Button onClick={handleSearch}>
+            <Button type="button" onClick={() => handleSearch()}>
               <SearchIcon fontSize="large" />
             </Button>
           </div>

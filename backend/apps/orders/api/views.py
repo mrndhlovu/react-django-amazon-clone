@@ -120,10 +120,10 @@ class ShoppingBasketOrdersListAPIView(RetrieveAPIView):
 
     def get(self, request):
         try:
-            customer = Customer.objects.get(customer=request.user, )
-            order = Order.objects.filter(
-                customer=customer, complete=False)
-            order_items = OrderItem.objects.filter(order=order)
+            customer = Customer.objects.get(customer=request.user)
+            order = Order.objects.get(customer=customer, complete=False)
+            order_items = OrderItem.objects.filter(order__id=order.id)
+
             serializedOrderItems = OrderItemSerializer(
                 order_items, many=True)
             order_items = json.loads(json.dumps(serializedOrderItems.data))

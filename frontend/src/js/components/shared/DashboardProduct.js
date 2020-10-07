@@ -52,9 +52,9 @@ const DashboardProduct = ({ children }) => (
 
 const Featured = ({ category, header, footerLink }) => {
   const {
-    products: { list },
+    products: { PRODUCTS },
   } = useSelector((state) => state);
-  const FEATURED_ITEM = list.find(
+  const FEATURED_ITEM = PRODUCTS.find(
     (item) => item.category === category && item.featured && item
   );
 
@@ -63,7 +63,7 @@ const Featured = ({ category, header, footerLink }) => {
       <UICard.Header avatar={<UIHeader as="h3" content={header} />} />
       <ProductCard image={FEATURED_ITEM?.image} />
       <UICard.Action>
-        <Link to={`/category-list?category=${category} `}>
+        <Link to={`/product-list?category=${category} `}>
           <UILinkButton content={footerLink} />
         </Link>
       </UICard.Action>

@@ -16,7 +16,7 @@ export const _SEARCH_CATEGORIES = [
 export const _ACCOUNT_OPTIONS = {
   ACCOUNT: [
     { header: "Your Account", redirect: "user-profile" },
-    { header: "Your Orders", redirect: "orders" },
+    { header: "Your Orders", redirect: "user-profile?flowId=orders" },
     { header: "Your Lists", redirect: "lists" },
   ],
   AUTH: [{ header: "Sign out", redirect: "lists" }],
@@ -203,14 +203,6 @@ export const IMAGES = {
     // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/UK-EN_070620_EvergreenQ3_ACQ_GW_Hero_D_1500x600_CV9._CB405136406_.jpg",
     // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/new_ft_hero_van._CB430308860_.jpg",
   ],
-  PRODUCTS: [
-    OrdersImage,
-
-    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/products/XCM_CUTTLE_1230943_1217242_UK_3156565_379x304_en_GB._SY304_CB428790125_.jpg",
-    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/products/41gBAria4JL._AC_US218_.jpg",
-    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/products/51DhDfarGbL._AC_SY200_.jpg",
-    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/products/51xx9NCutcL._AC_SL1000_.jpg",
-  ],
 };
 
 export const MANAGE_ACCOUNT_SECTIONS = {
@@ -232,7 +224,7 @@ export const MANAGE_ACCOUNT_SECTIONS = {
   },
 };
 
-export const CATEGORY_FILTER_OPTIONS = {
+export const PRODUCT_FILTER_OPTIONS = {
   PRICE: [
     { low: "Under", high: 15 },
     { low: 15, high: 50 },
@@ -1226,3 +1218,14 @@ export const COUNTRIES = [
 
 export const CHECKOUT_MESSAGE =
   "Tick the 'Use as default' to skip this step on your next purchase.";
+
+export const PRODUCT_CATEGORIES = [
+  "Beauty",
+  "Books",
+  "Computers & Tech",
+  "Digital",
+  "Gym",
+  "Software",
+  "TVs",
+  "Video Games",
+];

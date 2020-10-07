@@ -71,7 +71,7 @@
     "model": "store.product",
     "pk": 5,
     "fields": {
-      "name": "The Amazing Spider-Man 2 [Includes Digital Copy] [UltraViolet] (DVD)",
+      "name": "The Amazing Spider-Man 2 [Includes dig Copy] [UltraViolet] (DVD)",
       "price": "9.99",
       "rating": 2,
       "category": "mis",
@@ -252,6 +252,367 @@
       "in_stock": true,
       "inventory_count": 5,
       "image": "https://m.media-amazon.com/images/I/61a4oLEP17L._AC._SR360,460.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 16,
+    "fields": {
+      "name": "zNitro - Screen Protector for Samsung Galaxy S7 edge",
+      "short_desc": "HUAWEI MateBook 13 2020 - Ultra Laptop with 2K FullView Screen - 10th",
+      "category": "dig",
+      "price": "14.99",
+
+      "featured": true,
+      "rating": 3,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Compatible with Samsung Galaxy S7 edge; scratch-resistant design",
+
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/5220/5220812_rc.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 17,
+    "fields": {
+      "name": "zNitro - Screen Protector for Samsung Galaxy S7 - Clear",
+      "short_desc": "HUAWEI MateBook 13 2020 - Ultra Laptop with 2K FullView Screen - 10th",
+      "category": "dig",
+      "price": "39.99",
+      "featured": true,
+      "rating": 3,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Compatible with Samsung Galaxy S7; scratch-resistant design; tempered glass",
+
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/5220/5220822_rc.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 18,
+    "fields": {
+      "name": "zNitro - Screen Protector for Samsung Galaxy S7",
+      "short_desc": "HUAWEI MateBook 13 2020 - Ultra Laptop with 2K FullView Screen - 10th",
+      "category": "dig",
+      "price": "39.99",
+      "featured": true,
+      "rating": 5,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Compatible with Samsung Galaxy S7; scratch-resistant design; tempered glass",
+
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/5220/5220871_rc.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 19,
+    "fields": {
+      "name": "zNitro - Screen Protector for Samsung Galaxy S6 edge",
+      "short_desc": "HUAWEI MateBook 13 2020 - Ultra Laptop with 2K FullView Screen - 10th",
+      "category": "dig",
+      "price": "29.99",
+      "featured": true,
+      "rating": 3,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Compatible with Samsung Galaxy S6 edge; scratch-resistant design",
+
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/5220/5220839_rc.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 20,
+    "fields": {
+      "name": "zNitro - Screen Protector for Samsung Galaxy S6 Active - Clear",
+      "short_desc": "HUAWEI MateBook 13 2020 - Ultra Laptop with 2K FullView Screen - 10th",
+      "category": "dig",
+      "price": "29.99",
+      "featured": true,
+      "rating": 3,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Compatible with Samsung Galaxy S6 Active; scratch-resistant design; tempered glass",
+
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/5220/5220829_rc.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 21,
+    "fields": {
+      "name": "zNitro - Screen Protector for Samsung Galaxy S6 - Clear",
+      "short_desc": "HUAWEI MateBook 13 2020 - Ultra Laptop with 2K FullView Screen - 10th",
+      "category": "dig",
+      "price": "29.99",
+      "featured": true,
+      "rating": 3,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Compatible with Samsung Galaxy S6; scratch-resistant design; tempered glass",
+
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/5220/5220830_rc.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 22,
+    "fields": {
+      "name": "zNitro - Screen Protector for Samsung Galaxy S6",
+      "short_desc": "HUAWEI MateBook 13 2020 - Ultra Laptop with 2K FullView Screen - 10th",
+      "category": "dig",
+      "price": "29.99",
+      "featured": true,
+      "rating": 3,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Compatible with Samsung Galaxy S6; scratch-resistant design; tempered glass",
+
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/5220/5220870_rc.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 23,
+    "fields": {
+      "name": "zNitro - Screen Protector for Samsung Galaxy S5 - White",
+      "short_desc": "HUAWEI MateBook 13 2020 - Ultra Laptop with 2K FullView Screen - 10th",
+      "category": "dig",
+      "price": "29.99",
+      "featured": true,
+      "rating": 3,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Compatible with Samsung Galaxy S5; scratch-resistant design; tempered glass",
+
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/5220/5220885_rc.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 24,
+    "fields": {
+      "name": "zNitro - Screen Protector for Samsung Galaxy S5 - Clear",
+      "short_desc": "HUAWEI MateBook 13 2020 - Ultra Laptop with 2K FullView Screen - 10th",
+      "category": "dig",
+      "price": "29.99",
+      "featured": true,
+      "rating": 3,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Compatible with Samsung Galaxy S5; scratch-resistant design; tempered glass",
+
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/5220/5220837_rc.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 25,
+    "fields": {
+      "name": "zNitro - Screen Protector for Samsung Galaxy S5 - Black",
+      "short_desc": "HUAWEI MateBook 13 2020 - Ultra Laptop with 2K FullView Screen - 10th",
+      "category": "dig",
+      "price": "29.99",
+      "featured": true,
+      "rating": 3,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Compatible with Samsung Galaxy S5; scratch-resistant design; tempered glass",
+
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/5220/5220841_rc.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 26,
+    "fields": {
+      "name": "Washing Machine",
+      "price": 1449,
+      "featured": true,
+      "rating": 5,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 5,
+      "description": "Dial control; automatic load size sensing technology; 4 washer cycles; 5 washer temperature settings; powder coat washer drum; 6 dryer cycles; 3 dryer temperature settings; powder coat dryer drum",
+
+      "short_desc": "Dial control; automatic load size sensing technology;",
+      "category": "app",
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/5296/5296603_sa.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 27,
+    "fields": {
+      "name": "007 Legends - PRE-OWNED - Nintendo Wii U",
+
+      "price": 9.99,
+      "featured": true,
+      "rating": 5,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Relive classic James Bond movies in an all-new way",
+      "category": "games",
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/7276/7276217_sa.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 28,
+    "fields": {
+      "name": "007 Legends - PRE-OWNED - Xbox 360",
+
+      "price": 9.99,
+      "featured": true,
+      "rating": 5,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Relive classic James Bond movies in an all-new way",
+      "short_desc": "Relive classic James Bond movies in an all-new way",
+      "category": "games",
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/6938/6938351_sa.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 29,
+    "fields": {
+      "name": "007 Legends — PRE-OWNED - PlayStation 3",
+
+      "price": 9.99,
+      "featured": true,
+      "rating": 5,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "short_desc": "Relive classic James Bond movies in an all-new way",
+      "description": "Relive classic James Bond movies in an all-new way",
+      "category": "games",
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/6938/6938402.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 30,
+    "fields": {
+      "name": "1 vs. 100 - PRE-OWNED - Nintendo DS",
+
+      "price": 4.99,
+      "featured": true,
+      "rating": 5,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Do you have what it takes to beat the mob?",
+      "short_desc": "Do you have what it takes to beat the mob?",
+      "category": "games",
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/1776/1776733_sa.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 31,
+    "fields": {
+      "name": "101 in 1 Explosive Megamix - PRE-OWNED - Nintendo DS",
+
+      "price": 9.99,
+      "featured": true,
+      "rating": 5,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Revel in the explosive power of more than 100 games",
+      "short_desc": "Revel in the explosive power of more than 100 games",
+      "category": "games",
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/2017/2017796_sa.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 32,
+    "fields": {
+      "name": "101-in-1 Sports Megamix - PRE-OWNED - Nintendo DS",
+
+      "price": 9.99,
+      "featured": true,
+      "rating": 5,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Don't settle for less &#8212; play more sports than ever",
+      "short_desc": "Don't settle for less &#8212; play more sports than ever",
+      "category": "games",
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/2331/2331311_sa.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 33,
+    "fields": {
+      "name": "12 Survivors - Trace 5 x 50 Monocular",
+
+      "price": 249.97,
+      "featured": true,
+      "rating": 5,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "12 SURVIVORS Trace 5 x 50 Monocular: Built-in IR illuminator; built-in video recorder; 5x magnification; 50mm objective lens; 1/3\" Sony sensor; CCD array",
+      "short_desc": "12 SURVIVORS Trace 5 x 50 Monocular: Built-in IR illuminator",
+
+      "category": "12 dig",
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/4394/4394428_rc.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 34,
+    "fields": {
+      "name": "123 Copy DVD Gold - Windows",
+
+      "price": 49.99,
+      "featured": true,
+      "rating": 5,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Usher your video collection into the digital age",
+      "short_desc": "Usher your video collection into the digital age",
+      "category": "software",
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/1704/1704375_sa.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 35,
+    "fields": {
+      "name": "123 Copy DVD Platinum - Windows",
+
+      "price": 69.99,
+      "featured": true,
+      "rating": 5,
+      "top_sell": false,
+      "in_stock": true,
+      "inventory_count": 2,
+      "description": "Watch your favorite Blu-ray, DVD and online movies anywhere, anytime",
+      "short_desc": "Watch your favorite Blu-ray, DVD and online movies anywhere, anytime",
+      "category": "software",
+      "image": "http://img.bbystatic.com/BestBuy_US/images/products/1704/1704393_sa.jpg"
     }
   }
 ]

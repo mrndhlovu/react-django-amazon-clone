@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import PropTypes from "prop-types";
 import { isNumber } from "lodash";
 import { useLocation } from "react-router-dom";
 
-import { CATEGORY_FILTER_OPTIONS } from "../../constants/constants";
+import { PRODUCT_FILTER_OPTIONS } from "../../constants/constants";
 import {
   AmazonButton,
   DashboardProduct,
   TextDivider,
   UIHeader,
 } from "../shared";
-import { requestProductList } from "../../api/product.requests";
 import ProductRating from "../shared/ProductRating";
 import UILoadingSpinner from "../shared/UILoadingSpinner";
-import { useFetch } from "../../utils/hookUtils";
 import { resetForm } from "../../utils/appUtils";
+import { getProductList } from "../../actions/ProductActions";
 
 const Container = styled.div`
   display: flex;
@@ -131,13 +130,14 @@ const FILTER_PARAMS_INITIAL_STATE = {
   stock: "",
 };
 
-const CategoryList = () => {
+const ProductList = () => {
   const {
     auth: { CURRENCY_SYMBOL },
+    products: { isLoading, FILTERED_PRODUCTS },
   } = useSelector((state) => state);
+  const dispatch = useDispatch();
   const { search } = useLocation();
   const [filterParams, setFilterParams] = useState(search);
-  const [products, isLoading] = useFetch(requestProductList, filterParams);
   const [filter, setFilter] = useState(FILTER_PARAMS_INITIAL_STATE);
   const [activePriceFilter, setActivePriceFilter] = useState(undefined);
   const [inStock, setInStock] = useState(true);
@@ -187,11 +187,15 @@ const CategoryList = () => {
         .map((value) => value && value)
         .join("");
 
-      setFilterParams(`${search}${newFilterParams}`);
+      setFilterParams(`${search || "?"}${newFilterParams}`);
     };
 
     buildFilterParam();
   }, [filter, search]);
+
+  useEffect(() => {
+    dispatch(getProductList(filterParams));
+  }, [filterParams, dispatch]);
 
   return (
     <Container>
@@ -208,7 +212,7 @@ const CategoryList = () => {
             name="all"
             content="All"
           />
-          {CATEGORY_FILTER_OPTIONS.PRICE.map((price, index) => (
+          {PRODUCT_FILTER_OPTIONS.PRICE.map((price, index) => (
             <FilterCheckbox
               key={uuid()}
               onChange={() => handlePriceFilter(price, index)}
@@ -254,7 +258,7 @@ const CategoryList = () => {
         <SearchFilter>
           <UIHeader as="h6" content="Avg. Customer Review" />
 
-          {CATEGORY_FILTER_OPTIONS.STARS.map((rating, index) => (
+          {PRODUCT_FILTER_OPTIONS.STARS.map((rating, index) => (
             <AvgRating
               key={uuid()}
               onClick={() => handleStarFilter(5 - (index + 1))}
@@ -290,7 +294,7 @@ const CategoryList = () => {
         {isLoading ? (
           <UILoadingSpinner />
         ) : (
-          <CategoryProductList products={products} />
+          <CategoryProductList products={FILTERED_PRODUCTS} />
         )}
         <TextDivider />
       </ListContainer>
@@ -341,4 +345,4 @@ SearchSelect.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-export default CategoryList;
+export default ProductList;

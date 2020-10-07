@@ -12,7 +12,7 @@ const groupParamsByKey = (params) =>
       } else acc[key] = [acc[key], val];
     } else acc[key] = val;
     return acc;
-  }, {});
+  }, []);
 
 export const getParamString = (string) =>
   string.toLowerCase().split(" ").join("-");
@@ -20,8 +20,8 @@ export const getParamString = (string) =>
 export const getPageId = (location) =>
   location.pathname.split("/").splice(1)[0];
 
-export const getSearchParams = () => {
-  const params = window.location.search.slice(1);
+export const getSearchParams = (search) => {
+  const params = search.slice(1);
   return groupParamsByKey(params.split("="));
 };
 

@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
@@ -24,6 +25,7 @@ import {
 import { editProfileAction } from "../../actions/AppActions";
 import UIBreadcrumbs from "../shared/UIBreadcrumbs";
 import { MANAGE_ACCOUNT_SECTIONS } from "../../constants/constants";
+import { getSearchParams } from "../../utils/appUtils";
 
 const OptionsContainer = styled.div`
   display: grid;
@@ -43,14 +45,14 @@ const YourAccount = () => {
     ORDERS,
     PAYMENTS,
   } = MANAGE_ACCOUNT_SECTIONS;
-
+  const { search } = useLocation();
   const handleClickOption = (option) => dispatch(editProfileAction(option));
 
   useEffect(() => {
-    if (ORDERS.HEADER === ACTIVE_SECTION.HEADER) {
+    if (getSearchParams(search).includes("orders")) {
       dispatch(editProfileAction(OPEN_ORDERS));
     }
-  }, [ACTIVE_SECTION, dispatch, ORDERS]);
+  }, [dispatch, ORDERS, search]);
 
   return (
     <UIContentWrapper

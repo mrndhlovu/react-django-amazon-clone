@@ -47,7 +47,7 @@ const cartReducer = (state = INITIAL_STATE, action = {}) => {
     case COMPLETED_ORDERS_SUCCESS:
       return {
         ...state,
-        COMPLETED_ORDERS: payload,
+        COMPLETED_ORDERS: payload.reverse(),
         isLoading: false,
       };
 

@@ -41,10 +41,11 @@ class Product (models.Model):
     CATEGORIES = [
         ('mis', 'Miscellaneous'),
         ('books', 'Books'),
-        ('diy', 'DIY'),
         ('digital', 'Digital'),
         ('beauty', 'Beauty'),
+        ('app', 'Appliances'),
         ('games', 'Video Games'),
+        ('cons', 'Console'),
         ('software', 'Software'),
         ('pc-tech', 'Computers & Tech'),
         ('tvs', 'TVs'),

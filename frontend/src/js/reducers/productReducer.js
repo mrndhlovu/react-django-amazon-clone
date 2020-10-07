@@ -5,11 +5,15 @@ import {
   GET_PRODUCTS_LIST,
   PRODUCTS_LIST_SUCCESS,
   PRODUCTS_LIST_ERROR,
+  GET_FILTERED_PRODUCTS,
+  FILTERED_PRODUCT_LIST_SUCCESS,
+  FILTERED_PRODUCT_ERROR,
 } from "../actions/ActionTypes";
 import { VIEWED_RECENT } from "../utils/localStorageUtils";
 
 const INITIAL_STATE = {
-  list: [],
+  PRODUCTS: [],
+  FILTERED_PRODUCTS: [],
   detail: {},
   isLoading: false,
 };
@@ -40,10 +44,20 @@ const productsReducer = (state = INITIAL_STATE, action = {}) => {
       return { ...state, isLoading: true };
 
     case PRODUCTS_LIST_SUCCESS:
-      return { ...state, list: payload, isLoading: false };
+      return { ...state, PRODUCTS: payload, isLoading: false };
 
     case PRODUCTS_LIST_ERROR:
       return { ...state, isLoading: false };
+
+    case FILTERED_PRODUCT_ERROR:
+      return { ...state, isLoading: false };
+
+    case GET_FILTERED_PRODUCTS:
+      return { ...state, isLoading: true };
+
+    case FILTERED_PRODUCT_LIST_SUCCESS:
+      return { ...state, FILTERED_PRODUCTS: payload, isLoading: false };
+
     default:
       return state;
   }

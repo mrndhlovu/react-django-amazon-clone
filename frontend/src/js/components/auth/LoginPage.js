@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useHistory, Redirect, Link, useLocation } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { UIForm, TermsAndConditions, UILinkButton } from "../shared";
@@ -7,8 +7,7 @@ import { loginAction, verifyAccountAction } from "../../actions/AuthActions";
 import FormLayout from "../shared/FormLayout";
 
 const LoginPage = () => {
-  const location = useLocation();
-  const { from } = location.state || { from: { pathname: "/" } };
+  const history = useHistory();
 
   const {
     login: { LOGIN_STAGE },
@@ -17,7 +16,6 @@ const LoginPage = () => {
   const dispatch = useDispatch();
 
   const [loginData, setLoginData] = useState({});
-  const history = useHistory();
   const inputRef = useRef(null);
 
   const handleLogin = (data, cb) => {
@@ -38,9 +36,8 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (inputRef?.current) inputRef.current.focus();
-  }, []);
-
-  if (isAuthenticated) return <Redirect to={from.pathname} />;
+    if (isAuthenticated) return history.goBack();
+  }, [isAuthenticated, inputRef, history]);
 
   return (
     <FormLayout

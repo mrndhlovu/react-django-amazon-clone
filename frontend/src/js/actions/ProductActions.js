@@ -5,6 +5,9 @@ import {
   GET_PRODUCTS_LIST,
   PRODUCTS_LIST_SUCCESS,
   PRODUCTS_LIST_ERROR,
+  GET_FILTERED_PRODUCTS,
+  FILTERED_PRODUCT_LIST_SUCCESS,
+  FILTERED_PRODUCT_ERROR,
 } from "./ActionTypes";
 import { fireAction } from "./action.helpers";
 
@@ -28,13 +31,26 @@ export const getProductDetailAction = (id) => {
 
 export const getProductList = (filterParams) => {
   return (dispatch) => {
-    dispatch(fireAction(GET_PRODUCTS_LIST));
+    dispatch(
+      fireAction(filterParams ? GET_FILTERED_PRODUCTS : GET_PRODUCTS_LIST)
+    );
     requestProductList(filterParams)
       .then((response) => {
-        dispatch(fireAction(PRODUCTS_LIST_SUCCESS, response?.data));
+        dispatch(
+          fireAction(
+            filterParams
+              ? FILTERED_PRODUCT_LIST_SUCCESS
+              : PRODUCTS_LIST_SUCCESS,
+            response?.data
+          )
+        );
       })
       .catch(() => {
-        dispatch(fireAction(PRODUCTS_LIST_ERROR));
+        dispatch(
+          fireAction(
+            filterParams ? FILTERED_PRODUCT_ERROR : PRODUCTS_LIST_ERROR
+          )
+        );
       });
   };
 };

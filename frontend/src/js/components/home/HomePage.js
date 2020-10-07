@@ -99,15 +99,15 @@ const TopLinkContainer = styled.div`
 const HomePage = () => {
   const {
     auth: { isAuthenticated, data },
-    products: { list },
+    products: { PRODUCTS },
   } = useSelector((state) => state);
-  const BOOKS = list.filter((item) => item.category === "books");
+  const BOOKS = PRODUCTS.filter((item) => item.category === "books");
 
-  const VIEWED_RECENT_ITEM = list.find(
+  const VIEWED_RECENT_ITEM = PRODUCTS.find(
     (item) => item.id === (VIEWED_RECENT ? VIEWED_RECENT[0] : null) && item
   );
 
-  const DEAL_ITEM = list.find((item) => item.top_sell && item);
+  const DEAL_ITEM = PRODUCTS.find((item) => item.top_sell && item);
 
   return (
     <>
@@ -146,17 +146,17 @@ const HomePage = () => {
                 />
                 <TopLink
                   header="Books"
-                  redirectTo="/category-list?category=books"
+                  redirectTo="/product-list?category=books"
                   image={IMAGES.TOP_LINK.link2}
                 />
                 <TopLink
                   header="Electronics"
-                  redirectTo="/category-list?category=tvs"
+                  redirectTo="/product-list?category=tvs"
                   image={IMAGES.TOP_LINK.link3}
                 />
                 <TopLink
                   header="Computers"
-                  redirectTo="/category-list?category=pc-tech"
+                  redirectTo="/product-list?category=pc-tech"
                   image={IMAGES.TOP_LINK.link4}
                 />
               </CardContent>
@@ -184,7 +184,7 @@ const HomePage = () => {
                   to={
                     VIEWED_RECENT_ITEM
                       ? "/view-history"
-                      : "/category-list?category=books"
+                      : "/product-list?category=books"
                   }
                 >
                   <UILinkButton content="Show more" />
@@ -225,7 +225,7 @@ const HomePage = () => {
             />
           </DashboardProduct>
           <DashboardProduct.Books books={BOOKS} />
-          <DashboardProduct.RatedList products={list} />
+          <DashboardProduct.RatedList products={PRODUCTS} />
         </ProductList>
         <UIFooter />
       </Container>
