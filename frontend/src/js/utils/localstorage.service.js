@@ -6,26 +6,14 @@ const LocalStorageService = (() => {
     }
     return _service;
   };
-  const setToken = (tokenObj) => {
-    localStorage.setItem("access", tokenObj.access);
-    localStorage.setItem("refresh", tokenObj.refresh);
-  };
-  const getAccessToken = () => {
-    return localStorage.getItem("access");
-  };
-  const getRefreshToken = () => {
-    return localStorage.getItem("refresh");
-  };
-  const clearToken = () => {
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
-  };
+  const setToken = (accessToken) => localStorage.setItem("access", accessToken);
+  const getAccessToken = () => localStorage.getItem("access");
+  const clearToken = () => localStorage.removeItem("access");
 
   return {
     getService,
     setToken,
     getAccessToken,
-    getRefreshToken,
     clearToken,
   };
 })();

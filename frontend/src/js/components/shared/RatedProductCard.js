@@ -1,12 +1,17 @@
 /* eslint-disable camelcase */
 
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import ProductRating from "./ProductRating";
+import AmazonButton from "./AmazonButton";
+import {
+  addToCartAction,
+  removeFromCartAction,
+} from "../../actions/CartActions";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
@@ -16,9 +21,24 @@ const Container = styled.div`
   justify-content: space-around;
   width: 285px;
   padding: 15px;
+  position: relative;
 
   a {
     text-decoration: none;
+  }
+  & > div:last-child {
+    position: relative;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+
+  button {
+    margin: 0;
+    padding: 3px 13px;
   }
 `;
 
@@ -42,6 +62,7 @@ const ProductPrice = styled.span`
 const PriceContainer = styled.div`
   display: flex;
   justify-content: end;
+  width: fit-content;
   font-weight: ${({ theme }) => theme.fonts.weight.bold};
 
   & > span:first-child {
@@ -66,9 +87,26 @@ const ProductDescription = styled.p`
 
 const RatedProductCard = ({ image, price, rating, description, id }) => {
   const {
-    auth: { CURRENCY_SYMBOL },
+    auth: { CURRENCY_SYMBOL, isAuthenticated },
+    cart: { BASKET },
   } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const [whole, fraction] = parseFloat(price).toString().split(".");
+  const itemInCart =
+    isAuthenticated &&
+    BASKET?.items.find((item) => item.product === parseInt(id, 10));
+
+  const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      return history.push("/login");
+    }
+    if (itemInCart) {
+      return dispatch(removeFromCartAction({ productId: id }));
+    }
+    dispatch(addToCartAction({ id, quantity: 1 }));
+  };
 
   return (
     <Container>
@@ -86,6 +124,12 @@ const RatedProductCard = ({ image, price, rating, description, id }) => {
           <ProductPrice>{`${whole}`}</ProductPrice>
           <ProductPrice>{`${fraction || "00"}`}</ProductPrice>
         </PriceContainer>
+        <ButtonContainer>
+          <AmazonButton
+            buttonText={itemInCart ? "Remove from Cart" : "Add to Cart"}
+            handleClick={handleAddToCart}
+          />
+        </ButtonContainer>
       </div>
     </Container>
   );
@@ -106,4 +150,4 @@ RatedProductCard.propTypes = {
   rating: PropTypes.number,
 };
 
-export default RatedProductCard;
+export default memo(RatedProductCard);

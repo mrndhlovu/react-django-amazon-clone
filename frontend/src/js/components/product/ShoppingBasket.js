@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -121,4 +121,4 @@ const ShoppingBasket = () => {
   );
 };
 
-export default ShoppingBasket;
+export default memo(ShoppingBasket);

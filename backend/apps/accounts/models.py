@@ -1,10 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
-from django.urls import reverse
-from django.utils.encoding import smart_str, force_str, DjangoUnicodeDecodeError, smart_bytes
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.contrib.sites.shortcuts import get_current_site
+
 
 from rest_framework_simplejwt.tokens import RefreshToken
 

@@ -1,5 +1,5 @@
 /* eslint-disable nonblock-statement-body-position */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { times } from "lodash";
@@ -103,10 +103,9 @@ const ProductDetail = () => {
   const history = useHistory();
   const [quantity, setQuantity] = useState(1);
 
-  const itemInCart = BASKET?.items.find(
-    (item) => item.product === parseInt(id, 10)
-  );
-  const isInCart = itemInCart !== undefined;
+  const itemInCart =
+    isAuthenticated &&
+    BASKET?.items.find((item) => item.product === parseInt(id, 10));
 
   const handleChange = (qty) => {
     if (itemInCart)
@@ -166,7 +165,7 @@ const ProductDetail = () => {
           </QuantitySelector>
         </Availability>
         <AmazonButton
-          disabled={isInCart}
+          disabled={itemInCart}
           buttonText={itemInCart ? "Is in shopping Basket" : "Add to Basket"}
           handleClick={() =>
             handleAddToCart({
@@ -187,4 +186,4 @@ const ProductDetail = () => {
   );
 };
 
-export default ProductDetail;
+export default memo(ProductDetail);

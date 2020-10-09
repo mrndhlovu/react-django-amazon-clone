@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
@@ -345,4 +345,4 @@ SearchSelect.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-export default ProductList;
+export default memo(ProductList);

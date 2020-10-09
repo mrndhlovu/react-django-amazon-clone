@@ -1,9 +1,35 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { NavLink, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import styled from "styled-components";
 
 import { ArrowDropDown as ArrowDropDownIcon } from "@material-ui/icons";
-import { getQueryParam } from "../../utils/urlUtils";
+
+const LinkItem = styled.button`
+  background-color: transparent;
+  border-color: transparent;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: ${({ theme }) => theme.colors.white};
+  cursor: pointer;
+  cursor: pointer;
+  padding: 5px 10px;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.white};
+  }
+
+  & span:first-child {
+    font-weight: ${({ theme }) => theme.fonts.weight.medium};
+    font-size: 12px;
+    padding-bottom: 2px;
+  }
+
+  & span:last-child {
+    font-weight: ${({ theme }) => theme.fonts.weight.bold};
+    font-size: 14px;
+  }
+`;
 
 const NavLinkButton = ({
   buttonText,
@@ -15,13 +41,13 @@ const NavLinkButton = ({
   const history = useHistory();
 
   return (
-    <NavLink to={getQueryParam(history, redirectTo, [buttonText, subText])}>
+    <LinkItem onClick={() => history.push(redirectTo)} type="button">
       <span className="link__text__first">{buttonText}</span>
       <span className="link__text__last">
         {subText && subText}
         {arrow && <ArrowDropDownIcon fontSize={fontSize} />}
       </span>
-    </NavLink>
+    </LinkItem>
   );
 };
 

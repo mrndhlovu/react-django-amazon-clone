@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
@@ -111,4 +111,4 @@ LoginAndSecurity.propTypes = {
   ACTIVE_SECTION: PropTypes.shape({ SUBHEADER: PropTypes.string }).isRequired,
 };
 
-export default LoginAndSecurity;
+export default memo(LoginAndSecurity);

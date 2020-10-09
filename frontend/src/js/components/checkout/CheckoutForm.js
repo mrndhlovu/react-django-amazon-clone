@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -129,4 +129,4 @@ const CheckoutForm = () => {
 
 CheckoutForm.propTypes = {};
 
-export default CheckoutForm;
+export default memo(CheckoutForm);

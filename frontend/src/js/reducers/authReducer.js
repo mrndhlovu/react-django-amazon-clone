@@ -5,6 +5,9 @@ import {
   LOGOUT_ERROR,
   LOGOUT_SUCCESS,
   LOGOUT,
+  REFRESH_TOKEN,
+  REFRESH_TOKEN_SUCCESS,
+  REFRESH_TOKEN_ERROR,
 } from "../actions/ActionTypes";
 
 const INITIAL_STATE = {
@@ -31,10 +34,18 @@ const authReducer = (state = INITIAL_STATE, action = {}) => {
         isLoading: false,
         isAuthenticated: true,
       };
+
+    case REFRESH_TOKEN_ERROR:
+      return { ...state, isLoading: false };
+    case REFRESH_TOKEN:
+      return { ...state, isLoading: true };
+    case REFRESH_TOKEN_SUCCESS:
+      return { ...state, isLoading: false, isAuthenticated: false };
+
     case LOGOUT_ERROR:
       return { ...state, isLoading: false };
     case LOGOUT:
-      return { ...state, isLoading: true };
+      return { ...state, isLoading: true, isAuthenticated: false };
     case LOGOUT_SUCCESS:
       return { ...state, ...INITIAL_STATE };
     default:

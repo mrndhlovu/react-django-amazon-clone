@@ -44,8 +44,9 @@ class StripePaymentIntentAPIView(GenericAPIView):
 
     def get(self, request):
         try:
-            data = request.data
+
             customer = Customer.objects.get(customer=request.user)
+            print("customer", customer)
             order = Order.objects.get(customer=customer, complete=False)
 
             intent = stripe.PaymentIntent.create(
@@ -100,9 +101,9 @@ class CreateOrderAPIView(RetrieveAPIView):
     model = Order
 
     def get(self, request):
-        customer, created = Customer.objects.get_or_create(
-            customer=request.user)
         stripe_customer = stripe.Customer.retrieve(email=request.user.email)
+        customer, created = Customer.objects.get_or_create(
+            customer=request.user, stripe_customer_id=stripe_customer['id'])
         order = Order.objects.get_or_create(customer=customer)
         serializer = self.serializer_class(order)
 
@@ -173,7 +174,8 @@ class AddToCartAPIView(GenericAPIView):
             productId = request.data['productId']
             quantity = request.data['quantity']
             product = Product.objects.get(id=productId)
-            customer = Customer.objects.get(customer=request.user)
+
+            customer = Customer.objects.get(customer=request.user,)
 
             order, created = Order.objects.get_or_create(
                 customer=customer, complete=False)
@@ -190,6 +192,11 @@ class AddToCartAPIView(GenericAPIView):
             serializer = OrdersSerializer(order)
             data = serializer.data
             data['items'] = order_items
+
+        except Customer.DoesNotExist:
+            data = {'message': 'Customer does not exist'}
+            return Response(data, status=status.HTTP_404_NOT_FOUND)
+
         except:
             data = {'message': 'Order does not exist'}
             return Response(data, status=status.HTTP_404_NOT_FOUND)

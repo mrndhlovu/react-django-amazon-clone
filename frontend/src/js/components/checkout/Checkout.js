@@ -2,7 +2,7 @@
 /* eslint-disable indent */
 /* eslint-disable no-confusing-arrow */
 /* eslint-disable camelcase */
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
@@ -149,4 +149,4 @@ CheckoutProgression.propTypes = {
   active: PropTypes.string.isRequired,
 };
 
-export default Checkout;
+export default memo(Checkout);

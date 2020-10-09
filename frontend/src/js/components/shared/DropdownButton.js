@@ -20,7 +20,7 @@ const LightTooltip = withStyles((theme) => ({
 const DropdownButton = ({
   arrow,
   content: Content,
-  contentText,
+  buttonText: Text,
   button,
   placement,
   interactive,
@@ -36,11 +36,11 @@ const DropdownButton = ({
     >
       {button ? (
         <Button ref={buttonRef} size="small" aria-label="select merge strategy">
-          {_.isString(contentText) ? contentText : contentText()}
+          {_.isString(Text) ? Text : <Text />}
           {arrow && <ArrowDropDownIcon />}
         </Button>
       ) : (
-        <span>{_.isString(contentText) ? contentText : contentText()}</span>
+        <span>{_.isString(Text) ? Text : <Text />}</span>
       )}
     </LightTooltip>
   );
@@ -56,7 +56,7 @@ DropdownButton.defaultProps = {
 DropdownButton.propTypes = {
   arrow: PropTypes.bool,
   content: PropTypes.func.isRequired,
-  contentText: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+  buttonText: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
     .isRequired,
   button: PropTypes.bool,
   placement: PropTypes.string,

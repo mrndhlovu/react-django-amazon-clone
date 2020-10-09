@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/jsx-closing-tag-location */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
@@ -164,4 +164,4 @@ const OrderConfirmation = () => {
   );
 };
 
-export default OrderConfirmation;
+export default memo(OrderConfirmation);

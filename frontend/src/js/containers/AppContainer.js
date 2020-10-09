@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 import { getProductList } from "../actions/ProductActions";
-import { getUserAction } from "../actions/AuthActions";
 import { getShoppingBasketAction } from "../actions/CartActions";
+import { getUserAction } from "../actions/AuthActions";
 import { MainContext } from "../utils/contextUtils";
 import Header from "../components/header/Header";
 
@@ -14,7 +14,6 @@ const AppContainer = ({ children }) => {
     auth: { isAuthenticated },
   } = useSelector((state) => state);
   const { search } = useLocation();
-  const token = localStorage.getItem("access");
 
   const dispatch = useDispatch();
 
@@ -36,10 +35,10 @@ const AppContainer = ({ children }) => {
   }, [dispatch, search]);
 
   useEffect(() => {
-    if (isAuthenticated && token) {
+    if (isAuthenticated) {
       dispatch(getShoppingBasketAction());
     }
-  }, [isAuthenticated, dispatch, token]);
+  }, [isAuthenticated, dispatch]);
 
   return (
     <MainContext.Provider value={context}>
@@ -58,4 +57,4 @@ AppContainer.propTypes = {
   ]).isRequired,
 };
 
-export default AppContainer;
+export default memo(AppContainer);

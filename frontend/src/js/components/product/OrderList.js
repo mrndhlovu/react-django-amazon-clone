@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, memo } from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import { times } from "lodash";
@@ -155,4 +155,4 @@ const OrderList = ({ handleCheckboxClick, handleChangeQuantity, order }) => {
   );
 };
 
-export default OrderList;
+export default memo(OrderList);

@@ -111,66 +111,21 @@
     span {
       @include useFlex(row, flex-start);
     }
-
-    a {
-      text-decoration: none;
-      color: white;
-    }
-
-    & > li {
-      @include useFlex(row, space-around);
-      border-radius: 3px;
-      box-sizing: border-box;
-      cursor: pointer;
-      padding: 5px 10px;
-      border: 2px solid $white;
-      border-color: transparent;
-      &:hover {
-        border-color: $white;
-      }
-
-      .link__text__first {
-        font-weight: $medium;
-        font-size: 12px;
-        padding-bottom: 3px;
-      }
-
-      .link__text__last {
-        font-weight: $bold;
-        font-size: 14px;
-      }
-    }
-
-    .cart__container {
-      @include useFlex(row, space-evenly, flex-end);
-      position: relative;
-      padding: 0 10px;
-
-      .cart__count {
-        @include useFlex(column);
-        font-weight: $bold;
-
-        & > span:first-child {
-          color: $amazonBright;
-        }
-
-        & > span:last-child {
-          color: $white;
-          font-size: 14px;
-        }
-      }
-    }
   }
 }
 
 .nav__search__categories {
   min-width: 150px;
+  display: flex;
+  flex-direction: column;
 
-  & > li {
+  & > button {
     font-size: 15px;
-    padding: 5px 0;
+    padding: 5px;
     cursor: pointer;
     margin: 0;
+    width: 100%;
+    text-align: left;
 
     &:hover {
       background-color: $amazonBlue;

@@ -1,5 +1,5 @@
 /* eslint-disable nonblock-statement-body-position */
-import React from "react";
+import React, { memo } from "react";
 import { Redirect, useLocation } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -26,4 +26,4 @@ ProtectedComponentWrapper.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default ProtectedComponentWrapper;
+export default memo(ProtectedComponentWrapper);

@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -248,4 +248,4 @@ TopLink.propTypes = {
   redirectTo: PropTypes.string.isRequired,
 };
 
-export default HomePage;
+export default memo(HomePage);

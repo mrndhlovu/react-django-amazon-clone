@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
@@ -74,4 +74,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default memo(Orders);

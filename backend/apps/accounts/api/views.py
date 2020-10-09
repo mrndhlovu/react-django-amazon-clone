@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from django.conf import settings
 
 from rest_framework import status, permissions
+from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.generics import (
     UpdateAPIView,
@@ -114,22 +115,26 @@ class LoginAPIView(GenericAPIView):
 
     def post(self, request):
         try:
+            response = Response()
             user = authenticate(
                 email=request.data['email'].lower(),
                 password=request.data['password']
             )
             serialized_user = UserDetailSerializer(user)
-            context = {}
+
             if serialized_user:
                 tokens = user.auth_tokens()
-                context = {
+
+                response.data = {
                     'tokens': tokens,
                     'user': serialized_user.data
                 }
-            return Response(data=context,)
-        except:
+
+            return response
+        except BaseException as err:
             data = {'message': 'Invalid credentials'}
             return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data)
 
 
 class RegistrationAPIView(CreateAPIView):
@@ -177,9 +182,11 @@ class LogoutAPIView (GenericAPIView):
     serializer_class = BlacklistTokenSerializer
     permission_classes = (permissions.IsAuthenticated, )
 
-    def post(self, request):
+    def get(self, request):
+        refresh = request.COOKIES.get('refresh')
 
-        serializer = self.serializer_class(data=request.data)
+        serializer = self.serializer_class(
+            data={'refresh': refresh})
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)

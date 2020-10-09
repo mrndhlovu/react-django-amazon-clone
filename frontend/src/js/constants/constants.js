@@ -1220,12 +1220,15 @@ export const CHECKOUT_MESSAGE =
   "Tick the 'Use as default' to skip this step on your next purchase.";
 
 export const PRODUCT_CATEGORIES = [
-  "Beauty",
-  "Books",
-  "Computers & Tech",
-  "Digital",
-  "Gym",
-  "Software",
-  "TVs",
-  "Video Games",
+  { key: "mis", value: "Miscellaneous" },
+  { key: "books", value: "Books" },
+  { key: "digital", value: "Digital" },
+  { key: "beauty", value: "Beauty" },
+  { key: "app", value: "Appliances" },
+  { key: "games", value: "Video Games" },
+  { key: "cons", value: "Console" },
+  { key: "software", value: "Software" },
+  { key: "pc-tech", value: "Computers & Tech" },
+  { key: "tvs", value: "TVs" },
+  { key: "gym", value: "Gym" },
 ];

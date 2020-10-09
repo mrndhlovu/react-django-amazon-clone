@@ -15,19 +15,18 @@ const MenuList = ({ list, handleClick }) => {
   };
 
   return list.map((category) => (
-    <li key={category?.header || category}>
-      <button
-        type="button"
-        className="link__menu__button"
-        onClick={() =>
-          handleClick
-            ? handleClick(category?.redirect || category)
-            : handleSelectedOption(category?.redirect || category)
-        }
-      >
-        {category?.header || category}
-      </button>
-    </li>
+    <button
+      type="button"
+      className="link__menu__button"
+      key={category?.header || category.key}
+      onClick={() =>
+        handleClick
+          ? handleClick(category?.redirect || category.key)
+          : handleSelectedOption(category?.redirect || category.key)
+      }
+    >
+      {category?.header || category.value}
+    </button>
   ));
 };
 

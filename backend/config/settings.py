@@ -33,6 +33,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ['SECRET_KEY']
 JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY']
 STRIPE_API_KEY = os.environ['STRIPE_API_KEY']
+REFRESH_TOKEN_SECRET = os.environ['REFRESH_TOKEN_SECRET']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = DEVELOPMENT
@@ -155,7 +156,7 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
 
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': os.environ['JWT_SECRET_KEY'],
+    'SIGNING_KEY': JWT_SECRET_KEY,
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,
@@ -230,5 +231,8 @@ CORS_ORIGIN_WHITELIST = (
 
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
+
 
 STRIPE_PUBLISHABLE_KEY = 'pk_test_51HYVtzEtxjzs9HVgddjmJ7zoVAVKSaZkBnT4uet9yFvfNPB3v7X66TxZJWhEOHFQfCBoHqyQXkqvLK0xHWrLV7nU00T2OrmUtZ'

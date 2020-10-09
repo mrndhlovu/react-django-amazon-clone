@@ -1,9 +1,8 @@
 from django.urls import path, include
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenRefreshView
 
 from .views import (
     AccountVerificationAPIView,
-    UserDetailAPIView,
     DeleteUserAPIView,
     LoginAPIView,
     LogoutAPIView,
@@ -12,8 +11,9 @@ from .views import (
     RequestPasswordResetEmailAPIView,
     SetNewPasswordAPIView,
     UpdatePasswordAPIView,
+    UpdatePasswordAPIView,
     UpdateUserAPIView,
-    UpdatePasswordAPIView
+    UserDetailAPIView,
 )
 
 app_name = 'accounts'
@@ -36,4 +36,6 @@ urlpatterns = [
          name='password-reset-verify'),
     path('password-reset-complete/',
          SetNewPasswordAPIView.as_view(), name='password-reset-complete'),
+    path('refresh-token/',
+         TokenRefreshView.as_view(), name='refresh-token'),
 ]

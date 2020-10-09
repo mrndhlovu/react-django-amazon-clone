@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useLocation } from "react-router-dom";
 
@@ -81,4 +81,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default memo(Register);

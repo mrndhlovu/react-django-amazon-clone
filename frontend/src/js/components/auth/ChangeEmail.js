@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
@@ -73,4 +73,4 @@ const ChangeEmail = () => {
   );
 };
 
-export default ChangeEmail;
+export default memo(ChangeEmail);

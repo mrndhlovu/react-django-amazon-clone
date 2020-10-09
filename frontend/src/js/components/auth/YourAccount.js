@@ -1,5 +1,5 @@
 /* eslint-disable nonblock-statement-body-position */
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -124,4 +124,4 @@ const YourAccount = () => {
   );
 };
 
-export default YourAccount;
+export default memo(YourAccount);

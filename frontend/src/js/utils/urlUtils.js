@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import { isArray } from "lodash";
-import localStorage from "./localstorage.service";
+import Cookies from "js-cookie";
 
 export const baseURL =
   process.env.NODE_ENV === "production"
@@ -17,8 +17,11 @@ export const AUTH_PARAMS = {
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
-    Authorization: `Bearer ${localStorage.getAccessToken()}`,
   },
+  credentials: "include",
+  withCredentials: true,
+  xsrfCookieName: "csrftoken",
+  xsrfHeaderName: "X-CSRFToken",
 };
 
 export const PARAMS = {
@@ -42,7 +45,5 @@ export const getParamString = (strings) => {
 export const getQueryParam = (history, redirect, params) => {
   const { pathname } = history.location;
 
-  return params
-    ? `${redirect || pathname}?ref=${getParamString(params)}`
-    : `${pathname}`;
+  return params ? `?ref=${getParamString(params)}` : `${pathname}`;
 };

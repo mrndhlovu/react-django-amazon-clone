@@ -34,6 +34,7 @@ import {
   requestCheckoutOrder,
   requestCompletedOrders,
 } from "../api/product.requests";
+import { logoutAction } from "./AuthActions";
 
 export const addToCartAction = (data) => {
   return (dispatch) => {
@@ -47,6 +48,7 @@ export const addToCartAction = (data) => {
       })
       .catch(() => {
         dispatch(fireAction(ADD_TO_CART_ERROR));
+        dispatch(logoutAction());
       });
   };
 };

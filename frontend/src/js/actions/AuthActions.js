@@ -1,3 +1,6 @@
+/* eslint-disable camelcase */
+import Cookies from "js-cookie";
+
 import {
   AUTH_USER_ERROR,
   AUTH_USER,
@@ -31,6 +34,9 @@ import {
   UPDATE_ADDRESS,
   UPDATE_ADDRESS_SUCCESS,
   UPDATE_ADDRESS_ERROR,
+  REFRESH_TOKEN,
+  REFRESH_TOKEN_SUCCESS,
+  REFRESH_TOKEN_ERROR,
 } from "./ActionTypes";
 import {
   requestCurrentUser,
@@ -43,11 +49,28 @@ import {
   requestUpdateProfile,
   requestPasswordResetEmailVerification,
   requestUpdatePassword,
+  requestRefreshToken,
 } from "../api/auth.requests";
 import { requestCustomerProfileUpdate } from "../api/product.requests";
 
 import { fireAction, fireActionWithAlert } from "./action.helpers";
-import storageService from "../utils/localstorage.service";
+
+export const getRefreshTokenAction = () => {
+  return (dispatch) => {
+    dispatch(fireAction(REFRESH_TOKEN));
+    requestRefreshToken()
+      .then((response) => {
+        Cookies.remove("access");
+
+        const accessToken = response.data?.access;
+        Cookies.set("access", accessToken);
+        dispatch(fireAction(REFRESH_TOKEN_SUCCESS));
+      })
+      .catch(() => {
+        dispatch(fireAction(REFRESH_TOKEN_ERROR));
+      });
+  };
+};
 
 export const getUserAction = () => {
   return (dispatch) => {
@@ -56,8 +79,10 @@ export const getUserAction = () => {
       .then((response) => {
         dispatch(fireAction(AUTH_USER_SUCCESS, response?.data));
       })
-      .catch(() => {
-        storageService.clearToken();
+      .catch((error) => {
+        if (error?.response?.data.code === "token_not_valid") {
+          return dispatch(getRefreshTokenAction());
+        }
         dispatch(fireAction(AUTH_USER_ERROR));
       });
   };
@@ -68,13 +93,22 @@ export const loginAction = (data, callback) => {
     dispatch(fireAction(LOGIN));
     requestLogin(data)
       .then((response) => {
+        const { access, refresh } = response.data.tokens;
+
+        Cookies.set("access", access);
+        Cookies.set("refresh", refresh);
+
         if (callback) callback();
-        storageService.setToken(response.data?.tokens);
+
         dispatch(fireAction(LOGIN_SUCCESS));
         dispatch(fireAction(AUTH_USER_SUCCESS, response?.data.user));
       })
       .catch((error) => {
-        storageService.clearToken();
+        if (error?.response?.data.code === "token_not_valid") {
+          Cookies.remove("access");
+          return dispatch(getRefreshTokenAction());
+        }
+
         dispatch(fireActionWithAlert(LOGIN_ERROR, error?.response?.data));
         if (callback) callback(error?.response?.data);
       });
@@ -82,16 +116,17 @@ export const loginAction = (data, callback) => {
 };
 
 export const logoutAction = () => {
-  const refreshToken = { refresh: storageService.getRefreshToken() };
-
   return (dispatch) => {
     dispatch(fireAction(LOGOUT));
-    requestLogout(refreshToken)
+    requestLogout()
       .then(() => {
-        storageService.clearToken();
+        Cookies.remove("refresh");
+        Cookies.remove("access");
         dispatch(fireAction(LOGOUT_SUCCESS));
       })
       .catch((error) => {
+        Cookies.remove("refresh");
+        Cookies.remove("access");
         dispatch(fireActionWithAlert(LOGOUT_ERROR, error?.response?.data));
       });
   };
@@ -172,7 +207,6 @@ export const registerAction = (data) => {
     dispatch(fireAction(REGISTER));
     requestRegister(data)
       .then((response) => {
-        storageService.setToken(response.data?.tokens);
         dispatch(fireAction(REGISTER_SUCCESS));
         return response;
       })
