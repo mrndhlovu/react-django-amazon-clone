@@ -43,6 +43,4 @@ const CompletePayment = () => {
   );
 };
 
-CompletePayment.propTypes = {};
-
 export default memo(CompletePayment);

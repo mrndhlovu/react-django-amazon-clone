@@ -23,6 +23,7 @@ import {
   GET_COMPLETED_ORDERS,
   COMPLETED_ORDERS_SUCCESS,
   COMPLETED_ORDERS_ERROR,
+  SELECT_CHECKOUT_ADDRESS,
 } from "./ActionTypes";
 import { fireAction } from "./action.helpers";
 import {
@@ -119,7 +120,7 @@ export const getCompletedOrdersAction = () => {
   };
 };
 
-export const nextCheckoutStageAction = (action) => {
+export const nextCheckoutStageAction = (action = SELECT_CHECKOUT_ADDRESS) => {
   return (dispatch) => dispatch(fireAction(action));
 };
 
@@ -132,6 +133,7 @@ export const paymentIntentAction = () => {
       )
       .catch((error) => {
         dispatch(fireAction(PAYMENT_INTENT_ERROR, error.response.data));
+        dispatch(fireAction(logoutAction()));
       });
   };
 };

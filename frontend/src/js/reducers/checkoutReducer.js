@@ -1,7 +1,6 @@
 import {
   CHECKOUT_PAYMENT,
   CONFIRM_ORDER,
-  SELECT_CHECKOUT_ADDRESS,
   PAYMENT_INTENT_SUCCESS,
   PAYMENT_INTENT_ERROR,
   PAYMENT_INTENT,
@@ -23,8 +22,6 @@ const INITIAL_STATE = {
 
 const checkoutReducer = (state = INITIAL_STATE, action = {}) => {
   switch (action.type) {
-    case SELECT_CHECKOUT_ADDRESS:
-      return { ...state, STAGE: CHECKOUT_STAGES.ADDRESS };
     case CHECKOUT_PAYMENT:
       return { ...state, STAGE: CHECKOUT_STAGES.PAY };
     case CONFIRM_ORDER:
@@ -56,7 +53,7 @@ const checkoutReducer = (state = INITIAL_STATE, action = {}) => {
         orderComplete: true,
       };
     default:
-      return state;
+      return INITIAL_STATE;
   }
 };
 

@@ -17,6 +17,7 @@ import { nextCheckoutStageAction } from "../../actions/CartActions";
 import {
   CONFIRM_ORDER,
   SELECT_CHECKOUT_ADDRESS,
+  CHECKOUT_PAYMENT,
 } from "../../actions/ActionTypes";
 
 const Container = styled.div`
@@ -106,9 +107,10 @@ const Checkout = () => {
     if (!data?.address?.city)
       dispatch(nextCheckoutStageAction(SELECT_CHECKOUT_ADDRESS));
 
-    if (data?.address?.is_shipping_address && CUSTOMER_CARDS)
+    if (STAGE.key === "address" && data?.address?.is_shipping_address) {
       dispatch(nextCheckoutStageAction(CONFIRM_ORDER));
-  }, [data.address, dispatch, CUSTOMER_CARDS]);
+    }
+  }, [data.address, dispatch, CUSTOMER_CARDS, STAGE]);
 
   return (
     <ProtectedComponentWrapper>
@@ -120,7 +122,7 @@ const Checkout = () => {
           </PageHeader>
 
           <UIHeader as="h1" content={STAGE.header} />
-          {STAGE.key === "address" && (
+          {STAGE.key === "address" && !data?.address?.is_shipping_address && (
             <CheckoutAddress address={data?.address} name={data?.full_name} />
           )}
           {STAGE.key === "confirm" && <OrderConfirmation />}

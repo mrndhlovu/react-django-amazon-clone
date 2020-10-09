@@ -126,6 +126,7 @@ const RatedProductCard = ({ image, price, rating, description, id }) => {
         </PriceContainer>
         <ButtonContainer>
           <AmazonButton
+            secondary={itemInCart}
             buttonText={itemInCart ? "Remove from Cart" : "Add to Cart"}
             handleClick={handleAddToCart}
           />

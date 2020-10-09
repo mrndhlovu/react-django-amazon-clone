@@ -8,7 +8,7 @@ import { isString } from "lodash";
 
 import { ADDRESS_SCHEMA, COUNTRIES } from "../../constants/constants";
 import { AmazonButton, UIForm, UIHeader } from "../shared";
-import { CHECKOUT_PAYMENT, CONFIRM_ORDER } from "../../actions/ActionTypes";
+import { CONFIRM_ORDER } from "../../actions/ActionTypes";
 import { nextCheckoutStageAction } from "../../actions/CartActions";
 import { updateAddressAction } from "../../actions/AuthActions";
 import UISelector from "../shared/UISelector";
@@ -48,7 +48,6 @@ const AddAddress = styled.div`
 `;
 
 const CheckoutAddress = ({ address, name }) => {
-  console.log("CheckoutAddress -> address", address);
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState("Ireland");
