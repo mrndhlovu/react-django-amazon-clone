@@ -8,6 +8,14 @@ Amazon clone app built with react, redux, react hooks, on the frontend and djang
 
 ![](https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/gifs/AmazonClone2.gif)
 
+
+### Features
+
+- Stripe payment
+- OTP Account activation
+- Product list pagination
+- Account update options  
+
 Description
 This is a Amazon clone attempt where a user can sign up for an account 
 
@@ -18,6 +26,5 @@ Redux
 Django
 
 Installation
-
 
 Environmental variables In a .env file the project expects the following variables
