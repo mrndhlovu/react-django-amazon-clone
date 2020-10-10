@@ -22,6 +22,7 @@ const Container = styled.div`
   width: 285px;
   padding: 15px;
   position: relative;
+  border: 1px solid #eee;
 
   a {
     text-decoration: none;
@@ -145,7 +146,7 @@ RatedProductCard.defaultProps = {
 
 RatedProductCard.propTypes = {
   image: PropTypes.string,
-  price: PropTypes.number,
+  price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   description: PropTypes.string,
   id: PropTypes.number.isRequired,
   rating: PropTypes.number,

@@ -178,33 +178,3 @@
     @include hoverText($amazon);
   }
 }
-
-.nav__account__lists {
-  width: fit-content;
-  @include useFlex(row, space-evenly, flex-start);
-  height: 300px;
-
-  & > ul {
-    min-width: 150px;
-
-    h2 {
-      color: $amazonBlue;
-      padding: 10px 0;
-    }
-
-    & > li {
-      font-size: 15px;
-      padding: 5px 0;
-      cursor: pointer;
-      margin: 0;
-
-      .link__menu__button {
-        &:hover {
-          color: $amazon;
-          text-decoration: underline;
-          @include hoverText($amazonBright);
-        }
-      }
-    }
-  }
-}

@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.filters import SearchFilter, OrderingFilter
-from django_filters import rest_framework as filters
+from django_filters.rest_framework import DjangoFilterBackend, NumberFilter, FilterSet
 
 from ..models import Product
 from .serializers import (
@@ -20,9 +20,9 @@ from .serializers import (
 )
 
 
-class ProductFilter(filters.FilterSet):
-    low_price = filters.NumberFilter(field_name="price", lookup_expr='gte')
-    high_price = filters.NumberFilter(field_name="price", lookup_expr='lte')
+class ProductFilter(FilterSet):
+    low_price = NumberFilter(field_name="price", lookup_expr='gte')
+    high_price = NumberFilter(field_name="price", lookup_expr='lte')
 
     class Meta:
         model = Product
@@ -35,15 +35,12 @@ class ProductListAPIView(ListAPIView):
     serializer_class = ProductListSerializer
     permission_classes = (permissions.AllowAny,)
     pagination_class = PageNumberPagination
-    filter_backends = (filters.DjangoFilterBackend,
+    filter_backends = (DjangoFilterBackend,
                        SearchFilter, OrderingFilter,)
     ordering_fields = ('-price', 'price', 'category', )
     search_fields = ('name', 'description', )
     filterset_class = ProductFilter
-
-    def list(self, request):
-        queryset = self.filter_queryset(self.get_queryset())
-        return Response(queryset.values())
+    ordering = ['id']
 
 
 class ProductDetailAPIView(RetrieveAPIView):

@@ -18,12 +18,14 @@ import {
   ShoppingCartCount,
   DropdownButton,
   AmazonLogo,
+  UIHeader,
 } from "../shared";
 
 import { logoutAction } from "../../actions/AuthActions";
 import { useMainContext, useFormInput } from "../../utils/hookUtils";
 import MenuList from "./MenuList";
 import NavLinkButton from "./NavLinkButton";
+import AccountOptions from "./AccountOptions";
 
 const Navigation = () => {
   const { openSideBarHandler } = useMainContext();
@@ -131,9 +133,9 @@ const Navigation = () => {
               />
             )}
             content={() => (
-              <div data-testid="account-options">
+              <AccountOptions data-testid="account-options">
                 {!isAuthenticated && (
-                  <div className="nav__signin__container">
+                  <AccountOptions.Header className="nav__signin__container">
                     <AmazonButton
                       buttonText="Sign in"
                       handleClick={() => history.push("/login")}
@@ -142,17 +144,15 @@ const Navigation = () => {
                       <span>New Customer?</span>
                       <Link to="/register">Start here.</Link>
                     </div>
-                  </div>
+                  </AccountOptions.Header>
                 )}
-                <div className="nav__account__lists">
-                  <ul className="lists__left first">
-                    <h2>Your Lists</h2>
-                    <Divider variant="fullWidth" />
+                <AccountOptions.Content className="nav__account__lists">
+                  <AccountOptions.Column>
+                    <UIHeader as="h3" content="Your Lists" />
                     <MenuList list={_ACCOUNT_OPTIONS.LISTS} />
-                  </ul>
-                  <ul className="lists__right">
-                    <h2>Your Account</h2>
-                    <Divider variant="fullWidth" />
+                  </AccountOptions.Column>
+                  <AccountOptions.Column>
+                    <UIHeader as="h3" content="Your Account" />
                     <MenuList list={_ACCOUNT_OPTIONS.ACCOUNT} />
                     {isAuthenticated && (
                       <MenuList
@@ -160,9 +160,9 @@ const Navigation = () => {
                         handleClick={() => dispatch(logoutAction())}
                       />
                     )}
-                  </ul>
-                </div>
-              </div>
+                  </AccountOptions.Column>
+                </AccountOptions.Content>
+              </AccountOptions>
             )}
           />
 

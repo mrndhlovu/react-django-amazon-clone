@@ -20,8 +20,11 @@ const DashBoardCards = styled.div`
 
 const RatedListContainer = styled(DashBoardCards)`
   display: grid;
-  grid-template-columns: repeat(auto-fill, 20%);
-  justify-content: space-around;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  justify-content: space-evenly;
+  grid-column-gap: 5px;
+  grid-row-gap: 25px;
+  place-items: center;
 `;
 
 const BooksContainer = styled(DashBoardCards)`

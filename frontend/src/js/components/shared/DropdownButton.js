@@ -13,6 +13,7 @@ const LightTooltip = withStyles((theme) => ({
     color: "rgba(0, 0, 0, 0.87)",
     boxShadow: theme.shadows[1],
     fontSize: 11,
+    minWidth: "fit-content",
   },
   arrow: { color: "#fff" },
 }))(Tooltip);

@@ -14,6 +14,7 @@ import { VIEWED_RECENT } from "../utils/localStorageUtils";
 const INITIAL_STATE = {
   PRODUCTS: [],
   FILTERED_PRODUCTS: [],
+  LIST_DETAIL: {},
   detail: {},
   isLoading: false,
 };
@@ -44,7 +45,7 @@ const productsReducer = (state = INITIAL_STATE, action = {}) => {
       return { ...state, isLoading: true };
 
     case PRODUCTS_LIST_SUCCESS:
-      return { ...state, PRODUCTS: payload, isLoading: false };
+      return { ...state, PRODUCTS: payload.results, isLoading: false };
 
     case PRODUCTS_LIST_ERROR:
       return { ...state, isLoading: false };
@@ -56,7 +57,17 @@ const productsReducer = (state = INITIAL_STATE, action = {}) => {
       return { ...state, isLoading: true };
 
     case FILTERED_PRODUCT_LIST_SUCCESS:
-      return { ...state, FILTERED_PRODUCTS: payload, isLoading: false };
+      return {
+        ...state,
+        FILTERED_PRODUCTS: payload.results,
+        isLoading: false,
+        LIST_DETAIL: {
+          ...state.LIST_DETAIL,
+          count: payload.count,
+          next: payload.next,
+          previous: payload.previous,
+        },
+      };
 
     default:
       return state;

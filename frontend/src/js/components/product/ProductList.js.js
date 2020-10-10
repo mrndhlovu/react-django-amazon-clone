@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import PropTypes from "prop-types";
-import { isNumber } from "lodash";
-import { useLocation } from "react-router-dom";
+import { isNumber, capitalize } from "lodash";
+import { useLocation, useHistory } from "react-router-dom";
 
 import { PRODUCT_FILTER_OPTIONS } from "../../constants/constants";
 import {
@@ -16,7 +16,9 @@ import {
 import ProductRating from "../shared/ProductRating";
 import UILoadingSpinner from "../shared/UILoadingSpinner";
 import { resetForm } from "../../utils/appUtils";
+import { updateUrlParams } from "../../utils/urlUtils";
 import { getProductList } from "../../actions/ProductActions";
+import Pagination from "./Pagination";
 
 const Container = styled.div`
   display: flex;
@@ -38,15 +40,12 @@ const SideBar = styled.div`
 const ListContainer = styled.div`
   padding: 10px 20px;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 `;
 
-const CategoryProductList = styled(DashboardProduct.RatedList)`
-  padding-top: 10px;
-  height: 472px;
-  display: grid;
-  justify-items: center;
-  grid-template-columns: repeat(4, 16.66667%) !important;
-`;
+const ItemsList = styled(DashboardProduct.RatedList)``;
 
 const SearchInfo = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
@@ -56,6 +55,7 @@ const SearchInfo = styled.div`
   padding: 9px;
   align-items: center;
   border-radius: 2px;
+  margin: 10px 0;
 
   span {
     font-size: 13px;
@@ -106,6 +106,8 @@ const SearchFilter = styled.div`
 
 const AvgRating = styled.div``;
 
+const ListWrapper = styled.div``;
+
 const CustomPriceRangeFilter = styled.div`
   display: flex;
   justify-content: space-around;
@@ -133,7 +135,7 @@ const FILTER_PARAMS_INITIAL_STATE = {
 const ProductList = () => {
   const {
     auth: { CURRENCY_SYMBOL },
-    products: { isLoading, FILTERED_PRODUCTS },
+    products: { isLoading, FILTERED_PRODUCTS, LIST_DETAIL },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { search } = useLocation();
@@ -145,6 +147,9 @@ const ProductList = () => {
     low: 0,
     high: 0,
   });
+
+  const category = search && search.split("=")[1];
+  const hasPagination = LIST_DETAIL?.count > 10;
 
   const handleSortParams = (data) => {
     const [sortValue] = data.split("-");
@@ -158,15 +163,31 @@ const ProductList = () => {
     setActivePriceFilter(!price ? -1 : clickIndex);
     if (!price) {
       resetForm(["price-low", "price-high"]);
+      updateUrlParams();
+
       return setFilter({ ...filter, price: "" });
     }
+    const filterParam = `&low_price=${
+      isNumber(price.low) ? price.low : 0
+    }&high_price=${price.high}`;
 
+    updateUrlParams(filterParam);
     setFilter({
       ...filter,
-      price: `&low_price=${isNumber(price.low) ? price.low : 0}&high_price=${
-        price.high
-      }`,
+      price: filterParam,
     });
+  };
+
+  const handlePagination = (pageData) => {
+    let pageParam;
+    if (isNumber(pageData)) {
+      pageParam = `page=${pageData}`;
+      updateUrlParams(pageParam);
+      return setFilterParams(`?${pageParam}`);
+    }
+    pageParam = pageData.split("?")[1];
+    updateUrlParams(pageParam);
+    setFilterParams(pageParam ? `?${pageParam}` : "?page=1");
   };
 
   const handleStarFilter = (rating) =>
@@ -283,8 +304,8 @@ const ProductList = () => {
       <ListContainer>
         <SearchInfo>
           <ResultCount>
-            <span>1 - 24 of 200 </span>
-            <span>Books</span>
+            <span>{`1 - ${FILTERED_PRODUCTS.length} of ${LIST_DETAIL?.count} `}</span>
+            {category && <span>{capitalize(category)}</span>}
           </ResultCount>
           <SearchSort>
             <SearchSelect onChange={handleSortParams} />
@@ -294,9 +315,17 @@ const ProductList = () => {
         {isLoading ? (
           <UILoadingSpinner />
         ) : (
-          <CategoryProductList products={FILTERED_PRODUCTS} />
+          <ListWrapper>
+            <ItemsList products={FILTERED_PRODUCTS} />
+          </ListWrapper>
         )}
-        <TextDivider />
+        {hasPagination && (
+          <Pagination
+            data={LIST_DETAIL}
+            productCount={FILTERED_PRODUCTS.length}
+            handlePagination={handlePagination}
+          />
+        )}
       </ListContainer>
     </Container>
   );

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
 import { useMainContext } from "../../utils/hookUtils";
+import UISmall from "../shared/UISmall";
 
 const MenuList = ({ list, handleClick }) => {
   const history = useHistory();
@@ -25,7 +26,7 @@ const MenuList = ({ list, handleClick }) => {
           : handleSelectedOption(category?.redirect || category.key)
       }
     >
-      {category?.header || category.value}
+      <UISmall content={category?.header || category.value} />
     </button>
   ));
 };

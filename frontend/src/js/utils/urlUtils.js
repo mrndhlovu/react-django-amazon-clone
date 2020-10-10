@@ -47,3 +47,10 @@ export const getQueryParam = (history, redirect, params) => {
 
   return params ? `?ref=${getParamString(params)}` : `${pathname}`;
 };
+
+export const updateUrlParams = (newParams) => {
+  const newurl = `${window.location.protocol}//${window.location.host}${
+    window.location.pathname
+  }${newParams ? `?${newParams}` : ""}`;
+  return window.history.pushState({ path: newurl }, "", newurl);
+};
