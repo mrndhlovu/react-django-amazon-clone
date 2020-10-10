@@ -55,9 +55,10 @@ const DashboardProduct = ({ children }) => (
 
 const Featured = ({ category, header, footerLink }) => {
   const {
-    products: { PRODUCTS },
+    products: { PRODUCTS, FILTERED_PRODUCTS },
   } = useSelector((state) => state);
-  const FEATURED_ITEM = PRODUCTS.find(
+
+  const FEATURED_ITEM = (PRODUCTS || FILTERED_PRODUCTS).find(
     (item) => item.category === category && item.featured && item
   );
 

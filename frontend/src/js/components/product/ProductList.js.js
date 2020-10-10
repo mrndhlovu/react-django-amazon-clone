@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import PropTypes from "prop-types";
-import { isNumber, capitalize } from "lodash";
+import { isNumber, isEmpty } from "lodash";
 import { useLocation, useHistory } from "react-router-dom";
 
 import { PRODUCT_FILTER_OPTIONS } from "../../constants/constants";
@@ -12,11 +12,12 @@ import {
   DashboardProduct,
   TextDivider,
   UIHeader,
+  UILinkButton,
 } from "../shared";
 import ProductRating from "../shared/ProductRating";
 import UILoadingSpinner from "../shared/UILoadingSpinner";
 import { resetForm } from "../../utils/appUtils";
-import { updateUrlParams } from "../../utils/urlUtils";
+import { parseParams } from "../../utils/urlUtils";
 import { getProductList } from "../../actions/ProductActions";
 import Pagination from "./Pagination";
 
@@ -126,21 +127,25 @@ const CustomPriceRangeFilter = styled.div`
   }
 `;
 
-const FILTER_PARAMS_INITIAL_STATE = {
+const SEARCH_FILTER_INITIAL_STATE = {
+  pagination: "",
   price: "",
   rating: "",
+  sort: "",
   stock: "",
+  category: "",
 };
 
 const ProductList = () => {
   const {
     auth: { CURRENCY_SYMBOL },
-    products: { isLoading, FILTERED_PRODUCTS, LIST_DETAIL },
+    products: { isLoading, PRODUCTS, LIST_DETAIL },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const history = useHistory();
   const { search } = useLocation();
   const [filterParams, setFilterParams] = useState(search);
-  const [filter, setFilter] = useState(FILTER_PARAMS_INITIAL_STATE);
+  const [filter, setFilter] = useState(SEARCH_FILTER_INITIAL_STATE);
   const [activePriceFilter, setActivePriceFilter] = useState(undefined);
   const [inStock, setInStock] = useState(true);
   const [customPriceFilter, setCustomPriceFilter] = useState({
@@ -148,7 +153,6 @@ const ProductList = () => {
     high: 0,
   });
 
-  const category = search && search.split("=")[1];
   const hasPagination = LIST_DETAIL?.count > 10;
 
   const handleSortParams = (data) => {
@@ -156,25 +160,26 @@ const ProductList = () => {
     if (sortValue === "all") return;
     const sortParam = `ordering=${sortValue === "low" ? "price" : "-price"}`;
 
-    setFilterParams(`${search}&${sortParam}`);
+    setFilter({ ...filter, sort: sortParam });
   };
 
   const handlePriceFilter = (price, clickIndex) => {
     setActivePriceFilter(!price ? -1 : clickIndex);
     if (!price) {
       resetForm(["price-low", "price-high"]);
-      updateUrlParams();
-
-      return setFilter({ ...filter, price: "" });
+      setInStock(true);
+      return setFilter({
+        ...SEARCH_FILTER_INITIAL_STATE,
+        category: "categories=all",
+      });
     }
-    const filterParam = `&low_price=${
+    const priceParam = `low_price=${
       isNumber(price.low) ? price.low : 0
     }&high_price=${price.high}`;
 
-    updateUrlParams(filterParam);
     setFilter({
       ...filter,
-      price: filterParam,
+      price: priceParam,
     });
   };
 
@@ -182,21 +187,25 @@ const ProductList = () => {
     let pageParam;
     if (isNumber(pageData)) {
       pageParam = `page=${pageData}`;
-      updateUrlParams(pageParam);
-      return setFilterParams(`?${pageParam}`);
+
+      return setFilter({ ...filter, pagination: pageParam });
     }
     pageParam = pageData.split("?")[1];
-    updateUrlParams(pageParam);
-    setFilterParams(pageParam ? `?${pageParam}` : "?page=1");
+
+    setFilter({
+      ...filter,
+      pagination: pageParam || "page=1",
+    });
   };
 
   const handleStarFilter = (rating) =>
-    setFilter({ ...filter, rating: `&rating=${rating}` });
+    setFilter({ ...filter, rating: `rating=${rating}` });
 
   const handleOutOfStockFilter = () => {
+    const stockParam = `${!inStock ? "" : "in_stock=True"}`;
     setFilter({
       ...filter,
-      stock: `${!inStock ? "" : "&in_stock=True&in_stock=False"}`,
+      stock: stockParam,
     });
 
     setInStock(!inStock);
@@ -204,35 +213,47 @@ const ProductList = () => {
 
   useEffect(() => {
     const buildFilterParam = () => {
-      const newFilterParams = Object.values(filter)
-        .map((value) => value && value)
+      const newFilterParams = Object.values({ ...filter, search: "" })
+        .map((value, index) =>
+          index === 0 && value ? `?${value}` : value ? `&${value}` : ""
+        )
         .join("");
 
-      setFilterParams(`${search || "?"}${newFilterParams}`);
+      setFilterParams(`${newFilterParams}`);
     };
 
     buildFilterParam();
-  }, [filter, search]);
+  }, [filter, search, filterParams]);
 
   useEffect(() => {
-    dispatch(getProductList(filterParams));
-  }, [filterParams, dispatch]);
+    const paramsObj = search && parseParams(search.slice(1));
+    const params = filterParams && `?${filterParams.slice(1)}`;
+
+    history.replace(params || search);
+    if (paramsObj?.search) {
+      return dispatch(getProductList(search));
+    }
+    dispatch(getProductList(params));
+  }, [filterParams, dispatch, search, history]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(getProductList());
+    };
+  }, [dispatch]);
 
   return (
     <Container>
       <SideBar>
         <UIHeader as="h5" content="Show results for" />
+        <UILinkButton
+          onClick={() => handlePriceFilter()}
+          content="Clear all filters"
+        />
         <TextDivider />
         <SearchFilter>
           <UIHeader as="h6" content="Price" />
-          <FilterCheckbox
-            key={uuid()}
-            onChange={() => handlePriceFilter()}
-            value="All"
-            checked={activePriceFilter === -1}
-            name="all"
-            content="All"
-          />
+
           {PRODUCT_FILTER_OPTIONS.PRICE.map((price, index) => (
             <FilterCheckbox
               key={uuid()}
@@ -294,7 +315,7 @@ const ProductList = () => {
           <UIHeader as="h6" content="Availability" />
           <FilterCheckbox
             name="in-stock"
-            content="Include Out of Stock"
+            content="Exclude Out of Stock"
             checked={!inStock}
             onChange={handleOutOfStockFilter}
             type="checkbox"
@@ -302,27 +323,28 @@ const ProductList = () => {
         </SearchFilter>
       </SideBar>
       <ListContainer>
-        <SearchInfo>
-          <ResultCount>
-            <span>{`1 - ${FILTERED_PRODUCTS.length} of ${LIST_DETAIL?.count} `}</span>
-            {category && <span>{capitalize(category)}</span>}
-          </ResultCount>
-          <SearchSort>
-            <SearchSelect onChange={handleSortParams} />
-          </SearchSort>
-        </SearchInfo>
+        {!isEmpty(PRODUCTS) && (
+          <SearchInfo>
+            <ResultCount>
+              <span>{`1 - ${PRODUCTS.length} of ${LIST_DETAIL?.count} `}</span>
+            </ResultCount>
+            <SearchSort>
+              <SearchSelect onChange={handleSortParams} />
+            </SearchSort>
+          </SearchInfo>
+        )}
 
         {isLoading ? (
           <UILoadingSpinner />
         ) : (
           <ListWrapper>
-            <ItemsList products={FILTERED_PRODUCTS} />
+            <ItemsList products={PRODUCTS} />
           </ListWrapper>
         )}
         {hasPagination && (
           <Pagination
             data={LIST_DETAIL}
-            productCount={FILTERED_PRODUCTS.length}
+            productCount={PRODUCTS.length}
             handlePagination={handlePagination}
           />
         )}

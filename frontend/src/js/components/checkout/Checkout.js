@@ -17,7 +17,6 @@ import { nextCheckoutStageAction } from "../../actions/CartActions";
 import {
   CONFIRM_ORDER,
   SELECT_CHECKOUT_ADDRESS,
-  CHECKOUT_PAYMENT,
 } from "../../actions/ActionTypes";
 
 const Container = styled.div`

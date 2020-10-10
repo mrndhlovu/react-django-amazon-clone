@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-expressions */
 import { isArray } from "lodash";
-import Cookies from "js-cookie";
 
 export const baseURL =
   process.env.NODE_ENV === "production"
@@ -48,9 +47,14 @@ export const getQueryParam = (history, redirect, params) => {
   return params ? `?ref=${getParamString(params)}` : `${pathname}`;
 };
 
+export const parseParams = (search) =>
+  JSON.parse(
+    '{"' + decodeURI(search.replace(/&/g, '","').replace(/=/g, '":"')) + '"}'
+  );
+
 export const updateUrlParams = (newParams) => {
   const newurl = `${window.location.protocol}//${window.location.host}${
     window.location.pathname
-  }${newParams ? `?${newParams}` : ""}`;
+  }${newParams ? `${newParams}` : ""}`;
   return window.history.pushState({ path: newurl }, "", newurl);
 };

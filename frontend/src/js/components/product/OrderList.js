@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { TextDivider, UIHeader } from "../shared";
 import { nextCheckoutStageAction } from "../../actions/CartActions";
-import { SELECT_CHECKOUT_ADDRESS } from "../../actions/ActionTypes";
 
 const ItemList = styled.ul`
   padding: 15px;

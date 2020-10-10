@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./_header.scss";
 
 import { Menu as MenuIcon, Search as SearchIcon } from "@material-ui/icons";
-import { Button, Divider } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 import {
   PRODUCT_CATEGORIES,
@@ -39,19 +39,21 @@ const Navigation = () => {
   const [activeCategory, setActiveCategory] = useState("All");
 
   const handleSearch = (category) => {
+    let searchParams;
     setActiveCategory(
       category === "All Departments" ? "All" : category || "Search"
     );
+    searchParams =
+      inputData?.search && `?search=${inputData?.search.toLowerCase()}`;
+
     if (inputData.search) {
-      return history.replace(
-        `/product-list?search=${inputData.search.toLowerCase()}`
-      );
+      return history.replace(`/product-list${searchParams}`);
     }
 
+    searchParams = `?category=${category.toLowerCase()}`;
+
     history.replace(
-      category
-        ? `/product-list?category=${category.toLowerCase()}`
-        : "/product-list"
+      category ? `/product-list${searchParams}` : "/product-list"
     );
   };
 

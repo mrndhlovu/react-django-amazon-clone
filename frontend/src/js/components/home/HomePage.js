@@ -219,8 +219,8 @@ const HomePage = () => {
             />
 
             <DashboardProduct.Featured
-              category="gym"
-              header="Health and Fitness"
+              category="mis"
+              header="Games"
               footerLink="See more"
             />
           </DashboardProduct>
