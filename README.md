@@ -4,7 +4,7 @@
 
 Amazon clone app built with react, redux, react hooks, on the frontend and django backend with stripe payment implementation.
 
-## Gifs
+## Sample
 
 ![](https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/gifs/AmazonClone2.gif)
 
