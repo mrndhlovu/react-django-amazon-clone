@@ -9,4 +9,5 @@ export default {
   textGrey: "#686868",
   grey: "#dadada",
   red: "#b12704",
+  amazonMobile: "#41a0b4",
 };

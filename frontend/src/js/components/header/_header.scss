@@ -1,125 +1,11 @@
 @import "../../../assets/theme/sass/styles.scss";
 
-.nav__bar__container {
-  background-color: $amazonDarkBlue;
-  display: flex;
-  height: 60px;
-  justify-content: space-evenly;
-  width: 100%;
-  position: fixed;
-  z-index: 100;
-  left: 0;
-  top: 0;
-  padding: 0 10px;
-
-  .nav__bar__left {
-    @include useFlex(row, center);
-
-    .nav__burger__menu {
-      cursor: pointer;
-      background: transparent;
-      height: 70%;
-      border: 1px solid $white;
-      border-radius: 3px;
-      color: $white;
-      width: 40px;
-      @include useFlex(row);
-    }
-
-    .logo__container {
-      @include useFlex(row);
-      cursor: pointer;
-      margin: 0 15px;
-    }
-  }
-
-  .nav__search {
-    @include useFlex(row, space-between);
-
-    height: 70%;
-    border-radius: 5px;
-    width: 100%;
-    overflow: hidden;
-
-    .nav__search__left {
-      height: 100%;
-      & > button {
-        background-color: $grey;
-        height: 100%;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        min-width: 50px;
-      }
-
-      .nav__search__button__text {
-        font-weight: $bold;
-        font-size: 10px;
-        padding-top: 3px;
-        padding-left: 3px;
-      }
-    }
-
-    .nav__search__center {
-      width: 100%;
-      height: 100%;
-      .search__input {
-        padding: 2px 10px;
-        width: 100%;
-        height: 100%;
-        font-size: 15px;
-
-        &:focus {
-          border: 3px solid $amazonBright;
-        }
-      }
-    }
-
-    .nav__search__right {
-      & > button {
-        background-color: $amazon;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        min-width: 50px;
-      }
-    }
-  }
-
-  .nav__bar__center {
-    flex-grow: 8;
-    max-width: 74%;
-    margin: 0 15px;
-  }
-
-  .nav__bar__right,
-  .nav__bar__center,
-  .nav__links__wrapper {
-    @include useFlex(row);
-  }
-
-  .nav__bar__right {
-    @include useFlex(row, space-evenly);
-  }
-
-  .nav__links__container {
-    @include useFlex(row, space-around);
-    color: $white;
-    list-style: none;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-
-    span {
-      @include useFlex(row, flex-start);
-    }
-  }
-}
-
 .nav__search__categories {
   min-width: 150px;
   display: flex;
   flex-direction: column;
 
-  & > button {
+  button {
     font-size: 15px;
     padding: 5px;
     cursor: pointer;
@@ -144,7 +30,6 @@
   background-repeat: no-repeat;
   background-size: 200px;
   width: 100%;
-
   @include useFlex(column);
 
   p {
@@ -152,29 +37,5 @@
     padding-bottom: 50px;
     max-width: 80%;
     font-size: 13px;
-  }
-}
-
-.nav__signin__container {
-  @include useFlex(column);
-  width: 100%;
-  padding: 15px;
-
-  button {
-    width: 80%;
-  }
-
-  & > div {
-    padding-top: 5px;
-
-    & > span:first-child {
-      padding-right: 5px;
-    }
-  }
-
-  a {
-    text-decoration: none;
-    color: $amazonBlue;
-    @include hoverText($amazon);
   }
 }

@@ -16,6 +16,9 @@ const DashBoardCards = styled.div`
   display: flex;
   height: fit-content;
   vertical-align: top;
+  ${"" /* display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  justify-content: space-evenly; */}
 `;
 
 const RatedListContainer = styled(DashBoardCards)`
