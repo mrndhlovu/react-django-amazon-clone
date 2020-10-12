@@ -16,32 +16,27 @@ const DashBoardCards = styled.div`
   display: flex;
   height: fit-content;
   vertical-align: top;
-  ${"" /* display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  justify-content: space-evenly; */}
 `;
 
 const RatedListContainer = styled(DashBoardCards)`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   justify-content: space-evenly;
-  grid-column-gap: 5px;
-  grid-row-gap: 25px;
+  grid-gap: 15px;
   place-items: center;
 `;
 
 const BooksContainer = styled(DashBoardCards)`
   flex-direction: column;
-  padding: 15px;
 
   h3 {
     padding-bottom: 14px;
-    padding-left: 14px;
   }
 
   div {
     display: flex;
     justify-content: flex-start;
+    overflow-x: auto;
   }
 `;
 

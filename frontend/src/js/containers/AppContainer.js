@@ -2,12 +2,22 @@ import React, { useEffect, memo } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import styled from "styled-components";
 
 import { getProductList } from "../actions/ProductActions";
 import { getShoppingBasketAction } from "../actions/CartActions";
 import { getUserAction } from "../actions/AuthActions";
 import { MainContext } from "../utils/contextUtils";
 import Header from "../components/header/Header";
+
+const Container = styled.div`
+  height: 100vh;
+  width: 100vw;
+
+  @media (max-width: 845px) {
+    padding-top: 0;
+  }
+`;
 
 const AppContainer = ({ children }) => {
   const {
@@ -43,9 +53,7 @@ const AppContainer = ({ children }) => {
   return (
     <MainContext.Provider value={context}>
       <Header />
-      <div className="app__container" data-testid="app-container">
-        {children}
-      </div>
+      <Container data-testid="app-container">{children}</Container>
     </MainContext.Provider>
   );
 };

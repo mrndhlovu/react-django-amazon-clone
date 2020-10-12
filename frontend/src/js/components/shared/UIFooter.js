@@ -5,6 +5,10 @@ const Container = styled.div`
   height: 44%;
   width: 100%;
   background-color: #232f3e;
+
+  @media (max-width: 845px) {
+    background-color: ${({ theme }) => theme.colors.amazonMobile};
+  }
 `;
 
 const UIFooter = () => {

@@ -19,7 +19,7 @@ const Container = styled.div`
   flex-direction: column;
   height: 400px;
   justify-content: space-around;
-  width: 285px;
+  width: 350px;
   padding: 15px;
   position: relative;
   border: 1px solid #eee;
@@ -29,6 +29,10 @@ const Container = styled.div`
   }
   & > div:last-child {
     position: relative;
+  }
+
+  @media (max-width: 735px) {
+    width: 95%;
   }
 `;
 
