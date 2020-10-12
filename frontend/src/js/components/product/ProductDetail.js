@@ -19,13 +19,30 @@ const Container = styled.div`
   display: grid;
   justify-content: space-between;
   grid-template-columns: 1fr 2fr 1fr;
+  place-content: flex-start;
   padding: 28px 22%;
   height: 100%;
   width: 100%;
   background-color: ${({ theme }) => theme.colors.white};
+
+  @media (max-width: 1744px) {
+    padding: 28px 18%;
+  }
+
+  @media (max-width: 1230px) {
+    grid-template-columns: 1fr 1fr;
+    padding: 28px 10%;
+  }
+
+  @media (max-width: 845px) {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
 `;
 
 const ImageContainer = styled.div`
+  ${({ theme }) => theme.helpers.useFlex()};
   padding: 20px;
 `;
 
@@ -44,8 +61,8 @@ const RightSideBar = styled.div`
   border: 1px #ddd solid;
   background-color: #fff;
   border-radius: 4px;
-  height: 60%;
-  padding: 10px;
+  max-height: 200px;
+  padding: 20px;
   min-width: 240px;
 
   & > span {
