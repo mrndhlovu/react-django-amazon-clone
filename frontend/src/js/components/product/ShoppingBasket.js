@@ -22,12 +22,15 @@ const Container = styled.div`
   h2 {
     font-weight: ${({ theme }) => theme.fonts.weight.medium};
   }
+
+  @media (max-width: 845px) {
+    flex-direction: column;
+  }
 `;
 
 const BasketContent = styled.div`
   flex-grow: 1;
   padding: 0 20px;
-  height: 50px;
 
   button {
     padding: 0;
@@ -36,6 +39,10 @@ const BasketContent = styled.div`
   & > div:last-child {
     margin-top: 15px;
   }
+
+  @media (max-width: 845px) {
+    flex-grow: 0;
+  }
 `;
 
 const SubTotalContainer = styled.div`
@@ -43,6 +50,10 @@ const SubTotalContainer = styled.div`
 
   & > span:last-child {
     font-weight: ${({ theme }) => theme.fonts.weight.bold};
+  }
+
+  @media (max-width: 845px) {
+    text-align: center;
   }
 `;
 
@@ -54,6 +65,10 @@ const RightSideBar = styled.div`
   width: 280px;
   height: 20%;
   padding: 10px;
+
+  @media (max-width: 845px) {
+    width: 100%;
+  }
 `;
 
 const ShoppingBasket = () => {

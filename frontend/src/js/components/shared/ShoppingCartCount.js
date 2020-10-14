@@ -52,6 +52,12 @@ const NavCartButton = styled.button`
       font-size: 10px;
     }
   }
+
+  @media (max-width: 845px) {
+    &:hover {
+      border-color: transparent;
+    }
+  }
 `;
 
 const ShoppingCartCount = ({ dataTestId }) => {

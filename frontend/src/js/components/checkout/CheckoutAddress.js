@@ -29,6 +29,10 @@ const AddressContent = styled.div`
 const Address = styled.div`
   padding: 15px 0;
   width: 25%;
+
+  @media (max-width: 845px) {
+    width: 100%;
+  }
 `;
 
 const AddAddress = styled.div`
@@ -44,6 +48,10 @@ const AddAddress = styled.div`
 
   button {
     width: 200px;
+  }
+
+  @media (max-width: 845px) {
+    width: 100%;
   }
 `;
 
@@ -99,8 +107,7 @@ const CheckoutAddress = ({ address, name }) => {
         <UISelector
           name="countries"
           id="countries"
-          onChange={(e) => setFormData(e.target.value)}
-        >
+          onChange={(e) => setFormData(e.target.value)}>
           <option name="country" defaultValue={formData}>
             {formData}
           </option>
@@ -114,8 +121,7 @@ const CheckoutAddress = ({ address, name }) => {
         <UIForm
           initialState={ADDRESS_SCHEMA.INITIAL_STATE}
           validationSchema={ADDRESS_SCHEMA.VALIDATION}
-          submitHandler={handleAddAddress}
-        >
+          submitHandler={handleAddAddress}>
           <UIForm.Input label="Postcode" name="postcode" />
           <UIForm.Input label="Phone number" name="phone_number" />
           <UIForm.Input

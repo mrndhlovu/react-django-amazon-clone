@@ -93,11 +93,18 @@ const Content = styled.div`
     font-weight: ${({ theme }) => theme.fonts.weight.medium};
     padding-bottom: 15px;
   }
+
+  @media (max-width: 845px) {
+    padding: 0 10%;
+    h1 {
+      font-size: 22px;
+    }
+  }
 `;
 
 const Checkout = () => {
   const {
-    auth: { data },
+    auth: { data, isAuthenticated },
     checkout: { STAGE, CUSTOMER_CARDS },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -109,7 +116,7 @@ const Checkout = () => {
     if (STAGE.key === "address" && data?.address?.is_shipping_address) {
       dispatch(nextCheckoutStageAction(CONFIRM_ORDER));
     }
-  }, [data.address, dispatch, CUSTOMER_CARDS, STAGE]);
+  }, [data.address, dispatch, CUSTOMER_CARDS, STAGE, isAuthenticated]);
 
   return (
     <ProtectedComponentWrapper>
@@ -120,7 +127,7 @@ const Checkout = () => {
             <CheckoutProgression active={STAGE.key} />
           </PageHeader>
 
-          <UIHeader as="h1" content={STAGE.header} />
+          <UIHeader content={STAGE.header} />
           {STAGE.key === "address" && !data?.address?.is_shipping_address && (
             <CheckoutAddress address={data?.address} name={data?.full_name} />
           )}

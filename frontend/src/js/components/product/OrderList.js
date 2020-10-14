@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { v4 as uuid } from "uuid";
 import { times } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
@@ -9,6 +9,10 @@ import { nextCheckoutStageAction } from "../../actions/CartActions";
 
 const ItemList = styled.ul`
   padding: 15px;
+
+  @media (max-width: 685px) {
+    padding: 0;
+  }
 `;
 const Item = styled.li`
   padding: 15px;
@@ -34,20 +38,31 @@ const Item = styled.li`
     }
   }
 
-
   @media (max-width: 685px) {
     display: flex;
-    flex-direction:column;
-    justify-content: center;
-    align-items: flex-start;
+    justify-content: space-between;
+
     height: fit-content;
 
-    &>div:first-child{
-      display:none;
+    ${({ complete }) =>
+      complete
+        ? css`
+            flex-direction: column;
+            align-items: flex-start;
+          `
+        : css``};
+
+    & > div:first-child {
+      ${({ complete }) =>
+        complete
+          ? css`
+              display: none;
+            `
+          : css``};
     }
 
-    & > div >img{
-      margin-top:10px;
+    & > div > img {
+      margin-top: 10px;
     }
   }
 `;
@@ -74,7 +89,7 @@ const Price = styled.div`
 const ItemDescription = styled.div`
   flex-grow: 1;
 
-  & > span:last-child {
+  & > span {
     font-size: 12px;
     color: #067d62;
   }
@@ -88,6 +103,12 @@ const ItemDescription = styled.div`
   & > button {
     padding: 3px;
     cursor: pointer;
+    margin-top: 5px;
+  }
+
+  p {
+    font-size: 10px;
+    padding: 10px 0;
   }
 `;
 
@@ -96,20 +117,18 @@ const Title = styled.div`
   justify-content: space-between;
   align-items: center;
   position: relative;
-  
 
   & h4 {
     color: ${({ theme }) => theme.colors.amazonBlue};
   }
 
   @media (max-width: 685px) {
-    flex-direction:column;
+    flex-direction: column;
     align-items: flex-start;
     padding: 10px 0;
-    h4{
-      font-size:13px;
+    h4 {
+      font-size: 13px;
     }
- 
   }
 `;
 
@@ -129,7 +148,7 @@ const OrderList = ({ handleCheckboxClick, handleChangeQuantity, order }) => {
   }, [orderComplete, dispatch]);
 
   return (
-    <ItemList>
+    <ItemList complete={order?.complete}>
       {order?.items.map((item) => (
         <Fragment key={uuid()}>
           <Item>
@@ -175,8 +194,7 @@ const OrderList = ({ handleCheckboxClick, handleChangeQuantity, order }) => {
                   disabled={order?.complete}
                   name="available"
                   id="available"
-                  value={item?.quantity}
-                >
+                  value={item?.quantity}>
                   {times(item?.inventory_count, (index) => (
                     <option value={index + 1}>{index + 1}</option>
                   ))}

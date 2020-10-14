@@ -27,6 +27,18 @@ const CardInfo = styled.div`
     & > div:first-child {
       width: 50%;
     }
+
+    @media (max-width: 845px) {
+      & > div:first-child {
+        width: 100%;
+        padding: 0 10px;
+      }
+
+      flex-direction: column;
+      justify-content: space-evenly;
+      padding: 0;
+      height: 150px;
+    }
   }
 `;
 
@@ -56,6 +68,12 @@ const Sidebar = styled.div`
   border-radius: 4px;
   width: 280px;
   padding: 10px;
+
+  @media (max-width: 845px) {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+  }
 `;
 
 const CheckoutForm = () => {

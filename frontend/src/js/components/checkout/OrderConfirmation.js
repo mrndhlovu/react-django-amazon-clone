@@ -18,6 +18,11 @@ import UISmall from "../shared/UISmall";
 const Container = styled.div`
   display: grid;
   grid-template-columns: 3fr 1fr;
+
+  @media (max-width: 845px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 const ShipAddress = styled.div`
   display: block;
@@ -36,6 +41,11 @@ const Sidebar = styled.div`
   width: 280px;
   height: 100%;
   padding: 10px;
+
+  @media (max-width: 845px) {
+    margin-top: 10px;
+    width: 100%;
+  }
 `;
 
 const Summary = styled.div`
@@ -60,11 +70,19 @@ const SummaryItem = styled.div`
 
 const Content = styled.div`
   margin-right: 10px;
+
+  @media (max-width: 845px) {
+    margin-right: 0;
+  }
 `;
 
 const Address = styled.div`
   padding: 15px 0;
   width: 25%;
+
+  @media (max-width: 845px) {
+    width: 100%;
+  }
 `;
 
 const Checkbox = styled.div`

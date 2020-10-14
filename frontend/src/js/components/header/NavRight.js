@@ -59,7 +59,7 @@ const Container = styled.div`
 
   @media (max-width: 845px) {
     ${({ theme }) => theme.helpers.useFlex("row", "space-between", "flex-end")};
-    width: fit-content;
+    width: 100%;
     position: relative;
 
     & > span:nth-child(1),
@@ -68,7 +68,7 @@ const Container = styled.div`
       display: none;
     }
 
-    button:last-child {
+    & > button:last-child {
       position: absolute;
       top: 0%;
       right: 10px;

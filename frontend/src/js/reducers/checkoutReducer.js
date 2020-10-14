@@ -7,6 +7,7 @@ import {
   COMPLETE_ORDER,
   COMPLETE_ORDER_SUCCESS,
   COMPLETE_ORDER_ERROR,
+  SELECT_CHECKOUT_ADDRESS,
 } from "../actions/ActionTypes";
 import { CHECKOUT_STAGES } from "../constants/constants";
 
@@ -26,6 +27,8 @@ const checkoutReducer = (state = INITIAL_STATE, action = {}) => {
       return { ...state, STAGE: CHECKOUT_STAGES.PAY };
     case CONFIRM_ORDER:
       return { ...state, STAGE: CHECKOUT_STAGES.CONFIRM };
+    case SELECT_CHECKOUT_ADDRESS:
+      return { ...state, STAGE: CHECKOUT_STAGES.ADDRESS };
 
     case PAYMENT_INTENT:
       return { ...state, processing: true };
