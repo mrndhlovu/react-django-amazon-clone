@@ -20,6 +20,10 @@ const Card = styled(NavLink)`
   &:hover {
     background-color: #68686847;
   }
+
+  @media (max-width: 685px) {
+    margin-right: 0;
+  }
 `;
 
 const Content = styled.p``;
@@ -28,6 +32,11 @@ const IconContainer = styled.div`
   ${({ theme }) => theme.helpers.useFlex()};
   padding: 25px;
   max-width: 45%;
+
+
+  @media (max-width: 685px) {
+    padding: 8px;
+  }
 `;
 
 const ContextWrapper = styled.div`

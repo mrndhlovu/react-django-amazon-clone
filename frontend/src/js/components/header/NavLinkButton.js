@@ -13,7 +13,6 @@ const LinkItem = styled.button`
   color: ${({ theme }) => theme.colors.white};
   cursor: pointer;
   cursor: pointer;
-  padding: 5px 10px;
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.white};
@@ -22,12 +21,19 @@ const LinkItem = styled.button`
   & span:first-child {
     font-weight: ${({ theme }) => theme.fonts.weight.medium};
     font-size: 12px;
-    padding-bottom: 2px;
+    padding-bottom: 3px;
   }
 
   & span:last-child {
     font-weight: ${({ theme }) => theme.fonts.weight.bold};
     font-size: 14px;
+  }
+
+  @media (max-width: 1645px) {
+    & span:last-child,
+    span:first-child {
+      font-size: 11px;
+    }
   }
 `;
 

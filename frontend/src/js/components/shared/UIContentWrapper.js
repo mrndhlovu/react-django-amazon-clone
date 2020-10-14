@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
-import UIHeader from "./UIHeader";
+import PropTypes from "prop-types";
 
 const Container = styled.div`
   padding: 3% 20%;
@@ -11,23 +10,33 @@ const Container = styled.div`
 
   & > h1 {
     font-weight: ${({ theme }) => theme.fonts.weight.medium};
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  @media (max-width: 1080px) {
+    padding: 6% 10%;
+  }
+  @media (max-width: 845px) {
+    padding: 6% 3%;
+
+    h1 {
+      margin-top: 15px;
+      font-size: 15px;
+      padding-left: 6%;
+    }
+  }
+
+  @media (max-width: 685px) {
+    padding: 12% 3%;
   }
 `;
 
-const UIContentWrapper = ({ children, header }) => {
-  return (
-    <Container>
-      <UIHeader content={header} />
-      {children}
-    </Container>
-  );
-};
-
-UIContentWrapper.defaultProps = { header: "" };
+const UIContentWrapper = ({ children }) => <Container>{children}</Container>;
 
 UIContentWrapper.propTypes = {
   children: PropTypes.node.isRequired,
-  header: PropTypes.string,
 };
 
 export default UIContentWrapper;

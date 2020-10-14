@@ -33,6 +33,23 @@ const Item = styled.li`
       background-color: ${({ theme }) => theme.colors.amazonBright};
     }
   }
+
+
+  @media (max-width: 685px) {
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: flex-start;
+    height: fit-content;
+
+    &>div:first-child{
+      display:none;
+    }
+
+    & > div >img{
+      margin-top:10px;
+    }
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -79,12 +96,20 @@ const Title = styled.div`
   justify-content: space-between;
   align-items: center;
   position: relative;
+  
 
   & h4 {
     color: ${({ theme }) => theme.colors.amazonBlue};
   }
 
-  & span:first-child {
+  @media (max-width: 685px) {
+    flex-direction:column;
+    align-items: flex-start;
+    padding: 10px 0;
+    h4{
+      font-size:13px;
+    }
+ 
   }
 `;
 

@@ -10,7 +10,7 @@ import { PRODUCT_CATEGORIES } from "../../constants/constants";
 import MenuList from "./MenuList";
 
 const Container = styled.div`
-  height: 70%;
+  height: 80%;
   border-radius: 5px;
   width: 100%;
   display: flex;
@@ -93,8 +93,7 @@ const NavCenter = ({ activeCategory, handleSearch, handleChange }) => {
           content={() => (
             <ul
               data-testid="nav-search-category"
-              className="nav__search__categories"
-            >
+              className="nav__search__categories">
               <MenuList
                 list={[{ value: "All Departments", key: "" }]}
                 handleClick={handleSearch}

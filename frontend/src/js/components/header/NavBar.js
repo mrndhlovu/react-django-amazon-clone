@@ -13,7 +13,7 @@ const Container = styled.nav`
   display: grid;
   grid-template-columns: 0fr 3fr 1fr;
   place-content: center;
-  align-content: space-around;
+  justify-items: start;
   height: 60px;
   align-items: center;
   left: 0;
@@ -24,11 +24,20 @@ const Container = styled.nav`
   z-index: 100;
   position: relative;
 
+  @media (max-width: 1400px) {
+    grid-template-columns: 15% 60% 25%;
+  }
+
+  @media (max-width: 1150px) {
+    grid-template-columns: 16% 54% 30%;
+  }
+
   @media (max-width: 845px) {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     height: 87px;
+
     background-color: ${({ theme }) => theme.colors.amazonMobile};
   }
 `;
@@ -39,18 +48,23 @@ const NavLeft = styled.div`
   button {
     cursor: pointer;
     background: transparent;
-    height: 70%;
+    padding: 6px 0;
     border: 1px solid ${({ theme }) => theme.colors.white};
     border-radius: 3px;
     color: ${({ theme }) => theme.colors.white};
     width: 40px;
     ${({ theme }) => theme.helpers.useFlex()};
+
+    svg {
+      font-size: 26px;
+    }
   }
 
   & > div:last-child {
     ${({ theme }) => theme.helpers.useFlex()};
     cursor: pointer;
     margin: 0 15px;
+    width: 75px;
   }
 
   @media (max-width: 845px) {
@@ -109,7 +123,7 @@ NavBar.propTypes = {
 };
 
 NavBar.Left.propTypes = {
-  history: PropTypes.shape({ push: PropTypes.func.isRequired }),
+  history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
 };
 
 export default NavBar;

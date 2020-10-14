@@ -15,16 +15,21 @@ import MenuList from "./MenuList";
 import NavLinkButton from "./NavLinkButton";
 
 const Container = styled.div`
-  ${({ theme }) => theme.helpers.useFlex("row", "space-around")};
-
   color: ${({ theme }) => theme.colors.white};
   list-style: none;
   width: 100%;
   padding: 0;
   margin: 0;
+  display: grid;
+  grid-template-columns: 40% 20% 20% 20%;
+  align-items: center;
+  justify-items: center;
 
   span {
     ${({ theme }) => theme.helpers.useFlex("row", "flex-start")};
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   .nav__signin__container {
@@ -53,10 +58,9 @@ const Container = styled.div`
   }
 
   @media (max-width: 845px) {
-    ${({ theme }) =>
-      theme.helpers.useFlex("row", "space-between", "flext-end")};
+    ${({ theme }) => theme.helpers.useFlex("row", "space-between", "flex-end")};
     width: fit-content;
-    postion: relative;
+    position: relative;
 
     & > span:nth-child(1),
     button:nth-child(2),

@@ -27,6 +27,10 @@ const NavCartButton = styled.button`
     font-weight: ${({ theme }) => theme.colors.white};
   }
 
+  svg {
+    font-size: 18px;
+  }
+
   & > span {
     ${({ theme }) => theme.helpers.useFlex("column", "flex-start")};
   }
@@ -36,7 +40,17 @@ const NavCartButton = styled.button`
   }
 
   & > div > span:last-child {
-    font-size: 14px;
+    font-size: 11px;
+  }
+
+  @media (max-width: 970px) {
+    svg {
+      font-size: 15px;
+    }
+
+    & > div > span:last-child {
+      font-size: 10px;
+    }
   }
 `;
 
@@ -52,10 +66,9 @@ const ShoppingCartCount = ({ dataTestId }) => {
     <NavCartButton
       data-testid={dataTestId}
       type="button"
-      onClick={() => history.push("/shopping-basket")}
-    >
+      onClick={() => history.push("/shopping-basket")}>
       <ShoppingCartIcon />
-      <div className="cart__count">
+      <div>
         <span>{cartCount || 0}</span>
         <span>Basket</span>
       </div>

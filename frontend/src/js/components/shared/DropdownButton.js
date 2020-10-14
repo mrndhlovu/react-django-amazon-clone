@@ -33,8 +33,7 @@ const DropdownButton = ({
       arrow={arrow}
       placement={placement}
       title={Content && <Content />}
-      interactive={interactive}
-    >
+      interactive={interactive}>
       {button ? (
         <Button ref={buttonRef} size="small" aria-label="select merge strategy">
           {_.isString(Text) ? Text : <Text />}

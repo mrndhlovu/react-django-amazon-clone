@@ -22,11 +22,17 @@ const LinkContainer = styled(Link)`
   font-size: 15px;
   cursor: pointer;
   width: fit-content;
+  justify-content: center;
 
   & > svg {
     font-size: 10px;
     margin-left: 8px;
     margin-right: 5px;
+  }
+
+  @media (max-width: 685px) {
+  
+
   }
 `;
 const Container = styled.div`
@@ -35,6 +41,18 @@ const Container = styled.div`
   top: 1%;
   left: 1;
   display: flex;
+  vertical-align: top;
+  justify-content: space-around;
+  align-items: flex-start;
+
+
+  @media (max-width: 685px) {
+   
+   a{
+  font-size: 10px;
+  width: 21%;
+   }
+  }
 `;
 
 const UIBreadcrumbs = ({ breadCrumbs, onClick }) => {
@@ -51,7 +69,7 @@ const UIBreadcrumbs = ({ breadCrumbs, onClick }) => {
           key={uuid()}
         >
           <span>{link.header}</span>
-          <ArrowForwardIosIcon fontSize="small" />
+         {!(breadCrumbs.length === breadCrumbs.indexOf(link) + 1)&& <ArrowForwardIosIcon fontSize="small" />}
         </LinkContainer>
       ))}
     </Container>

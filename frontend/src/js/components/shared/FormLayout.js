@@ -27,7 +27,6 @@ const Wrapper = styled.div`
 const Container = styled.div`
   ${({ theme }) => theme.helpers.absoluteCenter("10%")};
   z-index: 10;
-
   max-width: 350px;
 
   & > button {
@@ -44,6 +43,12 @@ const Container = styled.div`
     margin: 0;
     margin-top: 8%;
   }
+
+  @media (max-width: 1024px) {
+    width: 95%;
+  }
+
+  
 `;
 
 const FooterLink = styled.div`

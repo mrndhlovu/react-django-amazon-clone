@@ -28,6 +28,7 @@ const OrderContainer = styled.div`
   border-radius: 3px;
   margin-bottom: 10px;
   position: relative;
+  margin-top: 15px;
 `;
 
 const OrderHeader = styled.div`
@@ -42,6 +43,13 @@ const OrderHeader = styled.div`
     padding-right: 5px;
     font-size: 11px;
     font-weight: ${({ theme }) => theme.fonts.weight.bold};
+  }
+
+  @media (max-width: 685px) {
+   small{
+     font-size:8.5px;
+   }
+ 
   }
 `;
 
@@ -63,8 +71,8 @@ const Orders = () => {
           COMPLETED_ORDERS.map((order) => (
             <OrderContainer key={uuid()}>
               <OrderHeader>
-                <UISmall content={`Order ID: ${order?.stripe_complete_id}`} />
-                <UISmall content={`Completed Date: ${order?.timestamp}`} />
+                <UISmall content={`ID: ${order?.stripe_complete_id}`} />
+                <UISmall content={`| ${order?.timestamp}`} />
               </OrderHeader>
               <OrderList order={order} />
             </OrderContainer>
