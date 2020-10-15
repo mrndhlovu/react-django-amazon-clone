@@ -111,9 +111,9 @@ AUTHENTICATION_BACKENDS = (
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-if "DATABASE_URL" in os.environ:
+if "PROD_DB_KEY" in os.environ:
     DATABASES = {'default': dj_database_url.parse(
-        os.environ.get('DATABASE_URL'))}
+        os.environ.get('PROD_DB_KEY'))}
 else:
     DATABASES = {
         'default': {
