@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import { _ACCOUNT_OPTIONS } from "../../constants/constants";
 import {
@@ -89,7 +90,7 @@ const NavRight = ({ isAuthenticated, userData, dispatch }) => {
         buttonText={() => (
           <NavLinkButton
             buttonText={`Hello, ${
-              isAuthenticated ? userData?.full_name.split(" ")[0] : "Sign in"
+              !isAuthenticated ? "Sign in" : userData?.full_name.split(" ")[0]
             }`}
             subText="Account & Lists"
             arrow
@@ -157,6 +158,16 @@ const NavRight = ({ isAuthenticated, userData, dispatch }) => {
       <ShoppingCartCount dataTestId="nav-cart-container" />
     </Container>
   );
+};
+
+NavRight.defaultProps = {
+  userData: {},
+};
+
+NavRight.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  userData: PropTypes.shape({ full_name: PropTypes.string }),
 };
 
 export default NavRight;

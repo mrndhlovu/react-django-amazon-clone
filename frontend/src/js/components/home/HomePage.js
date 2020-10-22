@@ -185,7 +185,7 @@ const HomePage = () => {
                   <UIHeader
                     as="h3"
                     content={`Hi, ${
-                      isAuthenticated ? data?.full_name.split(" ")[0] : "Guest"
+                      !isAuthenticated ? "Guest" : data?.full_name.split(" ")[0]
                     }`}
                   />
                   {isAuthenticated && <UISmall content="Customer since 2019" />}
@@ -240,8 +240,7 @@ const HomePage = () => {
                 VIEWED_RECENT_ITEM
                   ? "/view-history"
                   : "/product-list?category=books"
-              }
-            >
+              }>
               <UILinkButton content="Show more" />
             </Link>
           </UICard.Action>
