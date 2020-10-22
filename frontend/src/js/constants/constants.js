@@ -1,6 +1,5 @@
 import * as yup from "yup";
 
-import HeroImage from "../../assets/images/hero/AONT_S1_GWBleedingHero_FT_COVIDUPDATE_XSite_1500X600_PV_en-GB._CB406302419_.jpg";
 import OrdersImage from "../../assets/images/products/orders._AC_SR120,80_.jpeg";
 import BookImage from "../../assets/images/products/41zLj7a+gIL._AC_SY200_.jpg";
 import LaptopImage from "../../assets/images/products/340831031._AC_SR120,80_CB485971952_.jpeg";
@@ -196,12 +195,11 @@ export const IMAGES = {
     link4: LaptopImage,
   },
   CAROUSEL: [
-    HeroImage,
-    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/AONT_S1_GWBleedingHero_FT_COVIDUPDATE_XSite_1500X600_PV_en-GB._CB406302419_.jpg",
-    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/BlueField_Price_Perception_Gateway-Hero_1500x600._CB406665980_.jpg",
-    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/N2IxYThmYzAt-MjVlNmIyZTUt-w1500._CB407941419_.jpg",
-    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/UK-EN_070620_EvergreenQ3_ACQ_GW_Hero_D_1500x600_CV9._CB405136406_.jpg",
-    // "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/new_ft_hero_van._CB430308860_.jpg",
+    "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/AONT_S1_GWBleedingHero_FT_COVIDUPDATE_XSite_1500X600_PV_en-GB._CB406302419_.jpg",
+    "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/BlueField_Price_Perception_Gateway-Hero_1500x600._CB406665980_.jpg",
+    "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/N2IxYThmYzAt-MjVlNmIyZTUt-w1500._CB407941419_.jpg",
+    "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/UK-EN_070620_EvergreenQ3_ACQ_GW_Hero_D_1500x600_CV9._CB405136406_.jpg",
+    "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/new_ft_hero_van._CB430308860_.jpg",
   ],
 };
 

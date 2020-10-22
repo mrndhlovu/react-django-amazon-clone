@@ -3,7 +3,7 @@ import { isArray } from "lodash";
 
 export const baseURL =
   process.env.NODE_ENV === "production"
-    ? "https://amazon-clone.ndhlovu.com"
+    ? "http://amazon-clone.ndhlovu.com"
     : "http://localhost:8000";
 
 export const AUTH_EP = "/v1/api/auth";

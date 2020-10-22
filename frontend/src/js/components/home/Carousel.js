@@ -63,8 +63,7 @@ const Carousel = () => {
           <IconLeft onClick={onClickHandler}>
             <ArrowBackIosIcon fontSize="large" />
           </IconLeft>
-        )}
-      >
+        )}>
         {IMAGES.CAROUSEL.map((image) => (
           <ImageContainer key={uuid()}>
             <Image src={image} alt="carousel-image" />

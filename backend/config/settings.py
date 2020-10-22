@@ -40,9 +40,9 @@ DEBUG = DEVELOPMENT
 
 
 if DEVELOPMENT:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1', ]
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 else:
-    ALLOWED_HOSTS = ['172.31.40.156']
+    ALLOWED_HOSTS = ['161.35.165.180']
 
 
 # Application definition
@@ -63,9 +63,9 @@ INSTALLED_APPS = [
     'stripe',
 
     'apps.accounts',
-    'apps.store',
-    'apps.orders',
     'apps.addresses',
+    'apps.orders',
+    'apps.store',
 
 ]
 
@@ -101,6 +101,7 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = 'config.asgi.application'
 WSGI_APPLICATION = 'config.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
@@ -112,8 +113,7 @@ AUTHENTICATION_BACKENDS = (
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 if "PROD_DB_KEY" in os.environ:
-    DATABASES = {'default': dj_database_url.parse(
-        os.environ.get('PROD_DB_KEY'))}
+    DATABASES = {'default': dj_database_url.parse(os.environ.get('PROD_DB_KEY'))}
 else:
     DATABASES = {
         'default': {
