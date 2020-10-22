@@ -32,13 +32,13 @@ module.exports = merge(shared, {
     ],
   },
   output: {
-    filename: "main.[hash].js",
-    hotUpdateChunkFilename: ".hot/[id].[hash].hot-update.js",
-    hotUpdateMainFilename: ".hot/[hash].hot-update.json",
+    filename: "[name].js",
+    hotUpdateChunkFilename: ".hot/[id].hot-update.js",
+    hotUpdateMainFilename: ".hot/.hot-update.json",
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "[name].[hash].css",
+      filename: "[name].css",
     }),
   ],
   externals: {
