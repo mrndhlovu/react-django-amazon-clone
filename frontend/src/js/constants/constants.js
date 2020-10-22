@@ -1,10 +1,5 @@
 import * as yup from "yup";
 
-import OrdersImage from "../../assets/images/products/orders._AC_SR120,80_.jpeg";
-import BookImage from "../../assets/images/products/41zLj7a+gIL._AC_SY200_.jpg";
-import LaptopImage from "../../assets/images/products/340831031._AC_SR120,80_CB485971952_.jpeg";
-import AlexaImage from "../../assets/images/products/560798._AC_SR120,80_CB450338528_.jpeg";
-
 export const _SEARCH_CATEGORIES = [
   "Books",
   "Beauty",
@@ -189,10 +184,14 @@ export const PASSWORD_ASSISTANCE_STAGES = {
 
 export const IMAGES = {
   TOP_LINK: {
-    link1: OrdersImage,
-    link2: BookImage,
-    link3: AlexaImage,
-    link4: LaptopImage,
+    link1:
+      "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/thumbnails/boxes-tn.jpeg",
+    link2:
+      "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/thumbnails/book-tn.jpg",
+    link3:
+      "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/thumbnails/speaker-tn.jpeg",
+    link4:
+      "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/thumbnails/laptop-tn.jpeg",
   },
   CAROUSEL: [
     "https://ndhlovuprofile.s3-eu-west-1.amazonaws.com/amzon-clone/AONT_S1_GWBleedingHero_FT_COVIDUPDATE_XSite_1500X600_PV_en-GB._CB406302419_.jpg",
