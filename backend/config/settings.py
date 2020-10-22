@@ -40,9 +40,9 @@ DEBUG = DEVELOPMENT
 
 
 if DEVELOPMENT:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+    ALLOWED_HOSTS = ['localhost']
 else:
-    ALLOWED_HOSTS = ['161.35.165.180', 'amazon-clone.ndhlovu.com']
+    ALLOWED_HOSTS = ['amazon-clone.ndhlovu.com']
 
 
 # Application definition
@@ -208,7 +208,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '../frontend/build/static')
+    os.path.join(BASE_DIR, '../frontend/build')
 ]
 
 
@@ -218,7 +218,7 @@ FILE_UPLOAD_PERMISSIONS = 0o640
 
 
 CORS_ORIGIN_WHITELIST = (
-    'http://127.0.0.1:3000',
+    'https://amazon-clone.ndhlovu.com',
     'http://localhost:3000',
 )
 
