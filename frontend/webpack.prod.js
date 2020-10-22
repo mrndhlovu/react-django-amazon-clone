@@ -43,7 +43,7 @@ module.exports = merge(shared, {
   ],
   externals: {
     config: JSON.stringify({
-      apiUrl: "/v1/api",
+      apiUrl: "https://amazon-clone.ndhlovu.com",
     }),
   },
 });
