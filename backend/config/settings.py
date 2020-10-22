@@ -218,8 +218,8 @@ FILE_UPLOAD_PERMISSIONS = 0o640
 
 
 CORS_ORIGIN_WHITELIST = (
-    'https://amazon-clone.ndhlovu.com',
     'http://localhost:3000',
+    'https://amazon-clone.ndhlovu.com'
 )
 
 
