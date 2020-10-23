@@ -15,11 +15,8 @@ django-cors-headers = "*"
 Pillow = "*"
 django-filter = "*"
 stripe = "*"
-django-dbbackup = "*"
-django = "*"
-gunicorn = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.6"
+python_version = "3.6.9"
