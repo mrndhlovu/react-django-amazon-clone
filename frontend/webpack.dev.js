@@ -1,4 +1,4 @@
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+// const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require("webpack");
 const { merge } = require("webpack-merge");
@@ -36,11 +36,7 @@ module.exports = merge(shared, {
     }),
     // new BundleAnalyzerPlugin(),
   ],
-  externals: {
-    config: JSON.stringify({
-      apiUrl: "http://localhost:8000",
-    }),
-  },
+
   devServer: {
     historyApiFallback: true,
     port: 3000,

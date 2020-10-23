@@ -41,9 +41,4 @@ module.exports = merge(shared, {
       filename: "[name].css",
     }),
   ],
-  externals: {
-    config: JSON.stringify({
-      apiUrl: "https://amazon-clone.ndhlovu.com",
-    }),
-  },
 });

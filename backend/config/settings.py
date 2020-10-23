@@ -88,7 +88,7 @@ AUTH_USER_MODEL = 'accounts.User'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, '../frontend/build')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -101,7 +101,6 @@ TEMPLATES = [
     },
 ]
 
-ASGI_APPLICATION = 'config.asgi.application'
 WSGI_APPLICATION = 'config.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
@@ -207,14 +206,6 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '../frontend/build')
-]
-
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-FILE_UPLOAD_PERMISSIONS = 0o640
 
 
 CORS_ORIGIN_WHITELIST = (
