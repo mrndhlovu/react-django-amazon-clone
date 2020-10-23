@@ -1,7 +1,6 @@
 /* eslint-disable nonblock-statement-body-position */
 import React, { memo } from "react";
 import { Redirect, useLocation } from "react-router-dom";
-
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
@@ -10,7 +9,7 @@ const ProtectedComponentWrapper = ({ children }) => {
   const location = useLocation();
   const via = location.pathname.slice(1).split("/")[0];
 
-  if (!isAuthenticated)
+  if (!isAuthenticated) {
     return (
       <Redirect
         to={{
@@ -19,6 +18,8 @@ const ProtectedComponentWrapper = ({ children }) => {
         }}
       />
     );
+  }
+
   return <>{children}</>;
 };
 

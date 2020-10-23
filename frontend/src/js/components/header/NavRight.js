@@ -83,15 +83,16 @@ const Container = styled.div`
 
 const NavRight = ({ isAuthenticated, userData, dispatch }) => {
   const history = useHistory();
+  const buttonText = `Hello, ${
+    !isAuthenticated ? "Sign in" : userData?.full_name.split(" ")[0]
+  }`;
 
   return (
     <Container data-testid="nav-links-container">
       <DropdownButton
         buttonText={() => (
           <NavLinkButton
-            buttonText={`Hello, ${
-              !isAuthenticated ? "Sign in" : userData?.full_name.split(" ")[0]
-            }`}
+            buttonText={buttonText}
             subText="Account & Lists"
             arrow
           />
