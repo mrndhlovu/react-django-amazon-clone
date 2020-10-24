@@ -185,7 +185,9 @@ const HomePage = () => {
                   <UIHeader
                     as="h3"
                     content={`Hi, ${
-                      !isAuthenticated ? "Guest" : data?.full_name.split(" ")[0]
+                      !isAuthenticated
+                        ? "Guest"
+                        : data && data.full_name && data.full_name.split(" ")[0]
                     }`}
                   />
                   {isAuthenticated && <UISmall content="Customer since 2019" />}
