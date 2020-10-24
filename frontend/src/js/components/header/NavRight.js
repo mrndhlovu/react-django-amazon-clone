@@ -84,9 +84,7 @@ const Container = styled.div`
 const NavRight = ({ isAuthenticated, userData, dispatch }) => {
   const history = useHistory();
   const buttonText = `Hello, ${
-    !isAuthenticated
-      ? "Sign in"
-      : userData && userData.full_name && userData.full_name.split(" ")[0]
+    !isAuthenticated ? "Sign in" : userData?.full_name.split(" ")[0]
   }`;
 
   return (
@@ -144,7 +142,7 @@ const NavRight = ({ isAuthenticated, userData, dispatch }) => {
           <NavLinkButton buttonText="Try" subText="Prime" arrow />
         )}
         content={() => (
-          <div data-testid="try-prime" className="try__prime">
+          <div userData-testid="try-prime" className="try__prime">
             <p>
               Enjoy fast, free delivery on millions of eligible items when you
               join Prime
