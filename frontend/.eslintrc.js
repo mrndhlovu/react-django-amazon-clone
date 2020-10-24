@@ -8,6 +8,7 @@ module.exports = {
   },
   parser: "babel-eslint",
   extends: ["plugin:react/recommended", "airbnb"],
+
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -17,6 +18,7 @@ module.exports = {
   },
   plugins: ["react"],
   rules: {
+    strict: 0,
     "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx"] }],
     quotes: [2, "double", { avoidEscape: true }],
     "no-underscore-dangle": "off",
