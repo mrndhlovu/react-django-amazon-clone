@@ -84,7 +84,9 @@ const Container = styled.div`
 const NavRight = ({ isAuthenticated, userData, dispatch }) => {
   const history = useHistory();
   const buttonText = `Hello, ${
-    !isAuthenticated ? "Sign in" : userData?.full_name.split(" ")[0]
+    !isAuthenticated
+      ? "Sign in"
+      : userData && userData.full_name && userData.full_name.split(" ")[0]
   }`;
 
   return (
