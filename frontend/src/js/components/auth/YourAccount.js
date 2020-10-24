@@ -1,7 +1,7 @@
 /* eslint-disable nonblock-statement-body-position */
-import React, { memo, useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
@@ -23,26 +23,25 @@ import {
   OPEN_ORDERS,
 } from "../../actions/ActionTypes";
 import { editProfileAction } from "../../actions/AppActions";
-import UIBreadcrumbs from "../shared/UIBreadcrumbs";
-import { MANAGE_ACCOUNT_SECTIONS } from "../../constants/constants";
 import { getSearchParams } from "../../utils/appUtils";
+import { MANAGE_ACCOUNT_SECTIONS } from "../../constants/constants";
+import { useMainContext } from "../../utils/hookUtils";
+import UIBreadcrumbs from "../shared/UIBreadcrumbs";
 
 const OptionsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 50%);
   padding: 10px 0;
 
-
   @media (max-width: 685px) {
-    grid-template-columns: repeat(1,100%);
- 
+    grid-template-columns: repeat(1, 100%);
   }
 `;
 
 const YourAccount = () => {
   const {
     editProfile: { ACTIVE_SECTION, BREADCRUMBS },
-  } = useSelector((state) => state);
+  } = useMainContext();
   const dispatch = useDispatch();
   const {
     ACCOUNT,
@@ -62,8 +61,7 @@ const YourAccount = () => {
 
   return (
     <UIContentWrapper
-      header={ACTIVE_SECTION?.SUBHEADER || ACTIVE_SECTION.HEADER}
-    >
+      header={ACTIVE_SECTION?.SUBHEADER || ACTIVE_SECTION.HEADER}>
       <UIBreadcrumbs breadCrumbs={BREADCRUMBS} onClick={handleClickOption} />
       {ACCOUNT.HEADER === ACTIVE_SECTION.HEADER && (
         <OptionsContainer>
@@ -130,4 +128,4 @@ const YourAccount = () => {
   );
 };
 
-export default memo(YourAccount);
+export default YourAccount;

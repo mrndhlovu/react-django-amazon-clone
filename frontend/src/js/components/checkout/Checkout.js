@@ -6,7 +6,7 @@ import React, { memo, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import ProtectedComponentWrapper from "../auth/ProtectedComponentWrapper";
 import { AmazonLogo, UIHeader } from "../shared";
@@ -18,6 +18,7 @@ import {
   CONFIRM_ORDER,
   SELECT_CHECKOUT_ADDRESS,
 } from "../../actions/ActionTypes";
+import { useMainContext } from "../../utils/hookUtils";
 
 const Container = styled.div`
   height: 100%;
@@ -104,9 +105,9 @@ const Content = styled.div`
 
 const Checkout = () => {
   const {
-    auth: { data, isAuthenticated },
+    user: { data, isAuthenticated },
     checkout: { STAGE, CUSTOMER_CARDS },
-  } = useSelector((state) => state);
+  } = useMainContext();
   const dispatch = useDispatch();
 
   useEffect(() => {

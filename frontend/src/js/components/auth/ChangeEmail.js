@@ -1,11 +1,12 @@
 /* eslint-disable camelcase */
 import React, { useRef, useEffect, memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
-import { UIForm } from "../shared";
 import { EMAIL_FORM_VALIDATION } from "../../constants/constants";
+import { UIForm } from "../shared";
 import { updateUserAction } from "../../actions/AuthActions";
+import { useMainContext } from "../../utils/hookUtils";
 import FormLayout from "../shared/FormLayout";
 
 const Paragraph = styled.span`
@@ -24,11 +25,11 @@ const INITIAL_STATE = { email: "" };
 
 const ChangeEmail = () => {
   const {
-    auth: {
+    user: {
       data: { full_name, email },
     },
     editProfile: { isUpdated },
-  } = useSelector((state) => state);
+  } = useMainContext();
   const dispatch = useDispatch();
   const inputRef = useRef();
 
@@ -53,8 +54,7 @@ const ChangeEmail = () => {
       <UIForm
         initialState={INITIAL_STATE}
         validationSchema={EMAIL_FORM_VALIDATION}
-        submitHandler={handleChangeEmail}
-      >
+        submitHandler={handleChangeEmail}>
         {!isUpdated && (
           <UIForm.Input
             ref={inputRef}

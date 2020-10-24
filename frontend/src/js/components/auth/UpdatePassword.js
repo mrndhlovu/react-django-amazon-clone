@@ -1,12 +1,13 @@
 /* eslint-disable camelcase */
-import React, { useRef, useEffect, memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useRef, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 import { UIForm } from "../shared";
 import { CHANGE_PASSWORD_VALIDATION } from "../../constants/constants";
 import { updatePasswordAction } from "../../actions/AuthActions";
 import FormLayout from "../shared/FormLayout";
+import { useMainContext } from "../../utils/hookUtils";
 
 const Paragraph = styled.p`
   padding: 10px 0;
@@ -40,7 +41,7 @@ const INITIAL_STATE = {
 const UpdatePassword = () => {
   const {
     passwordReset: { isUpdated },
-  } = useSelector((state) => state);
+  } = useMainContext();
   const dispatch = useDispatch();
   const inputRef = useRef();
   const inputConfirmRef = useRef();
@@ -68,8 +69,7 @@ const UpdatePassword = () => {
         <UIForm
           initialState={INITIAL_STATE}
           validationSchema={CHANGE_PASSWORD_VALIDATION}
-          submitHandler={handleChangePassword}
-        >
+          submitHandler={handleChangePassword}>
           <UIForm.Input
             ref={inputRef}
             label="Current password"
@@ -99,4 +99,4 @@ const UpdatePassword = () => {
   );
 };
 
-export default memo(UpdatePassword);
+export default UpdatePassword;

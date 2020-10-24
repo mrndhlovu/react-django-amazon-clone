@@ -1,13 +1,14 @@
 /* eslint-disable no-confusing-arrow */
-import React, { useEffect, memo } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import WarningIcon from "@material-ui/icons/Warning";
 
 import { removeAlertAction } from "../../actions/action.helpers";
+import { useMainContext } from "../../utils/hookUtils";
 import AmazonButton from "./AmazonButton";
 import AmazonLogo from "./AmazonLogo";
 import TextDivider from "./TextDivider";
@@ -47,8 +48,6 @@ const Container = styled.div`
   @media (max-width: 1024px) {
     width: 95%;
   }
-
-  
 `;
 
 const FooterLink = styled.div`
@@ -123,7 +122,7 @@ const FormLayout = ({
   success,
   className,
 }) => {
-  const { alert } = useSelector((state) => state);
+  const { alert } = useMainContext();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -217,4 +216,4 @@ FormLayout.propTypes = {
   className: PropTypes.string,
 };
 
-export default memo(FormLayout);
+export default FormLayout;

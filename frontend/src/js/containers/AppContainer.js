@@ -21,8 +21,17 @@ const Container = styled.div`
 
 const AppContainer = ({ children }) => {
   const {
-    auth: { isAuthenticated },
+    alert,
+    auth,
+    cart,
+    checkout,
+    editProfile,
+    login,
+    passwordReset,
+    products,
+    register,
   } = useSelector((state) => state);
+
   const { search } = useLocation();
 
   const dispatch = useDispatch();
@@ -32,8 +41,17 @@ const AppContainer = ({ children }) => {
   const logoutHandler = () => {};
 
   const context = {
-    openSideBarHandler,
+    alert,
+    cart,
+    checkout,
+    editProfile,
+    login,
     logoutHandler,
+    openSideBarHandler,
+    passwordReset,
+    products,
+    register,
+    user: auth,
   };
 
   useEffect(() => {
@@ -45,10 +63,10 @@ const AppContainer = ({ children }) => {
   }, [dispatch, search]);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (auth.isAuthenticated) {
       dispatch(getShoppingBasketAction());
     }
-  }, [isAuthenticated, dispatch]);
+  }, [auth, dispatch]);
 
   return (
     <MainContext.Provider value={context}>

@@ -1,9 +1,10 @@
 /* eslint-disable camelcase */
 import React, { useRef, useEffect, memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 import { updateUserAction } from "../../actions/AuthActions";
+import { useMainContext } from "../../utils/hookUtils";
 import OrderCard from "../shared/OrderCard";
 import ProtectedComponentWrapper from "./ProtectedComponentWrapper";
 
@@ -17,10 +18,10 @@ const Container = styled.div`
 
 const Address = () => {
   const {
-    auth: {
+    user: {
       data: { full_name },
     },
-  } = useSelector((state) => state);
+  } = useMainContext();
   const dispatch = useDispatch();
   const inputRef = useRef();
 

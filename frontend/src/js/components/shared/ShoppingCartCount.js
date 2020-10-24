@@ -1,10 +1,11 @@
-import React, { memo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+
+import { useMainContext } from "../../utils/hookUtils";
 
 const NavCartButton = styled.button`
   ${({ theme }) => theme.helpers.useFlex("row", "space-evenly", "flex-end")};
@@ -63,21 +64,23 @@ const NavCartButton = styled.button`
 const ShoppingCartCount = ({ dataTestId }) => {
   const {
     cart: { BASKET },
-    auth: { isAuthenticated },
-  } = useSelector((state) => state);
+    user: { isAuthenticated },
+  } = useMainContext();
   const history = useHistory();
-  const cartCount = isAuthenticated ? BASKET?.item_count : 0;
+  const cartCount = isAuthenticated && BASKET?.item_count;
 
   return (
     <NavCartButton
       data-testid={dataTestId}
       type="button"
       onClick={() => history.push("/shopping-basket")}>
-      <ShoppingCartIcon />
-      <div>
-        <span>{cartCount || 0}</span>
-        <span>Basket</span>
-      </div>
+      <>
+        <ShoppingCartIcon />
+        <div>
+          <span>{cartCount || 0}</span>
+          <span>Basket</span>
+        </div>
+      </>
     </NavCartButton>
   );
 };
@@ -88,4 +91,4 @@ ShoppingCartCount.propTypes = {
   dataTestId: PropTypes.string,
 };
 
-export default memo(ShoppingCartCount);
+export default ShoppingCartCount;

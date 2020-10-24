@@ -20,6 +20,7 @@ import { resetForm } from "../../utils/appUtils";
 import { parseParams } from "../../utils/urlUtils";
 import { getProductList } from "../../actions/ProductActions";
 import Pagination from "./Pagination";
+import { useMainContext } from "../../utils/hookUtils";
 
 const Container = styled.div`
   display: flex;
@@ -138,9 +139,9 @@ const SEARCH_FILTER_INITIAL_STATE = {
 
 const ProductList = () => {
   const {
-    auth: { CURRENCY_SYMBOL },
+    user: { CURRENCY_SYMBOL },
     products: { isLoading, PRODUCTS, LIST_DETAIL },
-  } = useSelector((state) => state);
+  } = useMainContext();
   const dispatch = useDispatch();
   const history = useHistory();
   const { search } = useLocation();
@@ -303,8 +304,7 @@ const ProductList = () => {
           {PRODUCT_FILTER_OPTIONS.STARS.map((rating, index) => (
             <AvgRating
               key={uuid()}
-              onClick={() => handleStarFilter(5 - (index + 1))}
-            >
+              onClick={() => handleStarFilter(5 - (index + 1))}>
               <ProductRating rating={rating} />
               <span>& Up</span>
             </AvgRating>
@@ -357,8 +357,7 @@ const SearchSelect = ({ onChange }) => (
   <select
     onChange={(e) => onChange(e.target.value)}
     name="search"
-    id="search-options"
-  >
+    id="search-options">
     <option value="all">Sort by:</option>
     <option value="low-to-high">Price: Low to High</option>
     <option value="high-to-low">Price: High to Low</option>

@@ -1,6 +1,6 @@
 /* eslint-disable nonblock-statement-body-position */
-import React, { useState, useEffect, memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { times } from "lodash";
 import { v4 as uuid } from "uuid";
@@ -14,6 +14,7 @@ import {
   updateQuantityAction,
 } from "../../actions/CartActions";
 import { getProductDetailAction } from "../../actions/ProductActions";
+import { useMainContext } from "../../utils/hookUtils";
 
 const Container = styled.div`
   display: grid;
@@ -112,10 +113,10 @@ const Image = styled.img`
 const ProductDetail = () => {
   const { id } = useParams();
   const {
-    auth: { CURRENCY_SYMBOL, isAuthenticated },
+    user: { CURRENCY_SYMBOL, isAuthenticated },
     products: { detail },
     cart: { BASKET },
-  } = useSelector((state) => state);
+  } = useMainContext();
   const dispatch = useDispatch();
   const history = useHistory();
   const [quantity, setQuantity] = useState(1);
@@ -171,8 +172,7 @@ const ProductDetail = () => {
               name="available"
               id="available"
               value={itemInCart?.quantity || quantity}
-              onChange={(e) => handleChange(e.target.value)}
-            >
+              onChange={(e) => handleChange(e.target.value)}>
               {times(detail?.inventory_count, (index) => (
                 <option key={uuid()} value={index + 1}>
                   {index + 1}
@@ -203,4 +203,4 @@ const ProductDetail = () => {
   );
 };
 
-export default memo(ProductDetail);
+export default ProductDetail;

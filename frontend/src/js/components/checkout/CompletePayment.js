@@ -1,12 +1,13 @@
 import React, { memo, useEffect } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useHistory } from "react-router-dom";
 
 import { getShoppingBasketAction } from "../../actions/CartActions";
 import CheckoutForm from "./CheckoutForm";
+import { useMainContext } from "../../utils/hookUtils";
 
 const Container = styled.div`
   height: fit-content;
@@ -21,7 +22,7 @@ const promise = loadStripe(
 const CompletePayment = () => {
   const {
     checkout: { orderComplete },
-  } = useSelector((state) => state);
+  } = useMainContext();
   const dispatch = useDispatch();
   const history = useHistory();
 

@@ -14,6 +14,7 @@ import Carousel from "./Carousel";
 import ProductCard from "../shared/ProductCard";
 import UICard from "../shared/UICard";
 import UISmall from "../shared/UISmall";
+import { useMainContext } from "../../utils/hookUtils";
 
 const Container = styled.div`
   height: 100vh;
@@ -160,9 +161,9 @@ const TopLinkContainer = styled.div`
 
 const HomePage = () => {
   const {
-    auth: { isAuthenticated, data },
+    user: { isAuthenticated, data },
     products: { PRODUCTS },
-  } = useSelector((state) => state);
+  } = useMainContext();
   const BOOKS = PRODUCTS.filter((item) => item.category === "books");
 
   const VIEWED_RECENT_ITEM = PRODUCTS.find(

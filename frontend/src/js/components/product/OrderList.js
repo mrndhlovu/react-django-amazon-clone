@@ -1,11 +1,12 @@
-import React, { Fragment, memo, useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { v4 as uuid } from "uuid";
 import { times } from "lodash";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { TextDivider, UIHeader } from "../shared";
 import { nextCheckoutStageAction } from "../../actions/CartActions";
+import { useMainContext } from "../../utils/hookUtils";
 
 const ItemList = styled.ul`
   padding: 15px;
@@ -134,9 +135,9 @@ const Title = styled.div`
 
 const OrderList = ({ handleCheckboxClick, handleChangeQuantity, order }) => {
   const {
-    auth: { CURRENCY_SYMBOL },
+    user: { CURRENCY_SYMBOL },
     checkout: { orderComplete },
-  } = useSelector((state) => state);
+  } = useMainContext();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -209,4 +210,4 @@ const OrderList = ({ handleCheckboxClick, handleChangeQuantity, order }) => {
   );
 };
 
-export default memo(OrderList);
+export default OrderList;

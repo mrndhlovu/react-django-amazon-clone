@@ -1,18 +1,19 @@
-import React, { useRef, useEffect, useState, memo } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { UIForm, TermsAndConditions, UILinkButton } from "../shared";
 import { loginAction, verifyAccountAction } from "../../actions/AuthActions";
 import FormLayout from "../shared/FormLayout";
+import { useMainContext } from "../../utils/hookUtils";
 
 const LoginPage = () => {
   const history = useHistory();
 
   const {
     login: { LOGIN_STAGE },
-    auth: { isAuthenticated },
-  } = useSelector((state) => state);
+    user: { isAuthenticated },
+  } = useMainContext();
   const dispatch = useDispatch();
 
   const [loginData, setLoginData] = useState({});
@@ -48,14 +49,12 @@ const LoginPage = () => {
         content: "Creat your Amazon account",
         testId: "login-auth-button",
         onClick: () => history.push("/register"),
-      }}
-    >
+      }}>
       <UIForm
         dataTestId="login-form"
         initialState={LOGIN_STAGE.INITIAL_STATE}
         submitHandler={handleLogin}
-        validationSchema={LOGIN_STAGE.VALIDATION}
-      >
+        validationSchema={LOGIN_STAGE.VALIDATION}>
         {LOGIN_STAGE.STEPID === "EMAIL" && (
           <UIForm.Input
             type={LOGIN_STAGE.INPUT.type}
@@ -87,4 +86,4 @@ const LoginPage = () => {
   );
 };
 
-export default memo(LoginPage);
+export default LoginPage;

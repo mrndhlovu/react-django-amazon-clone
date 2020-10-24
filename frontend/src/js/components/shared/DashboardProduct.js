@@ -3,13 +3,13 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { v4 as uuid } from "uuid";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import ProductCard from "./ProductCard";
 import RatedProductCard from "./RatedProductCard";
 import UICard from "./UICard";
 import UIHeader from "./UIHeader";
 import UILinkButton from "./UILinkButton";
+import { useMainContext } from "../../utils/hookUtils";
 
 const DashBoardCards = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
@@ -54,7 +54,7 @@ const DashboardProduct = ({ children }) => (
 const Featured = ({ category, header, footerLink }) => {
   const {
     products: { PRODUCTS, FILTERED_PRODUCTS },
-  } = useSelector((state) => state);
+  } = useMainContext();
 
   const FEATURED_ITEM = (PRODUCTS || FILTERED_PRODUCTS).find(
     (item) => item.category === category && item.featured && item
@@ -111,7 +111,9 @@ DashboardProduct.RatedList.defaultProps = {
 };
 
 DashboardProduct.Books.propTypes = {
-  books: PropTypes.arrayOf(PropTypes.string),
+  books: PropTypes.arrayOf(
+    PropTypes.shape({ image: PropTypes.string, id: PropTypes.number })
+  ),
 };
 
 Featured.propTypes = {

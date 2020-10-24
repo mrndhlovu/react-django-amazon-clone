@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
 
-import React, { memo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import ProductRating from "./ProductRating";
 import AmazonButton from "./AmazonButton";
@@ -12,6 +12,7 @@ import {
   addToCartAction,
   removeFromCartAction,
 } from "../../actions/CartActions";
+import { useMainContext } from "../../utils/hookUtils";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
@@ -92,16 +93,16 @@ const ProductDescription = styled.p`
 
 const RatedProductCard = ({ image, price, rating, description, id }) => {
   const {
-    auth: { CURRENCY_SYMBOL, isAuthenticated },
+    user: { CURRENCY_SYMBOL, isAuthenticated },
     cart: { BASKET },
-  } = useSelector((state) => state);
+  } = useMainContext();
   const dispatch = useDispatch();
   const history = useHistory();
 
   const [whole, fraction] = parseFloat(price).toString().split(".");
   const itemInCart =
     isAuthenticated &&
-    BASKET?.items.find((item) => item.product === parseInt(id, 10));
+    BASKET?.items.some((item) => item.product === parseInt(id, 10));
 
   const handleAddToCart = () => {
     if (!isAuthenticated) {
@@ -156,4 +157,4 @@ RatedProductCard.propTypes = {
   rating: PropTypes.number,
 };
 
-export default memo(RatedProductCard);
+export default RatedProductCard;

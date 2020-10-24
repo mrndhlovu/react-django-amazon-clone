@@ -1,16 +1,14 @@
 import React, { memo, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import "./_header.scss";
 
-import { useFormInput } from "../../utils/hookUtils";
+import { useFormInput, useMainContext } from "../../utils/hookUtils";
 import NavBar from "./NavBar";
 
 const Navigation = () => {
-  const {
-    auth: { isAuthenticated, data },
-  } = useSelector((state) => state);
+  const { isAuthenticated, data } = useMainContext().user;
   const dispatch = useDispatch();
 
   const [inputData, handleChange] = useFormInput();
@@ -46,7 +44,7 @@ const Navigation = () => {
       />
       <NavBar.Right
         isAuthenticated={isAuthenticated}
-        userData={data}
+        user={data}
         dispatch={dispatch}
       />
     </NavBar>

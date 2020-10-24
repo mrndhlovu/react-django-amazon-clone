@@ -1,9 +1,10 @@
-import React, { useRef, useEffect, memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useRef, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Redirect, useLocation } from "react-router-dom";
 
 import { registerAction } from "../../actions/AuthActions";
 import { FORM_VALIDATION } from "../../constants/constants";
+import { useMainContext } from "../../utils/hookUtils";
 
 import { UIForm, TermsAndConditions } from "../shared";
 import FormLayout from "../shared/FormLayout";
@@ -20,9 +21,9 @@ const Register = () => {
   const { from } = location.state || { from: { pathname: "/" } };
 
   const {
-    auth: { isAuthenticated },
+    user: { isAuthenticated },
     register: { isLoading },
-  } = useSelector((state) => state);
+  } = useMainContext();
   const dispatch = useDispatch();
   const nameRef = useRef(null);
   const emailRef = useRef(null);
@@ -45,14 +46,12 @@ const Register = () => {
         content: "Already have an account?",
         linkText: "Sign in",
         link: "/login",
-      }}
-    >
+      }}>
       <UIForm
         dataTestId="register-form"
         initialState={REGISTER_INITIAL_STATE}
         submitHandler={handleRegister}
-        validationSchema={FORM_VALIDATION.REGISTER}
-      >
+        validationSchema={FORM_VALIDATION.REGISTER}>
         <UIForm.Input label="Your name" name="full_name" ref={nameRef} />
         <UIForm.Input type="email" name="email" label="E-mail" ref={emailRef} />
 
@@ -81,4 +80,4 @@ const Register = () => {
   );
 };
 
-export default memo(Register);
+export default Register;

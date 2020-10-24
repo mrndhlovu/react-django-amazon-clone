@@ -1,11 +1,12 @@
 /* eslint-disable camelcase */
-import React, { memo, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 
 import { getCompletedOrdersAction } from "../../actions/CartActions";
 import { UIHeader } from "../shared";
+import { useMainContext } from "../../utils/hookUtils";
 import OrderList from "../product/OrderList";
 import ProtectedComponentWrapper from "./ProtectedComponentWrapper";
 import UISmall from "../shared/UISmall";
@@ -46,27 +47,29 @@ const OrderHeader = styled.div`
   }
 
   @media (max-width: 685px) {
-   small{
-     font-size:8.5px;
-   }
- 
+    small {
+      font-size: 8.5px;
+    }
   }
 `;
 
 const Orders = () => {
   const {
     cart: { COMPLETED_ORDERS },
-  } = useSelector((state) => state);
+    user: { isAuthenticated },
+  } = useMainContext();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCompletedOrdersAction());
-  }, [dispatch]);
+    if (isAuthenticated) {
+      dispatch(getCompletedOrdersAction());
+    }
+  }, [dispatch, isAuthenticated]);
 
   return (
     <ProtectedComponentWrapper>
       <Container>
-        <UIHeader as="h4" header="Orders" />
+        <UIHeader as="h4" content="Orders" />
         {COMPLETED_ORDERS &&
           COMPLETED_ORDERS.map((order) => (
             <OrderContainer key={uuid()}>
@@ -82,4 +85,4 @@ const Orders = () => {
   );
 };
 
-export default memo(Orders);
+export default Orders;

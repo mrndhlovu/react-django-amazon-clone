@@ -1,6 +1,6 @@
 import React, { memo, useEffect } from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
 import List from "@material-ui/core/List";
@@ -23,6 +23,7 @@ import {
   OPEN_YOUR_ACCOUNT,
 } from "../../actions/ActionTypes";
 import { editProfileAction } from "../../actions/AppActions";
+import { useMainContext } from "../../utils/hookUtils";
 import ProtectedComponentWrapper from "./ProtectedComponentWrapper";
 
 const ListContainer = styled(List)`
@@ -37,8 +38,8 @@ const ListContainer = styled(List)`
 
 const LoginAndSecurity = ({ ACTIVE_SECTION }) => {
   const {
-    auth: { data, isAuthenticated },
-  } = useSelector((state) => state);
+    user: { data, isAuthenticated },
+  } = useMainContext();
   const dispatch = useDispatch();
 
   const handleClick = (action) => dispatch(editProfileAction(action));

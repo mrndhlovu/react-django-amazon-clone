@@ -1,7 +1,7 @@
 import React, { useState, useEffect, memo } from "react";
 import styled from "styled-components";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
@@ -11,6 +11,7 @@ import {
   paymentIntentAction,
 } from "../../actions/CartActions";
 import UIAlert from "../shared/UIAlert";
+import { useMainContext } from "../../utils/hookUtils";
 
 const CardInfo = styled.div`
   width: 100%;
@@ -79,9 +80,9 @@ const Sidebar = styled.div`
 const CheckoutForm = () => {
   const {
     checkout: { clientSecret, processing, error },
-    auth: { data },
+    user: { data },
     cart: { CURRENCY = "EUR" },
-  } = useSelector((state) => state);
+  } = useMainContext();
   const dispatch = useDispatch();
   const stripe = useStripe();
   const elements = useElements();

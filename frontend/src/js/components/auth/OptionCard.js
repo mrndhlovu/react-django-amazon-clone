@@ -33,7 +33,6 @@ const IconContainer = styled.div`
   padding: 25px;
   max-width: 45%;
 
-
   @media (max-width: 685px) {
     padding: 8px;
   }

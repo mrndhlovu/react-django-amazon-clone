@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/jsx-closing-tag-location */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { memo } from "react";
+import React from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { isString } from "lodash";
 
 import { AmazonButton, TextDivider, UIHeader } from "../shared";
@@ -12,6 +12,7 @@ import { CHECKOUT_MESSAGE } from "../../constants/constants";
 import { CHECKOUT_PAYMENT } from "../../actions/ActionTypes";
 import { nextCheckoutStageAction } from "../../actions/CartActions";
 import { updateAddressAction } from "../../actions/AuthActions";
+import { useMainContext } from "../../utils/hookUtils";
 import UIAlert from "../shared/UIAlert";
 import UISmall from "../shared/UISmall";
 
@@ -100,8 +101,8 @@ const Checkbox = styled.div`
 const OrderConfirmation = () => {
   const {
     cart: { BASKET, CURRENCY = "EUR" },
-    auth: { data },
-  } = useSelector((state) => state);
+    user: { data },
+  } = useMainContext();
   const dispatch = useDispatch();
 
   const handleContinueToPay = () =>
@@ -182,4 +183,4 @@ const OrderConfirmation = () => {
   );
 };
 
-export default memo(OrderConfirmation);
+export default OrderConfirmation;

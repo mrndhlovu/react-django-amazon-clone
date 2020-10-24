@@ -11,6 +11,7 @@ import {
 import { AmazonButton, TextDivider, UIHeader, UILinkButton } from "../shared";
 import ProtectedComponentWrapper from "../auth/ProtectedComponentWrapper";
 import OrderList from "./OrderList";
+import { useMainContext } from "../../utils/hookUtils";
 
 const Container = styled.div`
   height: 100vh;
@@ -74,8 +75,8 @@ const RightSideBar = styled.div`
 const ShoppingBasket = () => {
   const {
     cart: { BASKET },
-    auth: { CURRENCY_SYMBOL },
-  } = useSelector((state) => state);
+    user: { CURRENCY_SYMBOL },
+  } = useMainContext();
   const dispatch = useDispatch();
 
   const hasCartItems = BASKET && BASKET?.items.length !== 0;

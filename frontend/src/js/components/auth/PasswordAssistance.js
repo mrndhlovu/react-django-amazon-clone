@@ -12,6 +12,7 @@ import {
   resetChangePasswordFlow,
 } from "../../actions/AuthActions";
 import FormLayout from "../shared/FormLayout";
+import { useMainContext } from "../../utils/hookUtils";
 
 const Paragraph = styled.p`
   padding: 10px 0;
@@ -41,15 +42,14 @@ const Button = styled(UILinkButton)`
 
 const PasswordAssistance = () => {
   const dispatch = useDispatch();
-
   const {
     passwordReset: { RECOVERY_STAGE, data, resetSuccess },
-  } = useSelector((state) => state);
+  } = useMainContext();
 
-  const [userData, setUserData] = useState({});
+  const [user, setuser] = useState({});
 
   const handlePasswordRecover = (inputData) => {
-    setUserData({ ...userData, ...inputData });
+    setuser({ ...user, ...inputData });
 
     switch (RECOVERY_STAGE.STEPID) {
       case 1:
@@ -84,8 +84,7 @@ const PasswordAssistance = () => {
           <UIForm
             validationSchema={RECOVERY_STAGE.VALIDATION}
             initialState={RECOVERY_STAGE.INITIAL_STATE}
-            submitHandler={handlePasswordRecover}
-          >
+            submitHandler={handlePasswordRecover}>
             <UIForm.Input
               type="email"
               name="email"
@@ -117,8 +116,7 @@ const PasswordAssistance = () => {
           <UIForm
             validationSchema={RECOVERY_STAGE.VALIDATION}
             initialState={RECOVERY_STAGE.INITIAL_STATE}
-            submitHandler={handlePasswordRecover}
-          >
+            submitHandler={handlePasswordRecover}>
             <UIForm.Input type="text" name="otp" label="Enter OTP" />
             <UIForm.Button
               buttonText="Continue"
@@ -142,8 +140,7 @@ const PasswordAssistance = () => {
           <UIForm
             validationSchema={RECOVERY_STAGE.VALIDATION}
             initialState={RECOVERY_STAGE.INITIAL_STATE}
-            submitHandler={handlePasswordRecover}
-          >
+            submitHandler={handlePasswordRecover}>
             <UIForm.Input
               name="password"
               type="password"

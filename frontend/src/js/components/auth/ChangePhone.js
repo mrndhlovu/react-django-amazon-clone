@@ -1,11 +1,12 @@
 /* eslint-disable camelcase */
 import React, { useRef, useEffect, memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 import { AmazonButton, UIForm } from "../shared";
 import { PHONE_FORM_VALIDATION } from "../../constants/constants";
 import { updateUserAction } from "../../actions/AuthActions";
+import { useMainContext } from "../../utils/hookUtils";
 import FormLayout from "../shared/FormLayout";
 
 const Paragraph = styled.p`
@@ -24,9 +25,9 @@ const INITIAL_STATE = { phone: "" };
 
 const ChangePhone = () => {
   const {
-    auth: { data },
+    user: { data },
     editProfile: { isUpdated },
-  } = useSelector((state) => state);
+  } = useMainContext();
   const dispatch = useDispatch();
   const inputRef = useRef();
 
@@ -44,8 +45,7 @@ const ChangePhone = () => {
         data?.phone_number
           ? "Change Mobile Phone Number"
           : "Add a Mobile Phone Number"
-      }
-    >
+      }>
       <Paragraph>
         {data?.phone_number && (
           <>
@@ -58,8 +58,7 @@ const ChangePhone = () => {
       <UIForm
         initialState={INITIAL_STATE}
         validationSchema={PHONE_FORM_VALIDATION}
-        submitHandler={handleChangeEmail}
-      >
+        submitHandler={handleChangeEmail}>
         <UIForm.Input ref={inputRef} label="Mobile number" name="phone" />
         <UIForm.Button
           buttonText={isUpdated ? "Done" : "Continue"}

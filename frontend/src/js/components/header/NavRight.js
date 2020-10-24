@@ -14,6 +14,7 @@ import { logoutAction } from "../../actions/AuthActions";
 import AccountOptions from "./AccountOptions";
 import MenuList from "./MenuList";
 import NavLinkButton from "./NavLinkButton";
+import { useMainContext } from "../../utils/hookUtils";
 
 const Container = styled.div`
   color: ${({ theme }) => theme.colors.white};
@@ -81,10 +82,11 @@ const Container = styled.div`
   }
 `;
 
-const NavRight = ({ isAuthenticated, userData, dispatch }) => {
+const NavRight = ({ dispatch }) => {
+  const { user } = useMainContext();
   const history = useHistory();
   const buttonText = `Hello, ${
-    !isAuthenticated ? "Sign in" : userData?.full_name.split(" ")[0]
+    !user.isAuthenticated ? "Sign in" : user?.data?.full_name.split(" ")[0]
   }`;
 
   return (
@@ -99,7 +101,7 @@ const NavRight = ({ isAuthenticated, userData, dispatch }) => {
         )}
         content={() => (
           <AccountOptions data-testid="account-options">
-            {!isAuthenticated && (
+            {!user.isAuthenticated && (
               <AccountOptions.Header className="nav__signin__container">
                 <AmazonButton
                   buttonText="Sign in"
@@ -119,7 +121,7 @@ const NavRight = ({ isAuthenticated, userData, dispatch }) => {
               <AccountOptions.Column>
                 <UIHeader as="h3" content="Your Account" />
                 <MenuList list={_ACCOUNT_OPTIONS.ACCOUNT} />
-                {isAuthenticated && (
+                {user.isAuthenticated && (
                   <MenuList
                     list={_ACCOUNT_OPTIONS.AUTH}
                     handleClick={() => dispatch(logoutAction())}
@@ -142,7 +144,7 @@ const NavRight = ({ isAuthenticated, userData, dispatch }) => {
           <NavLinkButton buttonText="Try" subText="Prime" arrow />
         )}
         content={() => (
-          <div userData-testid="try-prime" className="try__prime">
+          <div data-testid="try-prime" className="try__prime">
             <p>
               Enjoy fast, free delivery on millions of eligible items when you
               join Prime
@@ -161,14 +163,8 @@ const NavRight = ({ isAuthenticated, userData, dispatch }) => {
   );
 };
 
-NavRight.defaultProps = {
-  userData: {},
-};
-
 NavRight.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
-  userData: PropTypes.shape({ full_name: PropTypes.string }),
 };
 
 export default NavRight;

@@ -9,7 +9,7 @@ import { Link, useHistory } from "react-router-dom";
 
 import { getParamString, getPageId } from "../../utils/appUtils";
 
-const LinkContainer = styled(Link)`
+const SpanText = styled.span`
   font-weight: ${({ theme }) => theme.fonts.weight.medium};
   color: ${({ theme, active }) =>
     !active ? theme.colors.amazonBlue : theme.colors.amazonBright};
@@ -31,8 +31,6 @@ const LinkContainer = styled(Link)`
   }
 
   @media (max-width: 685px) {
-  
-
   }
 `;
 const Container = styled.div`
@@ -45,13 +43,15 @@ const Container = styled.div`
   justify-content: space-around;
   align-items: flex-start;
 
+  a {
+    text-decoration: none;
+  }
 
   @media (max-width: 685px) {
-   
-   a{
-  font-size: 10px;
-  width: 21%;
-   }
+    a {
+      font-size: 10px;
+      width: 21%;
+    }
   }
 `;
 
@@ -62,15 +62,19 @@ const UIBreadcrumbs = ({ breadCrumbs, onClick }) => {
   return (
     <Container>
       {breadCrumbs.map((link) => (
-        <LinkContainer
-          to={`/${routeParam}?flowId=${getParamString(link.header)}`}
-          onClick={() => onClick(link.redirectTo)}
-          active={breadCrumbs.length === breadCrumbs.indexOf(link) + 1}
+        <Link
           key={uuid()}
-        >
-          <span>{link.header}</span>
-         {!(breadCrumbs.length === breadCrumbs.indexOf(link) + 1)&& <ArrowForwardIosIcon fontSize="small" />}
-        </LinkContainer>
+          onClick={() => onClick(link.redirectTo)}
+          to={`/${routeParam}?flowId=${getParamString(link.header)}`}>
+          <SpanText
+            onClick={() => onClick(link.redirectTo)}
+            active={breadCrumbs.length === breadCrumbs.indexOf(link) + 1}>
+            <span>{link.header}</span>
+            {!(breadCrumbs.length === breadCrumbs.indexOf(link) + 1) && (
+              <ArrowForwardIosIcon fontSize="small" />
+            )}
+          </SpanText>
+        </Link>
       ))}
     </Container>
   );

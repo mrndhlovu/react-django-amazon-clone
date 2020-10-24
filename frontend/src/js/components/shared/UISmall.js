@@ -4,12 +4,10 @@ import styled from "styled-components";
 
 const Small = styled.small``;
 
-const UISmall = ({ content }) => {
-  return <Small>{content}</Small>;
-};
+const UISmall = ({ content }) => <Small>{content}</Small>;
 
-UISmall.propTypes = {
-  content: PropTypes.string.isRequired,
-};
+UISmall.defaultProps = { content: " " };
+
+UISmall.propTypes = { content: PropTypes.string };
 
 export default UISmall;
