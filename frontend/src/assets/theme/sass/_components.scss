@@ -1,0 +1,57 @@
+.amazon__button {
+  cursor: pointer;
+  padding: 8px 15px;
+  font-weight: $medium;
+  border-radius: 2px;
+  border: none;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset;
+  background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+  width: 100%;
+  margin-top: 12px;
+  margin-bottom: 5px;
+  border-color: #a88734 #9c7e31 #846a29;
+
+  @include hoverTransition($amazon);
+}
+
+.amazon__button.secondary {
+  background: $grey;
+}
+
+.input__container {
+  @include useFlex(column, null, flex-start);
+  min-height: 50px;
+  position: relative;
+  padding-bottom: 10px;
+
+  label {
+    font-size: 13px;
+    font-weight: $bold;
+    padding: 5px 0 3px;
+  }
+
+  input {
+    padding: 5px;
+    height: 30px;
+    border: 2px solid $textGrey;
+    border-radius: 4px;
+    width: 100%;
+
+    &:focus {
+      border: 2px solid $amazon;
+    }
+  }
+
+  .form__error {
+    & > span:first-child {
+      padding-right: 4px;
+    }
+    color: #ff0000b0;
+    font-size: 10px;
+    font-weight: $medium;
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+  }
+}
