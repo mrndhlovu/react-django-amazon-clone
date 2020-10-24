@@ -10,7 +10,7 @@ import { Avatar } from "@material-ui/core";
 import { IMAGES } from "../../constants/constants";
 import { UIHeader, UILinkButton, DashboardProduct, UIFooter } from "../shared";
 import { VIEWED_RECENT } from "../../utils/localStorageUtils";
-// import Carousel from "./Carousel";
+import Carousel from "./Carousel";
 import ProductCard from "../shared/ProductCard";
 import UICard from "../shared/UICard";
 import UISmall from "../shared/UISmall";
@@ -173,7 +173,7 @@ const HomePage = () => {
 
   return (
     <Container>
-      {/* <Carousel /> */}
+      <Carousel />
 
       <FeaturedList>
         <UICard>
