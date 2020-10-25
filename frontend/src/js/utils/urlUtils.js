@@ -3,13 +3,13 @@ import { isArray } from "lodash";
 
 export const baseURL =
   process.env.NODE_ENV === "production"
-    ? "https://amazon-clone.ndhlovu.com"
-    : "http://localhost:8000";
+    ? "https://db-amazon-clone.ndhlovu.com/v1/api"
+    : "http://localhost:8000/v1/api";
 
-export const AUTH_EP = "/v1/api/auth";
-export const PRODUCTS_EP = "/v1/api/products";
-export const ORDERS_EP = "/v1/api/orders";
-export const ADDRESS_EP = "/v1/api/address";
+export const AUTH_EP = "/auth";
+export const PRODUCTS_EP = "/products";
+export const ORDERS_EP = "/orders";
+export const ADDRESS_EP = "/address";
 
 export const AUTH_PARAMS = {
   baseURL,
