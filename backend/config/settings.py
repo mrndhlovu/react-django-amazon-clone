@@ -210,7 +210,7 @@ STATIC_URL = '/static/'
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
-    'https://amazon-clone.ndhlovu.com'
+    'https://amazon-clone.ndhlovu.com',
     'https://db-amazon-clone.ndhlovu.com'
 )
 
