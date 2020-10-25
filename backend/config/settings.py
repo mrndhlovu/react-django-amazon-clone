@@ -42,7 +42,7 @@ DEBUG = DEVELOPMENT
 if DEVELOPMENT:
     ALLOWED_HOSTS = ['localhost']
 else:
-    ALLOWED_HOSTS = ['db-amazon-clone.ndhlovu.com']
+    ALLOWED_HOSTS = ['amazon-clone.ndhlovu.com', 'db-amazon-clone.ndhlovu.com']
 
 
 # Application definition
@@ -211,6 +211,7 @@ STATIC_URL = '/static/'
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'https://amazon-clone.ndhlovu.com'
+    'https://db-amazon-clone.ndhlovu.com'
 )
 
 
