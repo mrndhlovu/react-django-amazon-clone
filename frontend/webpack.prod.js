@@ -34,7 +34,7 @@ module.exports = merge(shared, {
   output: {
     filename: "bundle_main.js",
     // hotUpdateChunkFilename: ".hot/[id].hot-update.js",
-    hotUpdateMainFilename: ".hot/.hot-update.json",
+    // hotUpdateMainFilename: ".hot/.hot-update.json",
   },
   plugins: [
     new MiniCssExtractPlugin({
