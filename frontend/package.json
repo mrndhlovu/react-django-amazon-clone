@@ -82,7 +82,6 @@
     "html-webpack-plugin": "^4.5.0",
     "jest": "^26.4.2",
     "mini-css-extract-plugin": "^1.2.0",
-    "optimize-css-assets-webpack-plugin": "^5.0.4",
     "remove": "^0.1.5",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.3",
