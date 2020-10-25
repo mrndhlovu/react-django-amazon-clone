@@ -42,7 +42,7 @@ DEBUG = DEVELOPMENT
 if DEVELOPMENT:
     ALLOWED_HOSTS = ['localhost']
 else:
-    ALLOWED_HOSTS = ['161.35.165.180','amazon-clone.ndhlovu.com', 'db-amazon-clone.ndhlovu.com']
+    ALLOWED_HOSTS = ['172.31.40.156','161.35.165.180','amazon-clone.ndhlovu.com', 'db-amazon-clone.ndhlovu.com']
 
 
 # Application definition
