@@ -206,6 +206,10 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static_in_env')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
 
 
 CORS_ORIGIN_WHITELIST = (
@@ -218,6 +222,5 @@ CORS_ORIGIN_WHITELIST = (
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOW_CREDENTIALS = True
-
 
 STRIPE_PUBLISHABLE_KEY = 'pk_test_51HYVtzEtxjzs9HVgddjmJ7zoVAVKSaZkBnT4uet9yFvfNPB3v7X66TxZJWhEOHFQfCBoHqyQXkqvLK0xHWrLV7nU00T2OrmUtZ'
