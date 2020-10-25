@@ -16,7 +16,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: "module",
   },
-  plugins: ["react"],
+  plugins: ["react", "react-hooks"],
   rules: {
     strict: 0,
     "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx"] }],
@@ -29,5 +29,7 @@ module.exports = {
     "react/jsx-props-no-spreading": "off",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
     "jsx-a11y/no-static-element-interactions": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
   },
 };

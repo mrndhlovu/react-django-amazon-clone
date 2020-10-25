@@ -55,7 +55,7 @@ module.exports = {
       __isBrowser__: "true",
     }),
     new HtmlWebPackPlugin({
-      template: "./src/assets/static/template.html",
+      template: "./src/assets/static/index.html",
       filename: "./index.html",
       favicon: "./src/assets/static/favicon.ico",
     }),
