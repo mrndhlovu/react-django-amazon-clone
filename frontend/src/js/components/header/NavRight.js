@@ -86,9 +86,7 @@ const NavRight = ({ dispatch }) => {
   const { user } = useMainContext();
   const history = useHistory();
   const buttonText = `Hello, ${
-    !user.isAuthenticated
-      ? "Sign in"
-      : user && user?.data?.full_name.split(" ")[0]
+    !user.isAuthenticated ? "Sign in" : user?.data?.full_name.split(" ")[0]
   }`;
 
   return (
