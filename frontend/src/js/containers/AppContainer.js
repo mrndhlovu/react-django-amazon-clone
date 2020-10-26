@@ -53,7 +53,6 @@ const AppContainer = ({ children }) => {
     register,
     user: auth,
   };
-
   useEffect(() => {
     dispatch(getUserAction());
   }, [dispatch]);
