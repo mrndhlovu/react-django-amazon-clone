@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { memo } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -31,12 +30,6 @@ const Container = styled.div`
   @media (max-width: 845px) {
     padding: 0;
   }
-`;
-
-const Hero = styled.div`
-  height: fit-content;
-  width: 100%;
-  position: relative;
 `;
 
 const FeaturedList = styled.div`
